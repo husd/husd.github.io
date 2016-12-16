@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>stackOverFlow性能提升之Cookie | 青出于蓝而胜于蓝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文翻译自a-few-speed-improvements，并不是原创。转载请标示：http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie#more作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。
+在上周的时候，我们对S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stackOverFlow性能提升之Cookie">
+<meta property="og:url" content="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/index.html">
+<meta property="og:site_name" content="青出于蓝而胜于蓝">
+<meta property="og:description" content="本文翻译自a-few-speed-improvements，并不是原创。转载请标示：http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie#more作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。
+在上周的时候，我们对S">
+<meta property="og:updated_time" content="2016-12-16T16:57:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stackOverFlow性能提升之Cookie">
+<meta name="twitter:description" content="本文翻译自a-few-speed-improvements，并不是原创。转载请标示：http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie#more作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。
+在上周的时候，我们对S">
+  
+    <link rel="alternative" href="/atom.xml" title="青出于蓝而胜于蓝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">青出于蓝而胜于蓝</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">show your code</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">所有文章</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="hushengdong.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-stackOverFlow性能提升之Cookie" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/15/stackOverFlow性能提升之Cookie/" class="article-date">
+  <time datetime="2016-11-14T16:48:33.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      stackOverFlow性能提升之Cookie
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文翻译自<a href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/,&quot;title&quot;" target="_blank" rel="external">a-few-speed-improvements</a>，并不是原创。转载请标示：<a href="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie#more">http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie#more</a><br>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
+<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
+<a id="more"></a>
+<p>首先，我们使用<a href="http://www.red-gate.com/products/ants_performance_profiler/index.htm?utm_source=stack&amp;utm_medium=weblink&amp;utm_content=jeff-article&amp;utm_campaign=antsperformanceprofiler,&quot;title&quot;" target="_blank" rel="external">ANTS Profiler</a>做了一次快速检查并且在代码中找到了几个冗余或者没有必要的数据库查询，我们几乎每几个月都会对几个页面做这样的检查，开始跟踪页面的性能之后，我们刷新指定的页面50次，然后检查热点代码，发现几乎都是数据库查询阻塞并拖慢了性能，我们很少把热点代码写的如此之糟糕，但是确实出现在了我们的热点代码中，不管怎么说，黄金法则就是评估，然后优化，这就是我们尝试去做的。</p>
+<p>我们也花了很长时间，很多精力在优化服务端发送给浏览器的Cookie上面，（当然，浏览器很尽职尽责的把cookie加在每一个HTTP请求中返回给服务端了），<a href="http://yuiblog.com/blog/2007/03/01/performance-research-part-3/,&quot;title&quot;" target="_blank" rel="external">你可能会特别惊讶Cookie对性能的影响有多么大</a>，我们去掉了<a href="http://support.microsoft.com/kb/910443,&quot;title&quot;" target="_blank" rel="external">ASP.NET表单鉴权Cookie</a>，并且把我们Cookie中的Key的长度减小到原来的一半，我也把登陆页面的很多确实不需要的Cookie给删除了。在我的测试中，现在的Cookie大约是360字节，以前大约是500多字节，随着时间的推移，这些旧的不需要的Cookie会自然慢慢减少，不过你（这里暗指作者自己）可能想通过手动的清理Cookie来提供最快最好的Stack Overflow的浏览体验。</p>
+<p>有一个不是最新的但是绝对值得注意的是，几个星期之前，我们把HTTP GZIP压缩的级别从默认的0提高到4，压缩速度有那么一点点慢了，但是整个页面的大小减少了10%，在CPU性能和文件大小之间权衡的设置请查看<a href="http://weblogs.asp.net/owscott/archive/2009/02/22/iis-7-compression-good-bad-how-much.aspx,&quot;title&quot;" target="_blank" rel="external">Scott Forsyth的详尽记录</a>，最合适的设置是4。</p>
+<p>我们很早就是<a href="http://developer.yahoo.com/yslow/,&quot;title&quot;" target="_blank" rel="external">YSlow</a>的用户了，最近也在用<a href="http://code.google.com/speed/page-speed/,&quot;title&quot;" target="_blank" rel="external">Google Page Speed</a>，一些工具的选择也只有当你是<a href="http://www.codinghorror.com/blog/archives/000932.html,&quot;title&quot;" target="_blank" rel="external">Google或者雅虎量级的时候才会比较敏感</a>，（‘gee的很少的选择，多样化的一个很好的问题。注：这里不知道怎么翻译，原文：a very rare and select club of the ‘gee,tht’s a nice problem to have’ variety），很多时候不管你的网站流量有多大，这些工具都十分重要。</p>
+<p>我们最近使用的<a href="http://meta.stackoverflow.com/questions/6864/stackoverflow-site-yslow-grade-b,&quot;title&quot;" target="_blank" rel="external">YSlow Page Speed和Page Speed建议</a>中最值得跟踪的就是<a href="http://developer.yahoo.com/performance/rules.html#cookie_free,&quot;title&quot;" target="_blank" rel="external">去Cookie的中间件</a>。</p>
+<p>当浏览器带着Cookie去请求一个静态图片的时候，服务器根据不使用这些Cookie，除了造成网络拥堵之外没有更好的作用了，你应该让你的组件在请求静态资源的时候是没有Cookie的，创建一个2级域名来提供这些服务。</p>
+<p>如果你的主站是www.example.org，你可以把静态资源放到static.example.org，但是，如果已经在1级域名里example.org中设置了Cookie，那么所有发往static.example.org的请求都会携带这些Cookie，在这种情况下，可以买一个全新的域名，把静态资源放在这里，然后保持没有Cookie，雅虎使用了yimg.com，YouTube使用的是ytimg.com，亚马逊使用的是images-amazon.com等等。</p>
+<p>另外一个使用单独主机来存放静态资源的好处是有些代理拒绝缓存携带Cookie的请求。这个前提下，如果你需要使用example.org或者www.example.com作为主页，考虑下Cookie碰撞，删除www使用example就没选择了，这么做就会把Cookie写到＊.example.org，（意思是所有的1级域名的2级或者3级域名都会携带这些Cookie），所以最好把Cookie写到2级域名下。（意思是不能写到1级域名下）</p>
+<p>为此我们一个月前注册了sstatic.net，我们荣幸的告诉大家所有的stackOverFlow的系列网站的静态资源都已经放到sstatic.net下了。，这个主机肯定是不携带Cookie的并且专门为提供静态资源做了优化，减小了请求头。（并且像以前一样，几乎不过期，所以几乎没有请求能穿透缓存服务器)。</p>
+<p>下面是一个新配置下的get请求/响应的的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">GET /so/js/master.js?v=4143 HTTP/1.1</div><div class="line">Host: sstatic.net</div><div class="line">User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2)</div><div class="line">            Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)</div><div class="line">Accept: */*</div><div class="line">Accept-Language: en-us,en;q=0.5</div><div class="line">Accept-Encoding: gzip,deflate</div><div class="line">Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7</div><div class="line">Keep-Alive: 300</div><div class="line">Connection: keep-alive</div><div class="line">Referer: http://stackoverflow.com/questions/1252349</div><div class="line">Pragma: no-cache</div><div class="line">Cache-Control: no-cache</div></pre></td></tr></table></figure>
+<p>sstatic.net的响应是：</p>
+<figure class="highlight plain"><figcaption><span>200 OK</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Cache-Control: max-age=604800</div><div class="line">Content-Type: application/x-javascript</div><div class="line">Content-Encoding: gzip</div><div class="line">Last-Modified: Sun, 09 Aug 2009 18:45:13 GMT</div><div class="line">Accept-Ranges: bytes</div><div class="line">ETag: &quot;75e6f1872119ca1:0&quot;</div><div class="line">Vary: Accept-Encoding</div><div class="line">Server: Microsoft-IIS/7.0</div><div class="line">Date: Sun, 09 Aug 2009 23:40:45 GMT</div><div class="line">Content-Length: 10417</div><div class="line">(... gzipped data ...)</div></pre></td></tr></table></figure>
+<p>看到了没，没有Cookie！（ 是的，我也想在响应中<a href="http://stackoverflow.com/questions/1178831/remove-server-response-header-iis7,&quot;title&quot;" target="_blank" rel="external">删除服务器头部</a>和<a href="http://stackoverflow.com/questions/477913/how-do-i-remove-etag-headers-from-iis7/1250987#1250987,&quot;title&quot;" target="_blank" rel="external">ETag头部</a>，但是不容易做到。）</p>
+<p>使用其他的服务器来提供静态内容服务也是原始的负载均衡的实现方式，我们已经把成百上千的请求从我们私有的服务器上明确的分发给其他的已经专门做过优化的服务器上，浏览器在看到资源来自不同的主机之后也乐于并行处理下载，或者至少是来自不同的子域名。</p>
+<p>不管怎么说，我们相信性能是未来的趋势，并且我们对于Stack Overflow下的所有网站提供尽可能快的访问速度是很重视的，我们将会在未来的几个月里继续重新检查我们的性能并且每一次都会尽力提升一点。</p>
+<p>全文完。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/" data-id="ciws46ldn0006hkc8yxuqy4da" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">分享到</a>
+      
+
+      
+        <a href="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/14/为什么处理有序数组比无序数组要快/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          为什么处理有序数组比无序数组要快
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/13/rel-shortcut-icon是有害的/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">rel=shortcut icon是有害的</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/11/15/stackOverFlow性能提升之Cookie/" data-title="stackOverFlow性能提升之Cookie" data-url="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/java是值传递还是引用传递/">java是值传递还是引用传递</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/为什么处理有序数组比无序数组要快/">为什么处理有序数组比无序数组要快</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/stackOverFlow性能提升之Cookie/">stackOverFlow性能提升之Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/13/rel-shortcut-icon是有害的/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/12/开发一个WEB网站需要知道什么/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 husd<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?a8fb7488394296eeac5c581862b1ff49";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">所有文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"6299765152614974000"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
