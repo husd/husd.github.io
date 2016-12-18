@@ -6,19 +6,16 @@
   
   <title>java是值传递还是引用传递 | 青出于蓝而胜于蓝</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。
-1 (投票数第2的答案)先贴下一段代码：123456789101112131415161718public sta">
+  <meta name="description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java是值传递还是引用传递">
 <meta property="og:url" content="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/index.html">
 <meta property="og:site_name" content="青出于蓝而胜于蓝">
-<meta property="og:description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。
-1 (投票数第2的答案)先贴下一段代码：123456789101112131415161718public sta">
-<meta property="og:updated_time" content="2016-12-16T17:02:32.000Z">
+<meta property="og:description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。">
+<meta property="og:updated_time" content="2016-12-18T14:55:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java是值传递还是引用传递">
-<meta name="twitter:description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。
-1 (投票数第2的答案)先贴下一段代码：123456789101112131415161718public sta">
+<meta name="twitter:description" content="java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 原文链接，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。">
   
     <link rel="alternative" href="/atom.xml" title="青出于蓝而胜于蓝" type="application/atom+xml">
   
@@ -103,6 +100,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 <a href="http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value,&quot;title&quot;" target="_blank" rel="external">原文链接</a>，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。</p>
+<a id="more"></a>
 <h1 id="1-投票数第2的答案"><a href="#1-投票数第2的答案" class="headerlink" title="1 (投票数第2的答案)"></a>1 (投票数第2的答案)</h1><p>先贴下一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public static void main( String[] args )&#123;</div><div class="line">    Dog aDog = new Dog(&quot;Max&quot;);</div><div class="line">    foo(aDog);</div><div class="line"></div><div class="line">    if (aDog.getName().equals(&quot;Max&quot;)) &#123; //true</div><div class="line">        System.out.println( &quot;Java passes by value.&quot; );</div><div class="line"></div><div class="line">    &#125; else if (aDog.getName().equals(&quot;Fifi&quot;)) &#123;</div><div class="line">        System.out.println( &quot;Java passes by reference.&quot; );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void foo(Dog d) &#123;</div><div class="line">    d.getName().equals(&quot;Max&quot;); // true</div><div class="line"></div><div class="line">    d = new Dog(&quot;Fifi&quot;);</div><div class="line">    d.getName().equals(&quot;Fifi&quot;); // true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>我刚刚意识到你有引用<a href="http://javadude.com/articles/passbyvalue.htm,&quot;title&quot;" target="_blank" rel="external">我的文章</a>（这里值投票第1的答案，所以我才会选择这位作者的答案）</p>
 <p>Java Spec说java中的一切都是通过值进行传递，在java中没有引用这一说。<br>理解这句话的关键是例如下面这段代码：<br>｀Dog myDog;`<br>myDog并不是实际的对象，而是一个指向一只狗的指针（可以把狗理解为一栋房子，myDog其实是房子的钥匙，你每天上班不能背着个房子上班吧，但是你又要表明你有一栋房子，所以每天拿着钥匙就可以了，钥匙就是对房子的引用。），这就是说每当你写了下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Dog myDog = new Dog(&quot;Rover&quot;);</div><div class="line">foo(myDog);</div></pre></td></tr></table></figure></p>
@@ -126,7 +124,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/" data-id="ciws4rj260001r9c8alhqfxa9" class="article-share-link" data-share="baidu" data-title="java是值传递还是引用传递">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/" data-id="ciwusg1oi0000nec8h5dyy9b2" class="article-share-link" data-share="baidu" data-title="java是值传递还是引用传递">分享到</a>
       
 
       
@@ -141,6 +139,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          CPU Pipeline了解CPU的工作内容
+        
+      </div>
+    </a>
   
   
     <a href="/2016/12/14/为什么处理有序数组比无序数组要快/" id="article-nav-older" class="article-nav-link-wrap">
@@ -165,7 +172,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -174,7 +181,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -183,7 +190,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
+      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
     </div>
   </div>
 
@@ -192,7 +199,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -202,6 +209,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
+          </li>
         
           <li>
             <a href="/2016/12/15/java是值传递还是引用传递/">java是值传递还是引用传递</a>
@@ -217,10 +228,6 @@
         
           <li>
             <a href="/2016/11/13/rel-shortcut-icon是有害的/">rel=shortcut icon是有害的</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/12/开发一个WEB网站需要知道什么/">开发一个WEB网站需要知道什么</a>
           </li>
         
       </ul>

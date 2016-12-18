@@ -71,6 +71,59 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-CPU-Pipeline了解CPU的工作内容" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/" class="article-date">
+  <time datetime="2016-12-17T05:26:01.000Z" itemprop="datePublished">2016-12-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我的另外的一篇博文<a href="http://hushengdong.com/2016/12/14/为什么处理有序数组比无序数组要快,&quot;title&quot;">为什么处理有序数组比无序数组要快</a>中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。<a href="http://www.gamedev.net/page/resources/_/technical/general-programming/a-journey-through-the-cpu-pipeline-r3115/,&quot;title&quot;">CPU的Pineline遨游之旅</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/#more">点击阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/" data-id="ciwusg1ox0005nec8jzhli1qd" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">分享到</a>
+      
+
+      
+        <a href="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-java是值传递还是引用传递" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/java是值传递还是引用传递/" class="article-date">
@@ -97,31 +150,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 <a href="http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value,&quot;title&quot;" target="_blank" rel="external">原文链接</a>，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。</p>
-<h1 id="1-投票数第2的答案"><a href="#1-投票数第2的答案" class="headerlink" title="1 (投票数第2的答案)"></a>1 (投票数第2的答案)</h1><p>先贴下一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public static void main( String[] args )&#123;</div><div class="line">    Dog aDog = new Dog(&quot;Max&quot;);</div><div class="line">    foo(aDog);</div><div class="line"></div><div class="line">    if (aDog.getName().equals(&quot;Max&quot;)) &#123; //true</div><div class="line">        System.out.println( &quot;Java passes by value.&quot; );</div><div class="line"></div><div class="line">    &#125; else if (aDog.getName().equals(&quot;Fifi&quot;)) &#123;</div><div class="line">        System.out.println( &quot;Java passes by reference.&quot; );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void foo(Dog d) &#123;</div><div class="line">    d.getName().equals(&quot;Max&quot;); // true</div><div class="line"></div><div class="line">    d = new Dog(&quot;Fifi&quot;);</div><div class="line">    d.getName().equals(&quot;Fifi&quot;); // true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>我刚刚意识到你有引用<a href="http://javadude.com/articles/passbyvalue.htm,&quot;title&quot;" target="_blank" rel="external">我的文章</a>（这里值投票第1的答案，所以我才会选择这位作者的答案）</p>
-<p>Java Spec说java中的一切都是通过值进行传递，在java中没有引用这一说。<br>理解这句话的关键是例如下面这段代码：<br>｀Dog myDog;`<br>myDog并不是实际的对象，而是一个指向一只狗的指针（可以把狗理解为一栋房子，myDog其实是房子的钥匙，你每天上班不能背着个房子上班吧，但是你又要表明你有一栋房子，所以每天拿着钥匙就可以了，钥匙就是对房子的引用。），这就是说每当你写了下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Dog myDog = new Dog(&quot;Rover&quot;);</div><div class="line">foo(myDog);</div></pre></td></tr></table></figure></p>
-<p>本质上你向foo方法传递的是指向Dog实际存储地址的一个引用。（我之所以说本质是因为java里面的指针并不是直接的地址，但是这样说更容易理解）。</p>
-<p>假设Dog这一条狗住在内存42号，这意味着向foo传递的是42，如果方法定义修改为下面这种情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public void foo(Dog someDog) &#123;</div><div class="line">    someDog.setName(&quot;Max&quot;);     // AAA</div><div class="line">    someDog = new Dog(&quot;Fifi&quot;);  // BBB</div><div class="line">    someDog.setName(&quot;Rowlf&quot;);   // CCC</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>让我们看看发生了什么：</p>
-<ul>
-<li>参数someDog被设置为了42</li>
-<li>在AAA行处：<br>1、someDog指向的还是42处的那只狗<br>2、把住在42的那条狗的名字修改为”Max”</li>
-<li>在BBB行处：<br>1、创建了一条新的狗，名字叫”Fifi”，假设住在内存74号。<br>2、someDog被重新指向了74号地址。</li>
-<li>在CCC行处：<br>1、现在someDog指向的是74号的狗。<br>2、把住在74的那条狗的名字修改为”Rowlf”</li>
-</ul>
-<p>调用了这个方法之后，让我们思考一下，最开始的那条狗:myDog，改变了吗？这是关键。其实没变，myDog的地址还是42号，它还是原来的那条狗，但是在AAA行，这条狗名字被修改为”Max”，但是狗还是原来的那条狗，没变。最后根据地址它有效的改变了狗的名字，但是并不改变狗的地址，还是42。</p>
-<p>java的原理和C有点像，你可以给指针赋值，把指针传递给一个方法，根据指针指向的地址，改变这个地址上的元素的值，但是，没有改变指针所指向的地址。</p>
-<p>在C++、 Ada、Pascal和一些其它的编程语言中，是有引用传递的，你可以真的改变传递到方法的变量所指向的值。</p>
-<p>如果非要咬文嚼字的说java有引用传递，foo方法已经在BBB行把myDog指向的地址给修改为新的值了（实际上并没有改变，所以java是值传递）。引用的参数可以想象为参数的别名。</p>
-<h1 id="2-投票数第3的答案"><a href="#2-投票数第3的答案" class="headerlink" title="2 (投票数第3的答案)"></a>2 (投票数第3的答案)</h1><p>投票数第3的答案也很好，但都是图示，大家自己去看<a href="http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value,&quot;title&quot;" target="_blank" rel="external">原文链接</a>。</p>
-<p>转载请标明出处：”<a href="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/">http://hushengdong.com/2016/12/15/java是值传递还是引用传递/</a>“</p>
-
+        <p>java中到底是值传递还是引用传递呢？自开始编程就一直在讨论这个问题，从stackoverflow中查看热门问题，排名第3，所以决定翻译一下 <a href="http://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value,&quot;title&quot;">原文链接</a>，我个人比较倾向于第2位投票数的答案，所以翻译的也是他的答案，并给出了这位作者的网址。问题很简单，也没有什么背景需要介绍，就不翻译了。</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/12/15/java是值传递还是引用传递/#more">点击阅读全文</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/" data-id="ciws4rj260001r9c8alhqfxa9" class="article-share-link" data-share="baidu" data-title="java是值传递还是引用传递">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/15/java是值传递还是引用传递/" data-id="ciwusg1oi0000nec8h5dyy9b2" class="article-share-link" data-share="baidu" data-title="java是值传递还是引用传递">分享到</a>
       
 
       
@@ -174,7 +213,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/14/为什么处理有序数组比无序数组要快/" data-id="ciws4rj2o0006r9c8oe7swtc7" class="article-share-link" data-share="baidu" data-title="为什么处理有序数组比无序数组要快">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/14/为什么处理有序数组比无序数组要快/" data-id="ciwusg1p8000cnec8nqq8unjl" class="article-share-link" data-share="baidu" data-title="为什么处理有序数组比无序数组要快">分享到</a>
       
 
       
@@ -228,7 +267,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/" data-id="ciws4rj2s000ar9c88ulue7ht" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">分享到</a>
+        <a data-url="http://hushengdong.com/2016/11/15/stackOverFlow性能提升之Cookie/" data-id="ciwusg1p5000anec82nmt19v9" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">分享到</a>
       
 
       
@@ -245,64 +284,10 @@
 
 
   
-    <article id="post-rel-shortcut-icon是有害的" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/11/13/rel-shortcut-icon是有害的/" class="article-date">
-  <time datetime="2016-11-12T16:49:11.000Z" itemprop="datePublished">2016-11-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/13/rel-shortcut-icon是有害的/">rel=shortcut icon是有害的</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自<a href="https://mathiasbynens.be/notes/rel-shortcut-icon,&quot;title&quot;">rel=”shortcut icon” considered harmful</a>，并不是原创。转载请标示：<a href="http://hushengdong.com/2016/11/13/rel-shortcut-icon是有害的#more">http://hushengdong.com/2016/11/13/rel-shortcut-icon是有害的#more</a></p>
-<p>大多数的网站使用下面的HTML代码来指定favicon:<br><code>&lt;link rel=&#39;shortcut icon&#39; href=&#39;/favicon.ico&#39;&gt;</code><br>看起来很好，是吗？猜猜看，并不是！<br>
-        
-          <p class="article-more-link">
-            <a href="/2016/11/13/rel-shortcut-icon是有害的/#more">点击阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://hushengdong.com/2016/11/13/rel-shortcut-icon是有害的/" data-id="ciws4rj2j0005r9c8t9k82962" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">分享到</a>
-      
-
-      
-        <a href="http://hushengdong.com/2016/11/13/rel-shortcut-icon是有害的/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 </section>
       
@@ -312,7 +297,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -321,7 +306,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -330,7 +315,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
+      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
     </div>
   </div>
 
@@ -339,7 +324,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -349,6 +334,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
+          </li>
         
           <li>
             <a href="/2016/12/15/java是值传递还是引用传递/">java是值传递还是引用传递</a>
@@ -364,10 +353,6 @@
         
           <li>
             <a href="/2016/11/13/rel-shortcut-icon是有害的/">rel=shortcut icon是有害的</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/12/开发一个WEB网站需要知道什么/">开发一个WEB网站需要知道什么</a>
           </li>
         
       </ul>
