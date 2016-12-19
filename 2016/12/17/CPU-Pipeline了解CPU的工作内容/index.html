@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://hushengdong.com/Pentiumpipeline.png">
 <meta property="og:image" content="http://hushengdong.com/ooo.png">
 <meta property="og:image" content="http://hushengdong.com/hyper-threading-ooo-core.png">
-<meta property="og:updated_time" content="2016-12-18T15:07:38.000Z">
+<meta property="og:updated_time" content="2016-12-19T05:04:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU Pipeline了解CPU的工作内容">
 <meta name="twitter:description" content="在我的另外的一篇博文为什么处理有序数组比无序数组要快中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。CPU的Pineline遨游之旅">
@@ -196,7 +196,7 @@
 <h1 id="7-结论"><a href="#7-结论" class="headerlink" title="7 结论"></a>7 结论</h1><p>这一小篇的文章点亮了CPU内部发生的一些事情，这不是所有的魔法（细节），烟雾和镜子。</p>
 <p>回到最原始的问题，我们应该有答案了。</p>
 <p>CPU内容发生了什么，这是一个十分复杂的世界，在这里一个指令可能被拆分为多个mirco-op，被尽可能快的无序执行，最后被恢复为正确的位置和顺序，在外面看来就好像是被单独的顺序执行了，但是现在我们知道了在CPU内部是被无序执行了，有时候分支预测会十分有用。</p>
-<p>一条指令执行一次需要多长的时间呢？在非流水线架构的CPU中会很好回答，在现代的CPU中这要看这条指令的上下文了，临近的数据缓存的大小和内容，有一个执行的最小的时间，粗略来说是一个常量。一个好的程序员和编译器要尽量使指令集运行的时间复杂度是amortized time，不是最慢的指令执行的时间，而是通过OOO核心计算的时间和数据加载到内存缓存和卸载缓存的时间。</p>
+<p>一条指令执行一次需要多长的时间呢？在非流水线架构的CPU中会很好回答，在现代的CPU中这要看这条指令的上下文了，临近的数据缓存的大小和内容，有一个执行的最小的时间，粗略来说是一个常量。一个好的程序员和编译器要尽量使指令集运行的时间复杂度是<a href=",&quot;title&quot;">amortized time</a>，不是最慢的指令执行的时间，而是通过OOO核心计算的时间和数据加载到内存缓存和卸载缓存的时间。</p>
 <p>一款新的CPU有12层流水线或者18层又代表了什么呢？甚至31层？这意味这CPU会一次性的加载更多的指令进来，很深的流水线意味着CPU同一时间很多指令在应用程序中都被标示为正在执行，当一切顺利的时候，OOO核心利用率很高并且性能提升很明显，但是不幸的是，流水线失速从最开始的一个小问题变成一个噩梦，因为一旦失速就要有成百上千的指令需要被从流水线中清除出去。</p>
 <p>我知道了这些，我该怎么应用到编程中去呢？好消息是CPU可以预期到大多数的情形，编译器也为OOO核心优化了好几十年了，CPU在数据和指令有序的时候运行的相当好，你只要保持代码简单就可以了，简单的代码会有利于编译器去优化你的代码，加速计算，尽量避免跳转，如果确实需要跳转，那么就每次使用相同的方式（这块不太理解啥意思）。复杂的设计像动态跳转表看起来很梦幻，但是却把CPU搞蒙了，CPU无法预期代码的走向，所以复杂的代码一般很容易失速和分支预测失败。另一个方面来说，保持代码简单和数据有序、相邻和连续会减少指令流水线失速的可能，选择合适的数据输出结构和输出会有利于性能提升，一旦保持了代码的简单一般剩下的事情编译器就帮你搞定了。</p>
 <p>谢谢你加入我的这段CPU之旅。</p>
@@ -207,7 +207,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/" data-id="ciwusg1ox0005nec8jzhli1qd" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/" data-id="ciwvni50i0000hfc8vnu5dlkx" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">分享到</a>
       
 
       
@@ -222,6 +222,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/12/19/Constant-Amortized-time恒定分摊时间/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          Constant Amortized time恒定分摊时间
+        
+      </div>
+    </a>
   
   
     <a href="/2016/12/15/java是值传递还是引用传递/" id="article-nav-older" class="article-nav-link-wrap">
@@ -246,7 +255,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -255,7 +264,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -264,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
+      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/算法复杂度-stackoverflow-constant-amortized-time/" style="font-size: 10px;">算法复杂度 stackoverflow constant amortized time</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
     </div>
   </div>
 
@@ -273,7 +282,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -283,6 +292,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/19/Constant-Amortized-time恒定分摊时间/">Constant Amortized time恒定分摊时间</a>
+          </li>
         
           <li>
             <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
@@ -298,10 +311,6 @@
         
           <li>
             <a href="/2016/11/15/stackOverFlow性能提升之Cookie/">stackOverFlow性能提升之Cookie</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/13/rel-shortcut-icon是有害的/">rel=shortcut icon是有害的</a>
           </li>
         
       </ul>
