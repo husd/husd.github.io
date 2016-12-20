@@ -71,6 +71,60 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-oracle处理锁表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/12/oracle处理锁表/" class="article-date">
+  <time datetime="2016-11-11T16:48:58.000Z" itemprop="datePublished">2016-11-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/12/oracle处理锁表/">oracle处理锁表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>(1)锁表查询的代码有以下的形式：<br>select count() from v$locked_object;select from v$locked_object;</li>
+<li>(2)查看哪个表被锁<br>select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_id = a.object_id;</li>
+<li>(3)查看是哪个session引起的<br>select b.username,b.sid,b.serial#,logon_time from v$locked_object a,v$session b where a.session_id = b.sid order by b.logon_time;</li>
+<li>(4)杀掉对应进程执行命令：<br>alter system kill session’1025,41’;其中1025为sid,41为serial#.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://hushengdong.com/2016/11/12/oracle处理锁表/" data-id="ciwx1zrgu000aa5c8seu97zqw" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">分享到</a>
+      
+
+      
+        <a href="http://hushengdong.com/2016/11/12/oracle处理锁表/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle-java/">oracle java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-程序员应该知道的几个数字" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/11/12/程序员应该知道的几个数字/" class="article-date">
@@ -108,7 +162,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/11/12/程序员应该知道的几个数字/" data-id="ciwvni51h000mhfc8foz64bco" class="article-share-link" data-share="baidu" data-title="程序员应该知道的几个数字">分享到</a>
+        <a data-url="http://hushengdong.com/2016/11/12/程序员应该知道的几个数字/" data-id="ciwx1zrh8000pa5c8ro1334fr" class="article-share-link" data-share="baidu" data-title="程序员应该知道的几个数字">分享到</a>
       
 
       
@@ -163,7 +217,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/10/30/RFC815-IP分片重组/" data-id="ciwvni50s0004hfc8bfmrjwcq" class="article-share-link" data-share="baidu" data-title="RFC815-IP分片重组">分享到</a>
+        <a data-url="http://hushengdong.com/2016/10/30/RFC815-IP分片重组/" data-id="ciwx1zrgn0005a5c8rbe1g18n" class="article-share-link" data-share="baidu" data-title="RFC815-IP分片重组">分享到</a>
       
 
       
@@ -193,7 +247,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -202,7 +256,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -220,7 +274,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -230,6 +284,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/20/HashMap和HashTable的区别/">HashMap和HashTable的区别</a>
+          </li>
         
           <li>
             <a href="/2016/12/19/Constant-Amortized-time恒定分摊时间/">Constant Amortized time恒定分摊时间</a>
@@ -245,10 +303,6 @@
         
           <li>
             <a href="/2016/12/14/为什么处理有序数组比无序数组要快/">为什么处理有序数组比无序数组要快</a>
-          </li>
-        
-          <li>
-            <a href="/2016/11/15/stackOverFlow性能提升之Cookie/">stackOverFlow性能提升之Cookie</a>
           </li>
         
       </ul>

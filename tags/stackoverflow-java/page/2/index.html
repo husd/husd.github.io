@@ -4,21 +4,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Constant Amortized time恒定分摊时间 | 青出于蓝而胜于蓝</title>
+  <title>Tag: stackoverflow java | 青出于蓝而胜于蓝</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来what’s amortized time。
-当我们讨论算法复杂度的时候，恒">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Constant Amortized time恒定分摊时间">
-<meta property="og:url" content="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="青出于蓝而胜于蓝">
+<meta property="og:url" content="http://hushengdong.com/tags/stackoverflow-java/page/2/index.html">
 <meta property="og:site_name" content="青出于蓝而胜于蓝">
-<meta property="og:description" content="在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来what’s amortized time。
-当我们讨论算法复杂度的时候，恒">
-<meta property="og:updated_time" content="2016-12-19T05:34:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Constant Amortized time恒定分摊时间">
-<meta name="twitter:description" content="在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来what’s amortized time。
-当我们讨论算法复杂度的时候，恒">
+<meta name="twitter:title" content="青出于蓝而胜于蓝">
   
     <link rel="alternative" href="/atom.xml" title="青出于蓝而胜于蓝" type="application/atom+xml">
   
@@ -76,86 +69,44 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Constant-Amortized-time恒定分摊时间" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Constant-Amortized-time恒定分摊时间/" class="article-date">
-  <time datetime="2016-12-19T05:03:25.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      Constant Amortized time恒定分摊时间
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/11/12/程序员应该知道的几个数字/" class="archive-article-date">
+  <time datetime="2016-11-11T16:48:50.000Z" itemprop="datePublished">11月 12</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/11/12/程序员应该知道的几个数字/">程序员应该知道的几个数字</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来<a href="https://mortoray.com/2014/08/11/what-is-amortized-time/,&quot;title&quot;" target="_blank" rel="external">what’s amortized time</a>。</p>
-<p>当我们讨论算法复杂度的时候，恒定分摊时间是什么意思呢？</p>
-<p>举个例子简单解释一下：</p>
-<p>如果一个操作执行100万次，那么就不会关心其中最快的一次或者最慢的一次耗费了多长时间，而是执行100万次操作总共耗费了多长时间。</p>
-<p>所以执行一次很慢确实不太重要，只是偶尔一次很慢在大批量执行的情况下会被摊销，所以恒定分摊时间就意味着是执行一次操作的平均时间，如果执行的次数够多，分摊时间不一定就是常量，也有可能是线性或者对数分摊时间。</p>
-<p>我们来看一个动态数组新增元素的例子（java中可以参考ArrayList)，通常新增一个元素所耗费的时间就是常量O（1），但是每一次当数组被填充满了，需要扩容到原来的2倍，然后会生成一个新数组，并且把老数组里面的元素复制到新数据当中去，释放老数据内存空间，假设分配新数组空间和释放老数组内存空间耗费时间都是常量，新增一个元素的时间会放大到O（n)，n就是当前数组的大小。</p>
-<p>所以每一次数组的扩容，都会花费最后一次扩容2倍的时间，在扩容之前也等待了2次同样的时间，因此每次扩容的时间可以分摊到每次新增元素的时间中，这意味着如果数据够大，从长远来看，将m个元素添加到动态数组中花费的时间是O(m)，因此单个新增耗费的时间就是O（1）。</p>
-<p>翻译完。</p>
-<p>转载请标示: <a href="http://hushengdomg.com/2016/12/19/Constant-Amortized-time恒定分摊时间/" target="_blank" rel="external">http://hushengdomg.com/2016/12/19/Constant-Amortized-time恒定分摊时间/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/" data-id="ciwx1zrg60001a5c8uprq1w4w" class="article-share-link" data-share="baidu" data-title="Constant Amortized time恒定分摊时间">分享到</a>
-      
-
-      
-        <a href="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/12/20/HashMap和HashTable的区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          HashMap和HashTable的区别
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">CPU Pipeline了解CPU的工作内容</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
 
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/12/19/Constant-Amortized-time恒定分摊时间/" data-title="Constant Amortized time恒定分摊时间" data-url="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/"></div>
-  </section>
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/tags/stackoverflow-java/">&laquo; 上一页</a><a class="page-number" href="/tags/stackoverflow-java/">1</a><span class="page-number current">2</span>
+  </nav>
 </section>
       
       <aside id="sidebar">
