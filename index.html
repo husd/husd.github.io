@@ -71,6 +71,82 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-JAVA小知识汇总-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/23/JAVA小知识汇总-2/" class="article-date">
+  <time datetime="2016-12-23T06:36:49.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/JAVA小知识汇总-2/">JAVA小知识汇总(2)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-怎么打印数组内容？"><a href="#1-怎么打印数组内容？" class="headerlink" title="1 怎么打印数组内容？"></a>1 <a href="http://stackoverflow.com/questions/409784/whats-the-simplest-way-to-print-a-java-array,&quot;title&quot;" target="_blank" rel="external">怎么打印数组内容？</a></h1><p>从JDK1.5开始，可以使用 <code>Arrays.toString(arr)</code> 或者 <code>Arrays.deepToString(arr)</code>，输出的内容会调用数组元素的toString()方法。</p>
+<h1 id="2-为什么在java中要使用setter和getter"><a href="#2-为什么在java中要使用setter和getter" class="headerlink" title="2 为什么在java中要使用setter和getter?"></a>2 <a href="http://stackoverflow.com/questions/1568091/why-use-getters-and-setters,&quot;title&quot;" target="_blank" rel="external">为什么在java中要使用setter和getter?</a></h1><ul>
+<li>当你意识到在做get和set之前或之后，还有一些其它的事情要做的时候，尤其是代码中有300个地方使用了这个属性的时候，就知道get和set的好处了。</li>
+<li>可以做数据合法性校验。</li>
+<li>可以修改被set的值。</li>
+<li>可以隐藏内部的实现，可以修改内容实现的方式。</li>
+<li>You’ve insulated your public interface from changes under the sheets.</li>
+<li>有一些库必须要有，例如反射、序列化或者Mock对象等。</li>
+<li>继承父类，可以重写方法的默认实现。</li>
+<li>可以设置不同的访问权限，例如get可以是public，但是set可以是private或者protected。</li>
+<li>延迟加载。</li>
+<li>人们会很乐意告诉你不要使用python。</li>
+</ul>
+<h1 id="3-比较2个枚举类，使用-还是equals-方法？"><a href="#3-比较2个枚举类，使用-还是equals-方法？" class="headerlink" title="3 比较2个枚举类，使用==还是equals()方法？"></a>3 <a href="http://stackoverflow.com/questions/1750435/comparing-java-enum-members-or-equals,&quot;title&quot;" target="_blank" rel="external">比较2个枚举类，使用==还是equals()方法？</a></h1><p>都可以，如果你看看枚举类的源码，会推荐你使用==。</p>
+<h1 id="4-java-bean到底是啥东西？和普通类有区别吗？"><a href="#4-java-bean到底是啥东西？和普通类有区别吗？" class="headerlink" title="4 java bean到底是啥东西？和普通类有区别吗？"></a>4 <a href="http://stackoverflow.com/questions/3295496/what-is-a-javabean-exactly,&quot;title&quot;" target="_blank" rel="external">java bean到底是啥东西？和普通类有区别吗？</a></h1><p>没区别，仅仅是一个声明的标准，只要遵循以下的标准，就可以认为是一个java bean。</p>
+<ul>
+<li>所有的属性都是private，使用set和get来设置和获取属性的值。</li>
+<li>只有一个无参构造器。</li>
+<li>实现了Serializable接口。</li>
+</ul>
+<p>为什么呢？标准就是用来做序列化和反序列化。</p>
+<h1 id="5-怎么快速判断一个数字开平方之后是一个整数？"><a href="#5-怎么快速判断一个数字开平方之后是一个整数？" class="headerlink" title="5 怎么快速判断一个数字开平方之后是一个整数？"></a>5 <a href="http://stackoverflow.com/questions/295579/fastest-way-to-determine-if-an-integers-square-root-is-an-integer,&quot;title&quot;" target="_blank" rel="external">怎么快速判断一个数字开平方之后是一个整数？</a></h1><p>这个问题看起来很简单，实际很复杂，涉及了很多程序设计中的技巧。这个问题的乐趣不在于怎么去解决这个算法，而是在解决这个算法的过程中，使用的一些假设，推理，合理的优化等方案，阅读原文吧。</p>
+<h1 id="6-怎么把一个文件里的内容读到一个字符串中？"><a href="#6-怎么把一个文件里的内容读到一个字符串中？" class="headerlink" title="6 怎么把一个文件里的内容读到一个字符串中？"></a>6 <a href="http://stackoverflow.com/questions/326390/how-do-i-create-a-java-string-from-the-contents-of-a-file,&quot;title&quot;" target="_blank" rel="external">怎么把一个文件里的内容读到一个字符串中？</a></h1><p>1、apache commons 的IOUtils。<br>2、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">static String readFile(String path, Charset encoding)</div><div class="line">  throws IOException</div><div class="line">&#123;</div><div class="line">  byte[] encoded = Files.readAllBytes(Paths.get(path));</div><div class="line">  return new String(encoded, encoding);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>要考虑下文件的大小，否则有可能会报内存溢出的异常。</p>
+<h1 id="7-怎么在java中把2个数组合并为1个数组呢？"><a href="#7-怎么在java中把2个数组合并为1个数组呢？" class="headerlink" title="7 怎么在java中把2个数组合并为1个数组呢？"></a>7 <a href="http://stackoverflow.com/questions/80476/how-can-i-concatenate-two-arrays-in-java,&quot;title&quot;" target="_blank" rel="external">怎么在java中把2个数组合并为1个数组呢？</a></h1><p>1：<br>｀String[] both = (String[])ArrayUtils.addAll(first, second);｀</p>
+<p>2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public static &lt;T&gt; T[] concat(T[] first, T[] second) &#123;</div><div class="line">  T[] result = Arrays.copyOf(first, first.length + second.length);</div><div class="line">  System.arraycopy(second, 0, result, first.length, second.length);</div><div class="line">  return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>完。</p>
+<p>转载请标示: <a href="http://hushengdong.com/2016/12/23/JAVA小知识汇总-2/">http://hushengdong.com/2016/12/23/JAVA小知识汇总-2/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://hushengdong.com/2016/12/23/JAVA小知识汇总-2/" data-id="cix1nqcj90005mmc878ldtg6e" class="article-share-link" data-share="baidu" data-title="JAVA小知识汇总(2)">分享到</a>
+      
+
+      
+        <a href="http://hushengdong.com/2016/12/23/JAVA小知识汇总-2/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-stackoverflow-热门问题/">java stackoverflow 热门问题</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JAVA小知识汇总" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/22/JAVA小知识汇总/" class="article-date">
@@ -110,7 +186,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/22/JAVA小知识汇总/" data-id="cix02atbp0004khc887nvik05" class="article-share-link" data-share="baidu" data-title="JAVA小知识汇总">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/22/JAVA小知识汇总/" data-id="cix1nqcjd000ammc88s4bfhd6" class="article-share-link" data-share="baidu" data-title="JAVA小知识汇总">分享到</a>
       
 
       
@@ -167,7 +243,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/20/HashMap和HashTable的区别/" data-id="cix02atbj0001khc8s0c6jy3o" class="article-share-link" data-share="baidu" data-title="HashMap和HashTable的区别">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/20/HashMap和HashTable的区别/" data-id="cix1nqcio0000mmc8ez5tvi91" class="article-share-link" data-share="baidu" data-title="HashMap和HashTable的区别">分享到</a>
       
 
       
@@ -224,7 +300,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/" data-id="cix02atbe0000khc8vrx2hktk" class="article-share-link" data-share="baidu" data-title="Constant Amortized time恒定分摊时间">分享到</a>
+        <a data-url="http://hushengdong.com/2016/12/19/Constant-Amortized-time恒定分摊时间/" data-id="cix1nqcj10004mmc85tvfhuem" class="article-share-link" data-share="baidu" data-title="Constant Amortized time恒定分摊时间">分享到</a>
       
 
       
@@ -241,63 +317,10 @@
 
 
   
-    <article id="post-CPU-Pipeline了解CPU的工作内容" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/" class="article-date">
-  <time datetime="2016-12-17T05:26:01.000Z" itemprop="datePublished">2016-12-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/计算机基础/">计算机基础</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在我的另外的一篇博文<a href="http://hushengdong.com/2016/12/14/为什么处理有序数组比无序数组要快,&quot;title&quot;">为什么处理有序数组比无序数组要快</a>中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。<a href="http://www.gamedev.net/page/resources/_/technical/general-programming/a-journey-through-the-cpu-pipeline-r3115/,&quot;title&quot;">CPU的Pineline遨游之旅</a></p>
-        
-          <p class="article-more-link">
-            <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/#more">点击阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/" data-id="cix02atbw0005khc89q9gak17" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">分享到</a>
-      
-
-      
-        <a href="http://hushengdong.com/2016/12/17/CPU-Pipeline了解CPU的工作内容/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 </section>
       
@@ -307,7 +330,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/stackoverflow热门问题翻译/">stackoverflow热门问题翻译</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议RFC翻译/">网络协议RFC翻译</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/计算机基础/">计算机基础</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -316,7 +339,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-stackoverflow-热门问题/">java stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU-Pipeline-基础计算机科学/">CPU Pipeline 基础计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-stackoverflow-热门问题/">java stackoverflow 热门问题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-值传递-引用传递-stackoverflow-热门问题/">java 值传递 引用传递 stackoverflow 热门问题</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle-java/">oracle java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stackoverflow-java/">stackoverflow java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法复杂度-stackoverflow-constant-amortized-time/">算法复杂度 stackoverflow constant amortized time</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机基础-stackoverflow-hot-questions/">计算机基础 stackoverflow hot questions</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -325,7 +348,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-stackoverflow-热门问题/" style="font-size: 10px;">java stackoverflow 热门问题</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/算法复杂度-stackoverflow-constant-amortized-time/" style="font-size: 10px;">算法复杂度 stackoverflow constant amortized time</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
+      <a href="/tags/CPU-Pipeline-基础计算机科学/" style="font-size: 10px;">CPU Pipeline 基础计算机科学</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/java-stackoverflow-热门问题/" style="font-size: 15px;">java stackoverflow 热门问题</a> <a href="/tags/java-值传递-引用传递-stackoverflow-热门问题/" style="font-size: 10px;">java 值传递 引用传递 stackoverflow 热门问题</a> <a href="/tags/oracle-java/" style="font-size: 10px;">oracle java</a> <a href="/tags/stackoverflow-java/" style="font-size: 20px;">stackoverflow java</a> <a href="/tags/算法复杂度-stackoverflow-constant-amortized-time/" style="font-size: 10px;">算法复杂度 stackoverflow constant amortized time</a> <a href="/tags/计算机基础-stackoverflow-hot-questions/" style="font-size: 10px;">计算机基础 stackoverflow hot questions</a>
     </div>
   </div>
 
@@ -334,7 +357,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -344,6 +367,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/23/JAVA小知识汇总-2/">JAVA小知识汇总(2)</a>
+          </li>
         
           <li>
             <a href="/2016/12/22/JAVA小知识汇总/">JAVA小知识汇总</a>
@@ -359,10 +386,6 @@
         
           <li>
             <a href="/2016/12/17/CPU-Pipeline了解CPU的工作内容/">CPU Pipeline了解CPU的工作内容</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/java是值传递还是引用传递/">java是值传递还是引用传递</a>
           </li>
         
       </ul>
