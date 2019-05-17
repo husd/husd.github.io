@@ -4,15 +4,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>青出于蓝而胜于蓝</title>
+  <title>oracle处理锁表 | 青出于蓝而胜于蓝</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="青出于蓝而胜于蓝">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="(1)锁表查询的代码有以下的形式：select count() from v$locked_object;select from v$locked_object;(2)查看哪个表被锁select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle处理锁表">
+<meta property="og:url" content="http://yoursite.com/oracle/oracle-lock-table/index.html">
 <meta property="og:site_name" content="青出于蓝而胜于蓝">
+<meta property="og:description" content="(1)锁表查询的代码有以下的形式：select count() from v$locked_object;select from v$locked_object;(2)查看哪个表被锁select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_i">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-17T08:41:39.694Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="青出于蓝而胜于蓝">
+<meta name="twitter:title" content="oracle处理锁表">
+<meta name="twitter:description" content="(1)锁表查询的代码有以下的形式：select count() from v$locked_object;select from v$locked_object;(2)查看哪个表被锁select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_i">
   
   
     <link rel="icon" href="/favicon.png">
@@ -60,16 +64,14 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-oracle-lock-table" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/icon/harmful-icon/" class="article-date">
-  <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">2019-05-17</time>
+    <a href="/oracle/oracle-lock-table/" class="article-date">
+  <time datetime="2019-05-17T07:35:05.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/icon/">icon</a>
+    <a class="article-category-link" href="/categories/oracle/">oracle</a>
   </div>
 
   </div>
@@ -79,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/icon/harmful-icon/">rel=shortcut icon是有害的</a>
+    <h1 class="article-title" itemprop="name">
+      oracle处理锁表
     </h1>
   
 
@@ -88,147 +90,50 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文翻译自rel=”shortcut icon” considered harmful，并不是原创。</p>
-<p>大多数的网站使用下面的HTML代码来指定favicon:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&apos;shortcut icon&apos; href=&apos;/favicon.ico&apos;&gt;</span><br></pre></td></tr></table></figure>
+        <p>(1)锁表查询的代码有以下的形式：<br>select count() from v$locked_object;select from v$locked_object;<br>(2)查看哪个表被锁<br>select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_id = a.object_id;<br>(3)查看是哪个session引起的<br>select b.username,b.sid,b.serial#,logon_time from v$locked_object a,v$session b where a.session_id = b.sid order by b.logon_time;<br>(4)杀掉对应进程执行命令：<br>alter system kill session’1025,41’;其中1025为sid,41为serial#.</p>
 
-<p>看起来很好，是吗？猜猜看，并不是！</p>
-<p>今天，我学习了shortcut不是一个有效的链接符，确实，这并不在HTML5的4.12.5关于link类型的说明中，实际上，这可能是IE特有的属性，在IE之外，应该使用rel=”icon”更好。</p>
-        
-          <p class="article-more-link">
-            <a href="/icon/harmful-icon/#more">Read More</a>
-          </p>
-        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/icon/harmful-icon/" data-id="cjvrugr5b0005n0toiqhmwgcy" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
+        <a data-url="http://yoursite.com/oracle/oracle-lock-table/" data-id="cjvrugr5c0006n0tox0ab9h4q" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">Share</a>
       
 
       
-        <a href="http://yoursite.com/icon/harmful-icon/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/oracle/oracle-lock-table/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-web-need-know" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/performance/web-need-know/" class="article-date">
-  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/performance/">performance</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/tcpip/rfc-815/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          RFC815-IP分片重组
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/performance/web-need-know/">开发一个WEB网站需要知道什么</a>
-    </h1>
   
+    <a href="/icon/harmful-icon/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">rel=shortcut icon是有害的</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。</p>
-        
-          <p class="article-more-link">
-            <a href="/performance/web-need-know/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/performance/web-need-know/" data-id="cjvrugr5t000nn0toeg5yvf6s" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/performance/web-need-know/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/cookie/fast-cookie/" class="article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/cookie/">cookie</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/cookie/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自<a href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/,%22title%22" target="_blank" rel="noopener">a-few-speed-improvements</a>，并不是原创。</p>
-<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
-<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
-        
-          <p class="article-more-link">
-            <a href="/cookie/fast-cookie/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/cookie/fast-cookie/" data-id="cjvrugr560001n0to7up9f1h6" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/cookie/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie/">cookie</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-  </nav>
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="oracle/oracle-lock-table/" data-title="oracle处理锁表" data-url="http://yoursite.com/oracle/oracle-lock-table/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

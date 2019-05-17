@@ -4,15 +4,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>青出于蓝而胜于蓝</title>
+  <title>rel=shortcut icon是有害的 | 青出于蓝而胜于蓝</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="青出于蓝而胜于蓝">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rel=shortcut icon是有害的">
+<meta property="og:url" content="http://yoursite.com/icon/harmful-icon/index.html">
 <meta property="og:site_name" content="青出于蓝而胜于蓝">
+<meta property="og:description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-17T08:41:32.356Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="青出于蓝而胜于蓝">
+<meta name="twitter:title" content="rel=shortcut icon是有害的">
+<meta name="twitter:description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
   
   
     <link rel="icon" href="/favicon.png">
@@ -60,9 +64,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/icon/harmful-icon/" class="article-date">
   <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">2019-05-17</time>
@@ -79,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/icon/harmful-icon/">rel=shortcut icon是有害的</a>
+    <h1 class="article-title" itemprop="name">
+      rel=shortcut icon是有害的
     </h1>
   
 
@@ -94,11 +96,21 @@
 
 <p>看起来很好，是吗？猜猜看，并不是！</p>
 <p>今天，我学习了shortcut不是一个有效的链接符，确实，这并不在HTML5的4.12.5关于link类型的说明中，实际上，这可能是IE特有的属性，在IE之外，应该使用rel=”icon”更好。</p>
-        
-          <p class="article-more-link">
-            <a href="/icon/harmful-icon/#more">Read More</a>
-          </p>
-        
+<a id="more"></a>
+
+<p>所以，是否我们必须使用shortcut属性来支持IE？并不是。<br>如果shortcut从rel属性中删除，IE8以下的版本会忽略这个属性，并且自动在网站根目录下寻找favicon.ico文件替代，实际上，大多数的浏览器都是这么干的，在IE中使用rel=”icon shortcut” (注意顺序)也不会管用，因为它根本不会把rel属性的值看作空格分割的列表。</p>
+<p>更新：在IE9中当你指定了的时候就需要shortcut属性值了，不用说，这个实现烂透了，更好的办法就是在你网站的根目录下面放一个favicon.ico文件。*
+就简单的把图标放到网站的根目录下，名字叫favicon.ico，这就行了<br>这么做，IE会自动发现它，不管你是否在页面中是否指定了link元素，如果你删除了link rel=”icon”声明，其它浏览器也会自动去找网站根目录下的favicon.ico文件，如果没有这个文件，会导致很多的404错误。现在大多数的浏览器都支持这个机制，欧朋、Safari、谷歌浏览器、火狐、IE5+，唯一不支持的浏览器是SeaMonkey（翻译成海猴子吗？）</p>
+<p>(当你不指定favicon.ico的时候海猴子默认不会自动查找，火狐浏览器不太一样，在about:config中有一个browser.chrome.favicons的属性，默认是true，如果改为false的话，火狐就不会自动查找favicon.ico了，火狐默认是true。PS：大多数程序员可能都不知道，况且普通的用户了。)</p>
+<p>我在这里就是要告诉你，你可以把link声明从html中删除了，唯一的不同就是一旦整个HTML文档加载完毕就会马上展现图标，相比较于自己直接指定link属性，图标可以更快加载，在解析到link rel=”icon”的时候就会展现出来，我认为这个提升并不大，相反延迟加载图标从而让其它元素更早加载会更好。</p>
+<p>如果在海猴子中你想尽快加载图标的话，用下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>更新： HTML现在指定了关于favicon.ico：<br>在HTTP或者HTTPS中，如果没有指定使用icon关键字指定link属性，代理用户可以尝试去绝对路径查找/favicon.ico来替代，如果用户指定了图标，那么就使用指定的文件。</p>
+<p>更新： 由于历史原因，HTML规范指定不允许在icon关键字后面紧跟一个U+0020空格符号，当然了，最后是不在任何的HTML使用它。</p>
+<p>更新：IE11会支持GIF或者PNG图标，不仅仅是.ico结尾的文件，当然了，/favicon.ico还是默认的图标格式。</p>
+<p>感谢Anne和Sander在the#whatwg IRC channel上花费时间来向我解释它（指上面所说的这个机制）。</p>
+
       
     </div>
     <footer class="article-footer">
@@ -114,121 +126,33 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-web-need-know" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/performance/web-need-know/" class="article-date">
-  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/performance/">performance</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/oracle/oracle-lock-table/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          oracle处理锁表
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/performance/web-need-know/">开发一个WEB网站需要知道什么</a>
-    </h1>
   
+    <a href="/performance/web-need-know/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">开发一个WEB网站需要知道什么</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。</p>
-        
-          <p class="article-more-link">
-            <a href="/performance/web-need-know/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/performance/web-need-know/" data-id="cjvrugr5t000nn0toeg5yvf6s" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/performance/web-need-know/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/cookie/fast-cookie/" class="article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/cookie/">cookie</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/cookie/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自<a href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/,%22title%22" target="_blank" rel="noopener">a-few-speed-improvements</a>，并不是原创。</p>
-<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
-<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
-        
-          <p class="article-more-link">
-            <a href="/cookie/fast-cookie/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/cookie/fast-cookie/" data-id="cjvrugr560001n0to7up9f1h6" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/cookie/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie/">cookie</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-  </nav>
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="icon/harmful-icon/" data-title="rel=shortcut icon是有害的" data-url="http://yoursite.com/icon/harmful-icon/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
