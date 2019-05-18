@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>处理有序数据比无序的数组要快 | 青出于蓝而胜于蓝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，原文链接    1 问题下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。 12345678910111213141516171819202122232425262728#include &amp;">
+<meta name="keywords" content="CPU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理有序数据比无序的数组要快">
+<meta property="og:url" content="http://yoursite.com/algorithm/sort-fast/index.html">
+<meta property="og:site_name" content="青出于蓝而胜于蓝">
+<meta property="og:description" content="为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，原文链接    1 问题下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。 12345678910111213141516171819202122232425262728#include &amp;">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/algorithm/img/tain.jpg">
+<meta property="og:updated_time" content="2019-05-18T02:32:47.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="处理有序数据比无序的数组要快">
+<meta name="twitter:description" content="为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，原文链接    1 问题下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。 12345678910111213141516171819202122232425262728#include &amp;">
+<meta name="twitter:image" content="http://yoursite.com/algorithm/img/tain.jpg">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head></html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">青出于蓝而胜于蓝</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value class="search-form-submit">
+          <input name="tn" type="hidden" value="bds">
+          <input name="cl" type="hidden" value="3">
+          <input name="ct" type="hidden" value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-sort-fast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/algorithm/sort-fast/" class="article-date">
+  <time datetime="2019-05-17T06:11:39.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      处理有序数据比无序的数组要快
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，<a href="http://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array,%22title%22" target="_blank" rel="noopener">原文链接</a></p>
+<!-- 查看更多 -->
+
+<hr>
+<h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1 问题"></a>1 问题</h2><p>下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;ctime&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    // Generate data</span><br><span class="line">    const unsigned arraySize = 32768;</span><br><span class="line">    int data[arraySize];</span><br><span class="line">    for (unsigned c = 0; c &lt; arraySize; ++c)</span><br><span class="line">        data[c] = std::rand() % 256;</span><br><span class="line">    // !!! With this, the next loop runs faster</span><br><span class="line">    std::sort(data, data + arraySize);</span><br><span class="line">    // Test</span><br><span class="line">    clock_t start = clock();</span><br><span class="line">    long long sum = 0;</span><br><span class="line">    for (unsigned i = 0; i &lt; 100000; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // Primary loop</span><br><span class="line">        for (unsigned c = 0; c &lt; arraySize; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            if (data[c] &gt;= 128)</span><br><span class="line">                sum += data[c];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    double elapsedTime = static_cast&lt;double&gt;(clock() - start) / CLOCKS_PER_SEC;</span><br><span class="line">    std::cout &lt;&lt; elapsedTime &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; &quot;sum = &quot; &lt;&lt; sum &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>没有std::sort(data, data + arraySize);，这段代码运行了11.54秒。<br>加上了这段排序的代码，这段代码运行了1.93秒。</p>
+<p>起初，我以为这和语言或者编译器有关，所以我用java语言又试了一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Random;</span><br><span class="line">public class Main</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        // Generate data</span><br><span class="line">        int arraySize = 32768;</span><br><span class="line">        int data[] = new int[arraySize];</span><br><span class="line">        Random rnd = new Random(0);</span><br><span class="line">        for (int c = 0; c &lt; arraySize; ++c)</span><br><span class="line">            data[c] = rnd.nextInt() % 256;</span><br><span class="line">        // !!! With this, the next loop runs faster</span><br><span class="line">        Arrays.sort(data);</span><br><span class="line">        // Test</span><br><span class="line">        long start = System.nanoTime();</span><br><span class="line">        long sum = 0;</span><br><span class="line">        for (int i = 0; i &lt; 100000; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            // Primary loop</span><br><span class="line">            for (int c = 0; c &lt; arraySize; ++c)</span><br><span class="line">            &#123;。</span><br><span class="line">                if (data[c] &gt;= 128)</span><br><span class="line">                    sum += data[c];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println((System.nanoTime() - start) / 1000000000.0);</span><br><span class="line">        System.out.println(&quot;sum = &quot; + sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然差距没那么大，但是也是相似的结果（指排序之后变快了）。</p>
+<p>我第一感觉是排序之后数据会被加载进缓存，但之后我就觉的这个想法太蠢了，因为数组是刚刚生成的。</p>
+<p>发生了什么事情？<br>为什么排序的数组比没有排序的更快了？<br>这段代码和任何团队无关，并且顺序也不重要。</p>
+<h2 id="2投票数最多的回答"><a href="#2投票数最多的回答" class="headerlink" title="2投票数最多的回答"></a>2投票数最多的回答</h2><p>4什么是分支预测<br>考虑一个铁路的交叉口</p>
+<p><img src="../img/tain.jpg" alt="tain.jpg"></p>
+<p>为了避免争吵，我们假设现在是1800年，没有无线电等远程通信技术。你是这个分岔口的管理员，听到有一辆火车要到了，你也不知道火车要去哪条路，你拦停了火车，问了下司机：“你要去哪条路？”，得到回答之后，把铁路扳倒正确的位置。</p>
+<p>火车自重很大，惯性也很大，所以停下来和重新启动耗费了很长时间。还有更好的方法吗？比方说先猜一下火车的方向：</p>
+<p>如果猜对了，挺好，火车继续走。<br>如果猜错了，司机会停下来，退回去，你把铁路扳正确了，火车重新启动再继续走。<br>如果你每次都猜对的话，火车就永远不会停。<br>如果你猜错的次数很多的话，火车就会频繁的停下、退回去、重新发动。</p>
+<p>考虑一个if语句，在CPU这个级别，是这样执行的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if(data[c] &gt; 128) &#123;</span><br><span class="line">sum += data[c];</span><br><span class="line">&#125;</span><br><span class="line">movsxd rdx,DWORD PTR [rcx]</span><br><span class="line">cmp edx 128				 ; 00000080H</span><br><span class="line">jl SHORT $LN3@main</span><br><span class="line">add rbx,rdx</span><br><span class="line">$LN3@main:</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>现在假设你就是CPU，你看到了一个分支，但是不知道该走哪个分支，你该怎么做？你挂起当前操作，等待分支判断的结果，然后再选择正确的分支。现在的CPU是很复杂的，有很长的执行命令管线（这块不知道怎么翻译了，Modern processors are complicated and have long pipelines），所以永远在热身和停止。</p>
+</blockquote>
+<p>还有更好的方法吗？猜一下分支：</p>
+<p>如果猜对了，挺好，继续执行。<br>如果猜错了，CPU刷新执行命令队列，回退到之前的分岔口，然后重新选择正确的分支。<br>这就是分支预测，我承认这不是最好的策略，因为火车可以发一个信号来指明它的方向，但是对于CPU来说，不到执行的时候，不知道会走哪个分支。所以采取什么样的策略才能使火车回退的可能性降低呢？可以观察下历史的分支选择数据，如果火车有99%的次数都在走左边，那么就猜左边，如果右边概率大，就猜右边，如果两边各3次，一样的道理。</p>
+<p>换句话说，你尝试找到一个规律并且按这个规律来猜测，就差不多就是分支预测怎么做的。</p>
+<blockquote>
+<p>现在大多数的应用程序的分支都很有规律，所以分支预测可以工作的很好，猜中的几率大于90%，但是当面对捉摸不透的没有规律的分支的时候，分支预测就没什么用了。</p>
+</blockquote>
+<p>更多请阅读维基百科的分支预测</p>
+<p>由此推断，上面的if语句是排序后程序运行更快的原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (data[c] &gt;= 128)</span><br><span class="line">    sum += data[c];</span><br></pre></td></tr></table></figure>
+
+<p>我们注意到数据分布在0到255之间，当数据是有序的，大概算一下前半部分都没有满足条件，后面的部分都满足了data[c] &gt; 128的条件，就不判断这个条件了，在这之后，程序都是直接进入到sum+=data[c]。</p>
+<p>有序的数据很适合拿来做分支预测因为大部分的情况下都能命中猜测。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">T = branch taken</span><br><span class="line">N = branch not taken</span><br><span class="line">data[] = 0, 1, 2, 3, 4, ... 126, 127, 128, 129, 130, ... 250, 251, 252, ...</span><br><span class="line">branch = N  N  N  N  N  ...   N    N    T    T    T  ...   T    T    T  ...</span><br><span class="line">       = NNNNNNNNNNNN ... NNNNNNNTTTTTTTTT ... TTTTTTTTTT  (easy to predict)</span><br></pre></td></tr></table></figure>
+
+<p>当数据是完全随机的时候，分支预测就很难提高效率了，大概有50%会判断错误（根据历史规律猜中的概率差不多是瞎猜了）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data[] = 226, 185, 125, 158, 198, 144, 217, 79, 202, 118,  14, 150, 177, 182, 133, ...</span><br><span class="line">branch =   T,   T,   N,   T,   T,   T,   T,  N,   T,   N,   N,   T,   T,   T,   N  ...</span><br><span class="line">       = TTNTTTTNTNNTTTN ...   (completely random - hard to predict)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-我们该怎么办"><a href="#3-我们该怎么办" class="headerlink" title="3 我们该怎么办"></a>3 我们该怎么办</h2><p>如果编译器不能做分支预测的优化，我们该怎么办呢？如果我们可以为了性能而牺牲代码的可读性的话，可以尝试以下的优化方法，可以把下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (data[c] &gt;= 128)</span><br><span class="line">    sum += data[c];</span><br></pre></td></tr></table></figure>
+
+<p>替换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int t = (data[c] - 128) &gt;&gt; 31;</span><br><span class="line">sum += ~t &amp; data[c];</span><br></pre></td></tr></table></figure>
+
+<p>这样就使用位移操作避免了分支判断。</p>
+<p>以下是一些测试数据（Benchmarks: Core i7 920 @ 3.5 GHz）：<br>C++ - Visual Studio 2010 - x64 Release：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//  Branch - Random</span><br><span class="line">seconds = 11.777</span><br><span class="line">//  Branch - Sorted</span><br><span class="line">seconds = 2.352</span><br><span class="line">//  Branchless - Random</span><br><span class="line">seconds = 2.564</span><br><span class="line">//  Branchless - Sorted</span><br><span class="line">seconds = 2.587</span><br><span class="line">Java - Netbeans 7.1.1 JDK 7 - x64：</span><br><span class="line"></span><br><span class="line">//  Branch - Random</span><br><span class="line">seconds = 10.93293813</span><br><span class="line">//  Branch - Sorted</span><br><span class="line">seconds = 5.643797077</span><br><span class="line">//  Branchless - Random</span><br><span class="line">seconds = 3.113581453</span><br><span class="line">//  Branchless - Sorted</span><br><span class="line">seconds = 3.186068823</span><br></pre></td></tr></table></figure>
+
+<p>结论：</p>
+<p>使用分支预测，排序数据和随机数据运行时间差别特别大。<br>使用位移消除分支，排序数据和随机数据运行时间差别不大。<br>C++分支预测运行排序数据比第2种去分支优化方法稍微快一点。</p>
+<p>有一个第一个要考虑的原则是避免在循环里面写和数据相关的分支判断，就像示例中的代码一样的那种，要避免。</p>
+<p>完结。</p>
+<p>转载请注明来自：<a href="/2019/05/17/sort-fast/">原文链接</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/algorithm/sort-fast/" data-id="cjvtm3ao000062vc8bqt24l4c" class="article-share-link" data-share="baidu" data-title="处理有序数据比无序的数组要快">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/algorithm/sort-fast/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/">CPU</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/cookie/fast-cookie/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          stackOverFlow性能提升之Cookie
+        
+      </div>
+    </a>
+  
+  
+    <a href="/cpu/cpu-pipeline/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CPU Pipeline了解CPU的工作内容</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="algorithm/sort-fast/" data-title="处理有序数据比无序的数组要快" data-url="http://yoursite.com/algorithm/sort-fast/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TCP/">TCP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cookie/">cookie</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpu/">cpu</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/icon/">icon</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/oracle/">oracle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/performance/">performance</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tcpip/">tcpip</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP-SSH/">TCP/IP SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/">cookie</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/TCP-IP-SSH/" style="font-size: 10px;">TCP/IP SSH</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/TCP/controller/">OVS控制器</a>
+          </li>
+        
+          <li>
+            <a href="/uncategorized/about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/tcpip/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle/oracle-lock-table/">oracle处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/icon/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 hushengdong<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"reqianduan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>stackOverFlow性能提升之Cookie | 青出于蓝而胜于蓝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文翻译自a-few-speed-improvements，并不是原创。 作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。 在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。">
+<meta name="keywords" content="cookie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stackOverFlow性能提升之Cookie">
+<meta property="og:url" content="http://yoursite.com/cookie/fast-cookie/index.html">
+<meta property="og:site_name" content="青出于蓝而胜于蓝">
+<meta property="og:description" content="本文翻译自a-few-speed-improvements，并不是原创。 作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。 在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-18T02:32:47.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="stackOverFlow性能提升之Cookie">
+<meta name="twitter:description" content="本文翻译自a-few-speed-improvements，并不是原创。 作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。 在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head></html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">青出于蓝而胜于蓝</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value class="search-form-submit">
+          <input name="tn" type="hidden" value="bds">
+          <input name="cl" type="hidden" value="3">
+          <input name="ct" type="hidden" value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/cookie/fast-cookie/" class="article-date">
+  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/cookie/">cookie</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      stackOverFlow性能提升之Cookie
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文翻译自<a href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/,%22title%22" target="_blank" rel="noopener">a-few-speed-improvements</a>，并不是原创。</p>
+<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
+<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
+<a id="more"></a>
+
+<p>首先，我们使用ANTS Profiler做了一次快速检查并且在代码中找到了几个冗余或者没有必要的数据库查询，我们几乎每几个月都会对几个页面做这样的检查，开始跟踪页面的性能之后，我们刷新指定的页面50次，然后检查热点代码，发现几乎都是数据库查询阻塞并拖慢了性能，我们很少把热点代码写的如此之糟糕，但是确实出现在了我们的热点代码中，不管怎么说，黄金法则就是评估，然后优化，这就是我们尝试去做的。</p>
+<p>我们也花了很长时间，很多精力在优化服务端发送给浏览器的Cookie上面，（当然，浏览器很尽职尽责的把cookie加在每一个HTTP请求中返回给服务端了），你可能会特别惊讶Cookie对性能的影响有多么大，我们去掉了ASP.NET表单鉴权Cookie，并且把我们Cookie中的Key的长度减小到原来的一半，我也把登陆页面的很多确实不需要的Cookie给删除了。在我的测试中，现在的Cookie大约是360字节，以前大约是500多字节，随着时间的推移，这些旧的不需要的Cookie会自然慢慢减少，不过你（这里暗指作者自己）可能想通过手动的清理Cookie来提供最快最好的Stack Overflow的浏览体验。</p>
+<p>有一个不是最新的但是绝对值得注意的是，几个星期之前，我们把HTTP GZIP压缩的级别从默认的0提高到4，压缩速度有那么一点点慢了，但是整个页面的大小减少了10%，在CPU性能和文件大小之间权衡的设置请查看Scott Forsyth的详尽记录，最合适的设置是4。</p>
+<p>我们很早就是YSlow的用户了，最近也在用Google Page Speed，一些工具的选择也只有当你是Google或者雅虎量级的时候才会比较敏感，（‘gee的很少的选择，多样化的一个很好的问题。注：这里不知道怎么翻译，原文：a very rare and select club of the ‘gee,tht’s a nice problem to have’ variety），很多时候不管你的网站流量有多大，这些工具都十分重要。</p>
+<p>我们最近使用的YSlow Page Speed和Page Speed建议中最值得跟踪的就是去Cookie的中间件。</p>
+<p>当浏览器带着Cookie去请求一个静态图片的时候，服务器根据不使用这些Cookie，除了造成网络拥堵之外没有更好的作用了，你应该让你的组件在请求静态资源的时候是没有Cookie的，创建一个2级域名来提供这些服务。</p>
+<p>如果你的主站是<a href="http://www.example.org，你可以把静态资源放到static.example.org，但是，如果已经在1级域名里example.org中设置了Cookie，那么所有发往static.example.org的请求都会携带这些Cookie，在这种情况下，可以买一个全新的域名，把静态资源放在这里，然后保持没有Cookie，雅虎使用了yimg.com，YouTube使用的是ytimg.com，亚马逊使用的是images-amazon.com等等。" target="_blank" rel="noopener">www.example.org，你可以把静态资源放到static.example.org，但是，如果已经在1级域名里example.org中设置了Cookie，那么所有发往static.example.org的请求都会携带这些Cookie，在这种情况下，可以买一个全新的域名，把静态资源放在这里，然后保持没有Cookie，雅虎使用了yimg.com，YouTube使用的是ytimg.com，亚马逊使用的是images-amazon.com等等。</a></p>
+<p>另外一个使用单独主机来存放静态资源的好处是有些代理拒绝缓存携带Cookie的请求。这个前提下，如果你需要使用example.org或者<a href="http://www.example.com作为主页，考虑下Cookie碰撞，删除www使用example就没选择了，这么做就会把Cookie写到＊.example.org，（意思是所有的1级域名的2级或者3级域名都会携带这些Cookie），所以最好把Cookie写到2级域名下。（意思是不能写到1级域名下）" target="_blank" rel="noopener">www.example.com作为主页，考虑下Cookie碰撞，删除www使用example就没选择了，这么做就会把Cookie写到＊.example.org，（意思是所有的1级域名的2级或者3级域名都会携带这些Cookie），所以最好把Cookie写到2级域名下。（意思是不能写到1级域名下）</a></p>
+<p>为此我们一个月前注册了sstatic.net，我们荣幸的告诉大家所有的stackOverFlow的系列网站的静态资源都已经放到sstatic.net下了。，这个主机肯定是不携带Cookie的并且专门为提供静态资源做了优化，减小了请求头。（并且像以前一样，几乎不过期，所以几乎没有请求能穿透缓存服务器)。</p>
+<p>下面是一个新配置下的get请求/响应的的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">GET /so/js/master.js?v=4143 HTTP/1.1</span><br><span class="line">Host: sstatic.net</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2)</span><br><span class="line">            Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: en-us,en;q=0.5</span><br><span class="line">Accept-Encoding: gzip,deflate</span><br><span class="line">Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7</span><br><span class="line">Keep-Alive: 300</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Referer: http://stackoverflow.com/questions/1252349</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">sstatic.net的响应是：</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">200 OK</span><br><span class="line"></span><br><span class="line">Cache-Control: max-age=604800</span><br><span class="line">Content-Type: application/x-javascript</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Last-Modified: Sun, 09 Aug 2009 18:45:13 GMT</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">ETag: &quot;75e6f1872119ca1:0&quot;</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">Server: Microsoft-IIS/7.0</span><br><span class="line">Date: Sun, 09 Aug 2009 23:40:45 GMT</span><br><span class="line">Content-Length: 10417</span><br><span class="line">(... gzipped data ...)</span><br></pre></td></tr></table></figure>
+
+<p>看到了没，没有Cookie！（ 是的，我也想在响应中删除服务器头部和ETag头部，但是不容易做到。）</p>
+<p>使用其他的服务器来提供静态内容服务也是原始的负载均衡的实现方式，我们已经把成百上千的请求从我们私有的服务器上明确的分发给其他的已经专门做过优化的服务器上，浏览器在看到资源来自不同的主机之后也乐于并行处理下载，或者至少是来自不同的子域名。</p>
+<p>不管怎么说，我们相信性能是未来的趋势，并且我们对于Stack Overflow下的所有网站提供尽可能快的访问速度是很重视的，我们将会在未来的几个月里继续重新检查我们的性能并且每一次都会尽力提升一点。</p>
+<p>全文完。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/cookie/fast-cookie/" data-id="cjvtm3ao5000b2vc8ufdb3u1m" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/cookie/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie/">cookie</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/performance/web-need-know/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          开发一个WEB网站需要知道什么
+        
+      </div>
+    </a>
+  
+  
+    <a href="/algorithm/sort-fast/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">处理有序数据比无序的数组要快</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="cookie/fast-cookie/" data-title="stackOverFlow性能提升之Cookie" data-url="http://yoursite.com/cookie/fast-cookie/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TCP/">TCP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cookie/">cookie</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpu/">cpu</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/icon/">icon</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/oracle/">oracle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/performance/">performance</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tcpip/">tcpip</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP-SSH/">TCP/IP SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/">cookie</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/TCP-IP-SSH/" style="font-size: 10px;">TCP/IP SSH</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/TCP/controller/">OVS控制器</a>
+          </li>
+        
+          <li>
+            <a href="/uncategorized/about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/tcpip/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle/oracle-lock-table/">oracle处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/icon/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 hushengdong<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"reqianduan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
