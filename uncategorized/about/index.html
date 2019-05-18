@@ -4,19 +4,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>rel=shortcut icon是有害的 | 青出于蓝而胜于蓝</title>
+  <title>关于我 | 青出于蓝而胜于蓝</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
+  <meta name="description" content="程序员一枚，目前就职京东，无他。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rel=shortcut icon是有害的">
-<meta property="og:url" content="http://yoursite.com/icon/harmful-icon/index.html">
+<meta property="og:title" content="关于我">
+<meta property="og:url" content="http://yoursite.com/uncategorized/about/index.html">
 <meta property="og:site_name" content="青出于蓝而胜于蓝">
-<meta property="og:description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
+<meta property="og:description" content="程序员一枚，目前就职京东，无他。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-18T02:32:47.378Z">
+<meta property="og:updated_time" content="2019-05-18T02:32:47.377Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="rel=shortcut icon是有害的">
-<meta name="twitter:description" content="本文翻译自rel=”shortcut icon” considered harmful，并不是原创。 大多数的网站使用下面的HTML代码来指定favicon: 1&amp;lt;link rel=&amp;apos;shortcut icon&amp;apos; href=&amp;apos;/favicon.ico&amp;apos;&amp;gt;  看起来很好，是吗？猜猜看，并不是！ 今天，我学习了shortcut不是一个有效的链接符，确">
+<meta name="twitter:title" content="关于我">
+<meta name="twitter:description" content="程序员一枚，目前就职京东，无他。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -64,16 +64,12 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-about" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/icon/harmful-icon/" class="article-date">
-  <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">2019-05-17</time>
+    <a href="/uncategorized/about/" class="article-date">
+  <time datetime="2019-05-17T07:41:38.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/icon/">icon</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -82,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      rel=shortcut icon是有害的
+      关于我
     </h1>
   
 
@@ -90,36 +86,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文翻译自rel=”shortcut icon” considered harmful，并不是原创。</p>
-<p>大多数的网站使用下面的HTML代码来指定favicon:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&apos;shortcut icon&apos; href=&apos;/favicon.ico&apos;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>看起来很好，是吗？猜猜看，并不是！</p>
-<p>今天，我学习了shortcut不是一个有效的链接符，确实，这并不在HTML5的4.12.5关于link类型的说明中，实际上，这可能是IE特有的属性，在IE之外，应该使用rel=”icon”更好。</p>
-<a id="more"></a>
-
-<p>所以，是否我们必须使用shortcut属性来支持IE？并不是。<br>如果shortcut从rel属性中删除，IE8以下的版本会忽略这个属性，并且自动在网站根目录下寻找favicon.ico文件替代，实际上，大多数的浏览器都是这么干的，在IE中使用rel=”icon shortcut” (注意顺序)也不会管用，因为它根本不会把rel属性的值看作空格分割的列表。</p>
-<p>更新：在IE9中当你指定了的时候就需要shortcut属性值了，不用说，这个实现烂透了，更好的办法就是在你网站的根目录下面放一个favicon.ico文件。*
-就简单的把图标放到网站的根目录下，名字叫favicon.ico，这就行了<br>这么做，IE会自动发现它，不管你是否在页面中是否指定了link元素，如果你删除了link rel=”icon”声明，其它浏览器也会自动去找网站根目录下的favicon.ico文件，如果没有这个文件，会导致很多的404错误。现在大多数的浏览器都支持这个机制，欧朋、Safari、谷歌浏览器、火狐、IE5+，唯一不支持的浏览器是SeaMonkey（翻译成海猴子吗？）</p>
-<p>(当你不指定favicon.ico的时候海猴子默认不会自动查找，火狐浏览器不太一样，在about:config中有一个browser.chrome.favicons的属性，默认是true，如果改为false的话，火狐就不会自动查找favicon.ico了，火狐默认是true。PS：大多数程序员可能都不知道，况且普通的用户了。)</p>
-<p>我在这里就是要告诉你，你可以把link声明从html中删除了，唯一的不同就是一旦整个HTML文档加载完毕就会马上展现图标，相比较于自己直接指定link属性，图标可以更快加载，在解析到link rel=”icon”的时候就会展现出来，我认为这个提升并不大，相反延迟加载图标从而让其它元素更早加载会更好。</p>
-<p>如果在海猴子中你想尽快加载图标的话，用下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>更新： HTML现在指定了关于favicon.ico：<br>在HTTP或者HTTPS中，如果没有指定使用icon关键字指定link属性，代理用户可以尝试去绝对路径查找/favicon.ico来替代，如果用户指定了图标，那么就使用指定的文件。</p>
-<p>更新： 由于历史原因，HTML规范指定不允许在icon关键字后面紧跟一个U+0020空格符号，当然了，最后是不在任何的HTML使用它。</p>
-<p>更新：IE11会支持GIF或者PNG图标，不仅仅是.ico结尾的文件，当然了，/favicon.ico还是默认的图标格式。</p>
-<p>感谢Anne和Sander在the#whatwg IRC channel上花费时间来向我解释它（指上面所说的这个机制）。</p>
+        <p>程序员一枚，目前就职京东，无他。</p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/icon/harmful-icon/" data-id="cjvtm3ao100072vc8y2wixlci" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
+        <a data-url="http://yoursite.com/uncategorized/about/" data-id="cjvtm3ann00002vc82w34tj4e" class="article-share-link" data-share="baidu" data-title="关于我">Share</a>
       
 
       
-        <a href="http://yoursite.com/icon/harmful-icon/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/uncategorized/about/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -129,19 +106,19 @@
     
 <nav id="article-nav">
   
-    <a href="/oracle/oracle-lock-table/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/TCP/controller/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          oracle处理锁表
+          OVS控制器
         
       </div>
     </a>
   
   
-    <a href="/performance/web-need-know/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/tcpip/rfc-815/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">开发一个WEB网站需要知道什么</div>
+      <div class="article-nav-title">RFC815-IP分片重组</div>
     </a>
   
 </nav>
@@ -151,7 +128,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="icon/harmful-icon/" data-title="rel=shortcut icon是有害的" data-url="http://yoursite.com/icon/harmful-icon/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="uncategorized/about/" data-title="关于我" data-url="http://yoursite.com/uncategorized/about/"></div>
   </section>
 </section>
       

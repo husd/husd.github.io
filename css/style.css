@@ -190,9 +190,6 @@ body {
     margin: 0 0.833333333333333%;
   }
 }
-#main {
-  float: right;
-}
 .article-date,
 .article-category-link,
 .archive-year,
@@ -1239,7 +1236,7 @@ a.article-title:hover {
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #d6dbdf;
+  background: #272822;
   margin: 0 -20px;
   padding: 15px 20px;
   border-style: solid;
@@ -1315,7 +1312,7 @@ a.article-title:hover {
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
-  background: #d6dbdf;
+  background: #272822;
   padding: 15px 20px 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -1341,7 +1338,7 @@ a.article-title:hover {
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #d6dbdf;
+  background: #272822;
   color: #75715e;
   font: 0.85em "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-shadow: 0 0;

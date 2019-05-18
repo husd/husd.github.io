@@ -37,9 +37,9 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/">首页</a>
+          <a class="main-nav-link" href="/">Home</a>
         
-          <a class="main-nav-link" href="/archives">文章</a>
+          <a class="main-nav-link" href="/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
@@ -61,6 +61,53 @@
 </header>
     <div class="outer">
       <section id="main">
+  
+    <article id="post-oracle-lock-table" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/oracle/oracle-lock-table/" class="article-date">
+  <time datetime="2019-05-17T07:35:05.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/oracle/">oracle</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/oracle/oracle-lock-table/">oracle处理锁表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>(1)锁表查询的代码有以下的形式：<br>select count() from v$locked_object;select from v$locked_object;<br>(2)查看哪个表被锁<br>select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_id = a.object_id;<br>(3)查看是哪个session引起的<br>select b.username,b.sid,b.serial#,logon_time from v$locked_object a,v$session b where a.session_id = b.sid order by b.logon_time;<br>(4)杀掉对应进程执行命令：<br>alter system kill session’1025,41’;其中1025为sid,41为serial#.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/oracle/oracle-lock-table/" data-id="cjvtm3ao7000d2vc8skx4uqeg" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/oracle/oracle-lock-table/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -103,7 +150,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/icon/harmful-icon/" data-id="cjvrugr5b0005n0toiqhmwgcy" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
+        <a data-url="http://yoursite.com/icon/harmful-icon/" data-id="cjvtm3ao100072vc8y2wixlci" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
       
 
       
@@ -154,7 +201,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/performance/web-need-know/" data-id="cjvrugr5t000nn0toeg5yvf6s" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
+        <a data-url="http://yoursite.com/performance/web-need-know/" data-id="cjvtm3ao9000i2vc8sh8u97qc" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
       
 
       
@@ -169,65 +216,10 @@
 
 
   
-    <article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/cookie/fast-cookie/" class="article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/cookie/">cookie</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/cookie/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自<a href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/,%22title%22" target="_blank" rel="noopener">a-few-speed-improvements</a>，并不是原创。</p>
-<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
-<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
-        
-          <p class="article-more-link">
-            <a href="/cookie/fast-cookie/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/cookie/fast-cookie/" data-id="cjvrugr560001n0to7up9f1h6" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/cookie/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie/">cookie</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 </section>
       
@@ -237,7 +229,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cookie/">cookie</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpu/">cpu</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/icon/">icon</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/oracle/">oracle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/performance/">performance</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tcpip/">tcpip</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TCP/">TCP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cookie/">cookie</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpu/">cpu</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/icon/">icon</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/oracle/">oracle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/performance/">performance</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tcpip/">tcpip</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -246,7 +238,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/">cookie</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP-SSH/">TCP/IP SSH</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/">cookie</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -255,7 +247,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a>
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/TCP-IP-SSH/" style="font-size: 10px;">TCP/IP SSH</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a>
     </div>
   </div>
 
@@ -264,7 +256,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
     </div>
   </div>
 
@@ -274,6 +266,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/TCP/controller/">OVS控制器</a>
+          </li>
         
           <li>
             <a href="/uncategorized/about/">关于我</a>
@@ -289,10 +285,6 @@
         
           <li>
             <a href="/icon/harmful-icon/">rel=shortcut icon是有害的</a>
-          </li>
-        
-          <li>
-            <a href="/performance/web-need-know/">开发一个WEB网站需要知道什么</a>
           </li>
         
       </ul>
@@ -327,24 +319,22 @@
       
     </div>
     <footer id="footer">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      Copyright &copy; 2012 - 2019 <a href="/" target="_blank">hushengdong</a>.
-      &nbsp;
-      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
-      
+      &copy; 2019 hushengdong<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
     </div>
-  </div></footer>
+  </div>
+</footer>
   </div>
   <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">首页</a>
+    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">文章</a>
+    <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
   <!-- totop start -->
