@@ -6,19 +6,14 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   
-  <title>mybatis传参 | 打好技术基础</title>
+  <title>Category: 理论知识 | 打好技术基础</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="主要是分析下mybatis传参数的一些细节问题： 先说结论  dao层有1个参数，不管xml中写啥、写几个参数都生效。 dao层有多个参数，必须指定@Param(“”)，否则报错。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="mybatis传参">
-<meta property="og:url" content="http://yoursite.com/mybatis-param/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="打好技术基础">
+<meta property="og:url" content="http://yoursite.com/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="打好技术基础">
-<meta property="og:description" content="主要是分析下mybatis传参数的一些细节问题： 先说结论  dao层有1个参数，不管xml中写啥、写几个参数都生效。 dao层有多个参数，必须指定@Param(“”)，否则报错。">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-12-01T12:27:58.000Z">
-<meta property="article:modified_time" content="2020-12-01T12:43:33.315Z">
 <meta property="article:author" content="hushengdong">
-<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
   
   
@@ -72,93 +67,40 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-mybatis-param" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/mybatis-param/" class="article-date">
-  <time datetime="2020-12-01T12:27:58.000Z" itemprop="datePublished">2020-12-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      mybatis传参
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/web-need-know/" class="archive-article-date">
+  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">May 17</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/web-need-know/">开发一个WEB网站需要知道什么</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>主要是分析下mybatis传参数的一些细节问题：</p>
-<p>先说结论</p>
-<ul>
-<li>dao层有1个参数，不管xml中写啥、写几个参数都生效。</li>
-<li>dao层有多个参数，必须指定@Param(“”)，否则报错。</li>
-</ul>
-<a id="more"></a>
-
-<p>假设我们有一个表，是table表，表里有字段:name、name1、name2 等等</p>
-<h2 id="dao不使用-Param-xml只有1个参数-OK"><a href="#dao不使用-Param-xml只有1个参数-OK" class="headerlink" title="dao不使用@Param() xml只有1个参数 OK"></a>dao不使用@Param() xml只有1个参数 OK</h2><hr>
-<p>dao层:<br>Integer count(String name);<br>xml:<br>select 1 from table where name = #{name}<br>测试：count(“A0001”)<br>最终执行的SQL：<br>select 1 from table where name = ‘A0001’</p>
-<hr>
-<h2 id="dao不使用-Param-xml有多个参数-OK"><a href="#dao不使用-Param-xml有多个参数-OK" class="headerlink" title="dao不使用@Param() xml有多个参数 OK"></a>dao不使用@Param() xml有多个参数 OK</h2><p>dao层:<br>Integer count(String name);<br>xml:<br>select 1 from table where name = #{name}<br>测试：count(“A0001”)<br>最终执行的SQL： select 1 from table where name = ‘A0001’ and name2 = ‘A0001’</p>
-<hr>
-<h2 id="dao不使用-Param-且有多个参数-xml有多个参数-报错"><a href="#dao不使用-Param-且有多个参数-xml有多个参数-报错" class="headerlink" title="dao不使用@Param(),且有多个参数 xml有多个参数 报错"></a>dao不使用@Param(),且有多个参数 xml有多个参数 报错</h2><p>dao层:<br>Integer count(String name,String name2);<br>xml:<br>select 1 from table where name = #{name} and name2 = #{name2}<br>测试：count(“A0001”,”测试名称”)<br>最终执行的SQL：Parameter ‘A0001’ not found. Available parameters are [arg1, arg0, param1, param2]</p>
-<hr>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/mybatis-param/" data-id="cki5zwl3a000bz1y15fq0770y" class="article-share-link" data-share="baidu" data-title="mybatis传参">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/mybatis-param/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/gc-time/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          gc-time
-        
-      </div>
-    </a>
-  
-  
-    <a href="/controller/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">OVS控制器</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="mybatis-param/" data-title="mybatis传参" data-url="http://yoursite.com/mybatis-param/"></div>
-  </section>
 </section>
       
       <aside id="sidebar">

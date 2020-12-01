@@ -69,6 +69,68 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-gc-time" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/gc-time/" class="article-date">
+  <time datetime="2020-12-01T12:49:58.000Z" itemprop="datePublished">2020-12-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/gc-time/">gc-time</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章想记录下Java的GC的一些细节，例如什么时候JVM会垃圾回收？<br>哪些对象将会被回收？还会讨论下哪些对象会进入到老年代。</p>
+<p>注意： 你需要先知道 Eden/Old/Minor gc/Full gc/S0 S1这些都代表什么</p>
+<ul>
+<li>Eden 年轻代中的一部分，年轻代 * 80%</li>
+<li>S0   年轻代中的一部分，年轻代 * 10%</li>
+<li>S1   年轻代中的一部分，年轻代 * 10%</li>
+<li>Old  年老代</li>
+<li>Minor gc 针对年轻代的垃圾回收，快，程序不会暂停</li>
+<li>Full gc 针对年老代的垃圾回收，慢，程序会暂停，俗称 Stop The World</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/gc-time/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/gc-time/" data-id="cki5zwl360006z1y1690vd1hh" class="article-share-link" data-share="baidu" data-title="gc-time">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/gc-time/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mybatis-param" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/mybatis-param/" class="article-date">
@@ -110,7 +172,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/mybatis-param/" data-id="cki5z3y4z0008qmy1bbmi38dd" class="article-share-link" data-share="baidu" data-title="mybatis传参">Share</a>
+        <a data-url="http://yoursite.com/mybatis-param/" data-id="cki5zwl3a000bz1y15fq0770y" class="article-share-link" data-share="baidu" data-title="mybatis传参">Share</a>
       
 
       
@@ -166,7 +228,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/controller/" data-id="cki5z3y4u0003qmy17d8rev6p" class="article-share-link" data-share="baidu" data-title="OVS控制器">Share</a>
+        <a data-url="http://yoursite.com/controller/" data-id="cki5zwl2z0001z1y14c027ur2" class="article-share-link" data-share="baidu" data-title="OVS控制器">Share</a>
       
 
       
@@ -176,58 +238,6 @@
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-about" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/about/" class="article-date">
-  <time datetime="2019-05-17T07:41:38.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/about/">关于我</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>程序员一枚，学习好技术无可厚非，希望可以把技术的基础打的很好，虽然已经工作了<br>有接近9年了，但是感觉在计算机基础上面，仍然有许多要学习的地方。</p>
-<h2 id="目前精通哪些内容呢？"><a href="#目前精通哪些内容呢？" class="headerlink" title="目前精通哪些内容呢？"></a>目前精通哪些内容呢？</h2>
-        
-          <p class="article-more-link">
-            <a href="/about/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/about/" data-id="cki5z3y4l0000qmy15s7dg71f" class="article-share-link" data-share="baidu" data-title="关于我">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/about/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
     </footer>
   </div>
   
@@ -248,7 +258,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -258,7 +268,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -268,7 +278,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -278,7 +288,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
     </div>
   </div>
 
@@ -289,6 +299,10 @@
     <h3 class="widget-title">最近的文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/gc-time/">gc-time</a>
+          </li>
         
           <li>
             <a href="/mybatis-param/">mybatis传参</a>
@@ -304,10 +318,6 @@
         
           <li>
             <a href="/rfc-815/">RFC815-IP分片重组</a>
-          </li>
-        
-          <li>
-            <a href="/oracle-lock-table/">oracle处理锁表</a>
           </li>
         
       </ul>
