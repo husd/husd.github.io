@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  
+  <title>RFC815-IP分片重组 | 打好技术基础</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。 David D. ClarkMIT计算机科学实验室计算机系统通讯组1982年7月">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RFC815-IP分片重组">
+<meta property="og:url" content="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/index.html">
+<meta property="og:site_name" content="打好技术基础">
+<meta property="og:description" content="最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。 David D. ClarkMIT计算机科学实验室计算机系统通讯组1982年7月">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-05-17T07:37:32.000Z">
+<meta property="article:modified_time" content="2020-12-01T11:55:27.952Z">
+<meta property="article:author" content="hushengdong">
+<meta property="article:tag" content="TCP&#x2F;IP">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">打好技术基础</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">文章</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-rfc-815" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/" class="article-date">
+  <time datetime="2019-05-17T07:37:32.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RFC815-IP分片重组
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。</p>
+<p>David D. Clark<br>MIT计算机科学实验室<br>计算机系统通讯组<br>1982年7月</p>
+<a id="more"></a>
+
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h2><p>IP协议的一个特性是分片和重组，在某些特定的情况下，单个数据包在到达目的地之前会被分割为</p>
+<p>多个数据包分片，接收主机端的IP层必须在所有分片都到达之后才能重新组装，IP分片的文档对分片和重组给了很详细的描述，并提供了几个范例。文档也提供了一个可能的重组算法，本文档描述了一个可能在某些机器上更合适的替代算法实现。</p>
+<p>对重组过程的简单检查可能会更复杂，首先，必须要跟踪所有的分片，这会有一个小的跟踪工作，其当一个新的片到达的时候，能够用不同的方式将新片和已经跟踪的片组合起来，可能是精确的完全填充在2个片之间的空隙，也有可能会覆盖现有的片数据，甚至和现有的片完全重叠，还有可能填充在2个分片之间并且和2边的片都不接触，这样看来，不同的IP选项导致重组过程需要一个很复杂的测试算法。<br>事实上，重组的过程是相当简单的。本文档描述了一种最大限度减少校验的方式，这需要一个和没有分片之前的IP包大小一样的缓冲区，可以重组以任何顺序和方式到来的数据包，并且适用于大多数的操作系统。</p>
+<p>读者应该查看IP相关的文档以确定熟悉了重组的一般概念，包括IP首部的一些为了分片和重组设置的特殊域。</p>
+<h2 id="2-算法的简单描述"><a href="#2-算法的简单描述" class="headerlink" title="2 算法的简单描述"></a>2 算法的简单描述</h2><p>为了定义重组算法，首先要先定义一些术语，重组数据包含一些sequences的到达的分片和没有到的，我们把没有到的分片空出来的区域叫做洞，每一个洞有2个数字特征值，洞的第一个数字序列和最后一个数字序列，即洞的头和尾，这一对数字我们叫做对洞的描述，对于一个特定的包我们假设所有的洞都有这样的描述并且被统一维护在一个链表中。</p>
+<p>通常的描述如下：当一个新的分片到达的时候，它将会填充1个或多个洞，我们将会检查每一个链表中的每一个元素来确定是否有洞被新的分片填充了，如果恰好被填充了，就从链表中把洞的描述删除，最后，会一个分片会把所有的洞都填充使所有的分片都相互连接起来，在这一刻，数据包重组成功，下一步就是把数据包传送给高一级别的协议来处理。</p>
+<p>算法将会被分成2部分来描述，在第1部分，为了确定是否有洞被新到达的分片所填充，我们将会展示当一个新的分片到达的时候处理的步骤；在第2部分的描述中，我们将会展示一个极其简单的你会觉得不可思议的管理这个洞的链表的算法。（这是作者在炫耀吗？最简单的算法实现了最强大的功能。）</p>
+<h2 id="3-分片处理算法"><a href="#3-分片处理算法" class="headerlink" title="3 分片处理算法"></a>3 分片处理算法</h2><p>新到达的分片可以填充已经存在的洞，最简单的情况，正好填充了某一个洞，或者在洞的头或者尾留下了一个更小的洞，或者2边都不靠，把原来的洞一分为二为更小的洞，因为这种种的可能，似乎当一个新的分片到达的时候，必须做很多的测试，这将会是一个负责的校验算法，实际上，算法可以做到新片最多4次比较就达到目的。</p>
+<p>我们从第1个分片到达的时候开始，最开始我们复制了1个和原来IP数据包一样大小的一个缓冲区，维护洞的链表里也只有1项，这个洞表示数据包全部都丢失了，此时，洞的开始是0，结尾是无限大（这个无限大可以是一个很大的整形数字，比576要大，取决于算法的实现者怎么选择了），剩下的8个步骤就是把新来的分片填充到缓冲区中，新来的分片也被2个数字描述，分片的头数字和结尾数字：</p>
+<ol>
+<li>从链表中选择下一个洞，如果没有，转第8步。</li>
+<li>如果新到达分片的头数字比当前洞的尾要大，转第1步。</li>
+<li>如果新到达分片的尾数字比当前洞的头要小，转第1步。<br>（如果第2步或者第3步的判断都命中，表示新到达的分片不覆盖任何的洞，我们不需要关注这个洞，直接回到开始，重新选择下一个洞）</li>
+<li>把洞从链表中删除。<br>（因为不管是第2步命中或者第3步命中了，都表示新到达的分片以某种方式覆盖到当前洞了，这样的话，当前洞的描述就失效了，我们将会删除它，在接下来的第5步和第6步中，我们将会判断是否需要创建新的洞）</li>
+<li>如果新的分片的头比洞的头要大，创建1个新的洞，新的洞的头是旧的洞的头，新的洞的尾是新片的 头减1。<br>（如果第5步命中的话，表示当前洞的前半部分没有被填充，我们创建了一个新的较小的洞来描述这缺失的前半部分。）</li>
+<li>如果新的分片的尾比洞的尾要小的话，同时分片的标志位MR是1（表示还有更多片），会创建1个新 的洞，新洞的头是新到达分片的尾加1，新洞的尾是旧洞的尾。<br>（这1步是第5步的镜像操作，很相似，最开始，我们不知道重组的数据包有多大，于是我们创建了一个从头是0，尾是无限大的洞，最终，我们收到了最后一个分片，在这一刻，这个洞的尾到无限大可以被丢弃了，包含最后一个分片的包在MR标志位，这1步的检测会让我们不用创建一个从数据包尾到无限大的无用的洞）</li>
+<li>转到第1步。</li>
+<li>如果维护洞的链表空了，重组完成，把它转发给更高1个级别的协议，不然的话，直接返回。<h2 id="4-管理洞的链表的算法"><a href="#4-管理洞的链表的算法" class="headerlink" title="4 管理洞的链表的算法"></a>4 管理洞的链表的算法</h2>在这8步中最复杂的部分不是执行这些测试，而是新增或者删除链表中维护的洞，因为没有限制在重组过程中创建的洞的数量，可能有人会想出来1个比我们将要介绍的算法的复杂度更高的存储管理算法，我们将会介绍1个非常简单的算法，就是仅把每一个洞的描述放到洞本身的第1个字节（这块翻译的不对，原文是:however Just put each hole descriptor in the firstocteets of the hole itself.）,根据重组算法的定义，最小的洞是8字节，为了存储洞的头和尾，每一个洞需要2个字节，另外我们需要2个额外的字节来串联洞的链表以实现该特性。（翻译的不正确，原文是:An additional two octets will be required to thread together the entries on the hole descriptor list ,this leaves at least two more octets to deal with implementation idiosyncrasies）</li>
+</ol>
+<p>在这个存储管理策略中仅仅有1个明显的缺陷，那就是在把数据从分片复制到重新组装的缓冲区之前，就要把上面提到的8个步骤执行一次，如果想先复制分片数据到缓冲区，会破坏1个或者多个洞，一旦按照上述算法开始运行，任何将要被删除或者分解的洞已经是过时无效的洞了。</p>
+<h2 id="5-loose-ends-释放结尾"><a href="#5-loose-ends-释放结尾" class="headerlink" title="5 loose ends 释放结尾"></a>5 loose ends 释放结尾</h2><p>通过重组缓冲区来散射洞到一个链表上，才能找到洞的信息，反过来需要一个指向链表的头的指针，在大多数情况下，指针可以存储在重组缓冲区实现方案专门开辟的描述块上，如果重组缓冲区没有设计这样的块，一个看起来不友好但是有效的诀窍是存在IP数据报的头部一些已经不再需要的段上，很明显比如校验和字段。</p>
+<p>当最后一个分片到达的时候，IP数据报的长度字段需要被计算并填充到长度字段上。</p>
+<h2 id="6-选项"><a href="#6-选项" class="headerlink" title="6 选项"></a>6 选项</h2><p>前面的算法做了一个理想的假设，它假设IP数据报没有选项需要被重组，难点在于一直要等接收到IP数据报的第一个分片才能知道IP头有多大，那是因为一些选项被复制到每一个分片，但是有一些像纪录路由信息的字段就只在第一片（第一个分片是指包含了原始0字节的分片）。</p>
+<p>不知道IP头的长度，就不知道把分片填充到缓冲区的什么位置，如果第一个到达的分片正好是第一片，那不存在问题，否则，（对于上面说的问题），有2种解决方法，第一种是为重组缓冲区预留足够大的空间，实际上不需要特别大，64字节就足够了，第二种可以先假设（原文是用的gamble）第一片不包含选项，如果第一片到了发现有选项，再把缓冲区里的数据移动合适的距离来存放选项信息，唯一一个复制数据的危险是会破坏洞的链表，如何untrash（恢复）指向洞的指针很容易明白。</p>
+<p>IP数据报的记录路由选项有一个特性，就是每一个分片到达目的地的路径可能会不一样，不同的分片可能纪录的路由器跳转路径也不一样，一般来说，目的地址通常不太关心怎么到达的，程序关心第一片分片中的路由器跳转路径然后忽略其它分片的。</p>
+<h2 id="7-完整算法"><a href="#7-完整算法" class="headerlink" title="7 完整算法"></a>7 完整算法</h2><p>有2个附加的内容，第1个：当1个分片到达的时候，有必要找到这个分片在缓冲区中的位置，这就需要一个机制来遍历当前系统中的所有缓冲区，怎么区分的呢？用4个字段来判断当前分片属于哪个缓冲区：外部和本地的IP地址、进程ID、IP报的标识符字段（16位）</p>
+<p>第2个：关注TTL生存期，需要发现是否有分片因为TTL被减到1导致分片失效，这样系统可以把这个无用的IP报删除，可以创建一个后台程序，每秒钟把TTL减1（这对吗？）或者可以在第一片分片到达的时候纪录下时间，然后用一些定时器或者是系统方案，to repa the datagram when its time has come.</p>
+<p>包含所有部分的完整算法曾经在BCPL做了一个测试，完整的算法使用了1.5页的链表（指的是纸带吗？），生成了大约400个机器指令，算法部分实际上只包含20行左右的洞管理代码，本文档描述的算法实际上是作者原始版本的简化版本，感谢她在MIT的高瞻远瞩的观察测试。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/" data-id="cki5xmvnz000bnky10csk6ggx" class="article-share-link" data-share="baidu" data-title="RFC815-IP分片重组">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/%E5%85%B3%E4%BA%8E/about/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于我
+        
+      </div>
+    </a>
+  
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle-lock-table/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">oracle处理锁表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="网络编程/rfc-815/" data-title="RFC815-IP分片重组" data-url="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/">OVS控制器</a>
+          </li>
+        
+          <li>
+            <a href="/%E5%85%B3%E4%BA%8E/about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle-lock-table/">oracle处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 hushengdong<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?a8fb7488394296eeac5c581862b1ff49";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"reqianduan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+
+</script>
+
+<!-- 百度分享 end -->
+
+// highlight
+hljs.initHighlightingOnLoad();
+
+$('pre code').each(function(i, block) {
+  //hljs.highlightBlock(block);
+  var lines = $(this).text().split('\n').length - 1;
+  var $numbering = $('<ul/>').addClass('pre-numbering');
+  $(this)
+    .addClass('has-numbering')
+    .parent()
+    .append($numbering);
+  for(i=1;i<=lines;i++){
+    $numbering.append($('<li/>').text(i));
+  }
+});
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+
