@@ -6,22 +6,20 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   
-  <title>OVS控制器 | 打好技术基础</title>
+  <title>cpu恒定时间 | 打好技术基础</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这个是我的标题，OVS控制器内容 这是第一段内容 这是第二段内容">
+  <meta name="description" content="Constant Amortized time恒定分摊时间 在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来 what’s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OVS控制器">
-<meta property="og:url" content="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/index.html">
+<meta property="og:title" content="cpu恒定时间">
+<meta property="og:url" content="http://yoursite.com/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/index.html">
 <meta property="og:site_name" content="打好技术基础">
-<meta property="og:description" content="这个是我的标题，OVS控制器内容 这是第一段内容 这是第二段内容">
+<meta property="og:description" content="Constant Amortized time恒定分摊时间 在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来 what’s">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/img/486pipeline.png">
-<meta property="article:published_time" content="2019-05-18T14:24:15.000Z">
-<meta property="article:modified_time" content="2020-12-01T11:55:27.952Z">
+<meta property="article:published_time" content="2019-05-17T02:39:30.000Z">
+<meta property="article:modified_time" content="2020-12-01T11:55:27.949Z">
 <meta property="article:author" content="hushengdong">
-<meta property="article:tag" content="TCP&#x2F;IP">
+<meta property="article:tag" content="CPU">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/img/486pipeline.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -74,14 +72,14 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-controller" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-cpu恒定时间" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/" class="article-date">
-  <time datetime="2019-05-18T14:24:15.000Z" itemprop="datePublished">2019-05-18</time>
+    <a href="/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/" class="article-date">
+  <time datetime="2019-05-17T02:39:30.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
   </div>
 
   </div>
@@ -92,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      OVS控制器
+      cpu恒定时间
     </h1>
   
 
@@ -100,34 +98,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="这个是我的标题，OVS控制器内容"><a href="#这个是我的标题，OVS控制器内容" class="headerlink" title="这个是我的标题，OVS控制器内容"></a>这个是我的标题，OVS控制器内容</h2><ul>
-<li>这是第一段内容</li>
-<li>这是第二段内容</li>
-</ul>
+        <h1 id="Constant-Amortized-time恒定分摊时间"><a href="#Constant-Amortized-time恒定分摊时间" class="headerlink" title="Constant Amortized time恒定分摊时间"></a>Constant Amortized time恒定分摊时间</h1><hr>
+<p>在上一节讨论CPU的流水线工作机制的时候，提到了一个算法复杂度的衡量原则，即Amortized Time，这次我们要讨论的是Constant Amortized Time，先在StackOverflow上面搜索了一下，有相关的内容，但是赞成人数不是特别多，我先翻译一下简单版本的解释，如果大家想看更详细的介绍，请移步到这里来 <a target="_blank" rel="noopener" href="https://mortoray.com/2014/08/11/what-is-amortized-time/">what’s amortized time</a>。</p>
+<p>当我们讨论算法复杂度的时候，恒定分摊时间是什么意思呢？</p>
 <a id="more"></a>
 
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">&quot;this is a test\n&quot;</span>)<span class="comment">;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>举个例子简单解释一下：</p>
+<p>如果一个操作执行100万次，那么就不会关心其中最快的一次或者最慢的一次耗费了多长时间，而是执行100万次操作总共耗费了多长时间。</p>
+<p>所以执行一次很慢确实不太重要，只是偶尔一次很慢在大批量执行的情况下会被摊销，所以恒定分摊时间就意味着是执行一次操作的平均时间，如果执行的次数够多，分摊时间不一定就是常量，也有可能是线性或者对数分摊时间。</p>
+<p>我们来看一个动态数组新增元素的例子（java中可以参考ArrayList)，通常新增一个元素所耗费的时间就是常量O（1），但是每一次当数组被填充满了，需要扩容到原来的2倍，然后会生成一个新数组，并且把老数组里面的元素复制到新数据当中去，释放老数据内存空间，假设分配新数组空间和释放老数组内存空间耗费时间都是常量，新增一个元素的时间会放大到O（n)，n就是当前数组的大小。</p>
+<p>所以每一次数组的扩容，都会花费最后一次扩容2倍的时间，在扩容之前也等待了2次同样的时间，因此每次扩容的时间可以分摊到每次新增元素的时间中，这意味着如果数据够大，从长远来看，将m个元素添加到动态数组中花费的时间是O(m)，因此单个新增耗费的时间就是O（1）。</p>
+<p>翻译完。</p>
+<p>转载请标示: <a target="_blank" rel="noopener" href="http://hushengdomg.com/2019/05/17/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/">恒定分摊时间</a></p>
 
-
-<p>请点击<a target="_blank" rel="noopener" href="https://www.baidu.com/">这个链接</a>跳转到百度.</p>
-<p>这是一张图片<img src="/img/486pipeline.png" alt="486pipeline"></p>
-<blockquote>
-<p>这是一个类似备注的东西</p>
-</blockquote>
-<h2 id="这个是我的标题，OVS控制器内容-1"><a href="#这个是我的标题，OVS控制器内容-1" class="headerlink" title="这个是我的标题，OVS控制器内容"></a>这个是我的标题，OVS控制器内容</h2>
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/" data-id="cki5xmvnn0001nky1gl0lcogt" class="article-share-link" data-share="baidu" data-title="OVS控制器">Share</a>
+        <a data-url="http://yoursite.com/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/" data-id="cki5xwy8a00040ey1a33agoze" class="article-share-link" data-share="baidu" data-title="cpu恒定时间">Share</a>
       
 
       
-        <a href="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li></ul>
 
     </footer>
   </div>
@@ -135,11 +131,15 @@
     
 <nav id="article-nav">
   
-  
-    <a href="/%E5%85%B3%E4%BA%8E/about/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">关于我</div>
+    <a href="/cpu-pipeline/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CPU Pipeline了解CPU的工作内容
+        
+      </div>
     </a>
+  
   
 </nav>
 
@@ -148,7 +148,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="网络编程/controller/" data-title="OVS控制器" data-url="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="cpu恒定时间/" data-title="cpu恒定时间" data-url="http://yoursite.com/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/"></div>
   </section>
 </section>
       
@@ -201,23 +201,23 @@
       <ul>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/">OVS控制器</a>
+            <a href="/controller/">OVS控制器</a>
           </li>
         
           <li>
-            <a href="/%E5%85%B3%E4%BA%8E/about/">关于我</a>
+            <a href="/about/">关于我</a>
           </li>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/">RFC815-IP分片重组</a>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
           </li>
         
           <li>
-            <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle-lock-table/">oracle处理锁表</a>
+            <a href="/oracle-lock-table/">oracle处理锁表</a>
           </li>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/harmful-icon/">rel=shortcut icon是有害的</a>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
           </li>
         
       </ul>

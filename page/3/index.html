@@ -71,7 +71,7 @@
   
     <article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/fast-cookie/" class="article-date">
+    <a href="/fast-cookie/" class="article-date">
   <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/fast-cookie/">stackOverFlow性能提升之Cookie</a>
+      <a class="article-title" href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
     </h1>
   
 
@@ -100,18 +100,18 @@
 <p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
         
           <p class="article-more-link">
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/fast-cookie/#more">Read More</a>
+            <a href="/fast-cookie/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/fast-cookie/" data-id="cki5xmvnu0005nky1a2bdhvw0" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
+        <a data-url="http://yoursite.com/fast-cookie/" data-id="cki5xwy8b00050ey12gm36tqi" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
       
 
       
-        <a href="http://yoursite.com/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -126,7 +126,7 @@
   
     <article id="post-sort-fast" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/sort-fast/" class="article-date">
+    <a href="/sort-fast/" class="article-date">
   <time datetime="2019-05-17T06:11:39.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
@@ -142,7 +142,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/sort-fast/">处理有序数据比无序的数组要快</a>
+      <a class="article-title" href="/sort-fast/">处理有序数据比无序的数组要快</a>
     </h1>
   
 
@@ -158,18 +158,18 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Generate data</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">unsigned</span> arraySize = <span class="number">32768</span>;</span><br><span class="line">    <span class="keyword">int</span> data[arraySize];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">        data[c] = <span class="built_in">std</span>::rand() % <span class="number">256</span>;</span><br><span class="line">    <span class="comment">// !!! With this, the next loop runs faster</span></span><br><span class="line">    <span class="built_in">std</span>::sort(data, data + arraySize);</span><br><span class="line">    <span class="comment">// Test</span></span><br><span class="line">    <span class="keyword">clock_t</span> start = clock();</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Primary loop</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (data[c] &gt;= <span class="number">128</span>)</span><br><span class="line">                sum += data[c];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> elapsedTime = <span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(clock() - start) / CLOCKS_PER_SEC;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; elapsedTime &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;sum = &quot;</span> &lt;&lt; sum &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
           <p class="article-more-link">
-            <a href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/sort-fast/#more">Read More</a>
+            <a href="/sort-fast/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/sort-fast/" data-id="cki5xmvo0000enky148vhenwy" class="article-share-link" data-share="baidu" data-title="处理有序数据比无序的数组要快">Share</a>
+        <a data-url="http://yoursite.com/sort-fast/" data-id="cki5xwy8i000f0ey115debfai" class="article-share-link" data-share="baidu" data-title="处理有序数据比无序的数组要快">Share</a>
       
 
       
-        <a href="http://yoursite.com/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/sort-fast/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/sort-fast/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -184,7 +184,7 @@
   
     <article id="post-cpu-pipeline" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/cpu-pipeline/" class="article-date">
+    <a href="/cpu-pipeline/" class="article-date">
   <time datetime="2019-05-17T02:52:24.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
     
@@ -200,7 +200,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/cpu-pipeline/">CPU Pipeline了解CPU的工作内容</a>
+      <a class="article-title" href="/cpu-pipeline/">CPU Pipeline了解CPU的工作内容</a>
     </h1>
   
 
@@ -214,18 +214,18 @@
 <p>这篇文章就是要说说基于X86架构下的CPU的深度流水线（说明文章的目的和内容，背景非常重要）。</p>
         
           <p class="article-more-link">
-            <a href="/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/cpu-pipeline/#more">Read More</a>
+            <a href="/cpu-pipeline/#more">Read More</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/cpu-pipeline/" data-id="cki5xmvoc0014nky15mxl59nr" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">Share</a>
+        <a data-url="http://yoursite.com/cpu-pipeline/" data-id="cki5xwy8r00120ey165j26cb3" class="article-share-link" data-share="baidu" data-title="CPU Pipeline了解CPU的工作内容">Share</a>
       
 
       
-        <a href="http://yoursite.com/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/cpu-pipeline/#ds-thread" class="article-comment-link">Comments</a>
+        <a href="http://yoursite.com/cpu-pipeline/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -294,23 +294,23 @@
       <ul>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/controller/">OVS控制器</a>
+            <a href="/controller/">OVS控制器</a>
           </li>
         
           <li>
-            <a href="/%E5%85%B3%E4%BA%8E/about/">关于我</a>
+            <a href="/about/">关于我</a>
           </li>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/rfc-815/">RFC815-IP分片重组</a>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
           </li>
         
           <li>
-            <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle-lock-table/">oracle处理锁表</a>
+            <a href="/oracle-lock-table/">oracle处理锁表</a>
           </li>
         
           <li>
-            <a href="/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/harmful-icon/">rel=shortcut icon是有害的</a>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
           </li>
         
       </ul>
