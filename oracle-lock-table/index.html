@@ -6,23 +6,23 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   
-  <title>oracle处理锁表 | 打好技术基础</title>
+  <title>oracle处理锁表 | do what you want</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="(1)锁表查询的代码有以下的形式：select count() from v$locked_object;select from v$locked_object;(2)查看哪个表被锁select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_i">
+  <meta name="description" content="(1)锁表查询的代码有以下的形式： 1select count() from v$locked_object;select from v$locked_object; (2)查看哪个表被锁 1select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.obj">
 <meta property="og:type" content="article">
 <meta property="og:title" content="oracle处理锁表">
 <meta property="og:url" content="http://yoursite.com/oracle-lock-table/index.html">
-<meta property="og:site_name" content="打好技术基础">
-<meta property="og:description" content="(1)锁表查询的代码有以下的形式：select count() from v$locked_object;select from v$locked_object;(2)查看哪个表被锁select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_i">
+<meta property="og:site_name" content="do what you want">
+<meta property="og:description" content="(1)锁表查询的代码有以下的形式： 1select count() from v$locked_object;select from v$locked_object; (2)查看哪个表被锁 1select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.obj">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-05-17T07:35:05.000Z">
-<meta property="article:modified_time" content="2020-12-01T11:55:27.949Z">
+<meta property="article:modified_time" content="2020-12-02T05:51:10.876Z">
 <meta property="article:author" content="hushengdong">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/img/favicon.ico">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -39,7 +39,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">打好技术基础</a>
+        <a href="/" id="logo">do what you want</a>
       </h1>
       
     </div>
@@ -71,40 +71,51 @@
     </div>
   </div>
 </header>
+
     <div class="outer">
       <section id="main"><article id="post-oracle-lock-table" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/oracle-lock-table/" class="article-date">
-  <time datetime="2019-05-17T07:35:05.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-  </div>
-
-  </div>
   <div class="article-inner">
     
     
       <header class="article-header">
-        
+        <div style="text-align:center">
+            
   
     <h1 class="article-title" itemprop="name">
       oracle处理锁表
     </h1>
   
 
+        </div>
+        <div style="text-align:center" class="article-meta">
+          <a href="/oracle-lock-table/" class="article-date">
+  <time datetime="2019-05-17T07:35:05.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+        </div>
+        <div style="border:2px solid #009688"></div>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>(1)锁表查询的代码有以下的形式：<br>select count() from v$locked_object;select from v$locked_object;<br>(2)查看哪个表被锁<br>select b.owner,b.object_name,a.session_id,a.locked_mode from v$locked_object a,dba_objects b where b.object_id = a.object_id;<br>(3)查看是哪个session引起的<br>select b.username,b.sid,b.serial#,logon_time from v$locked_object a,v$session b where a.session_id = b.sid order by b.logon_time;<br>(4)杀掉对应进程执行命令：<br>alter system kill session’1025,41’;其中1025为sid,41为serial#.</p>
+        <p>(1)锁表查询的代码有以下的形式：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>() <span class="keyword">from</span> v$locked_object;<span class="keyword">select</span> <span class="keyword">from</span> v$locked_object;</span><br></pre></td></tr></table></figure>
+<p>(2)查看哪个表被锁</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.owner,b.object_name,a.session_id,a.locked_mode <span class="keyword">from</span> v$locked_object a,dba_objects b <span class="keyword">where</span> b.object_id = a.object_id;</span><br></pre></td></tr></table></figure>
+<p>(3)查看是哪个session引起的</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.username,b.sid,b.serial#,logon_time <span class="keyword">from</span> v$locked_object a,v$<span class="keyword">session</span> b <span class="keyword">where</span> a.session_id = b.sid <span class="keyword">order</span> <span class="keyword">by</span> b.logon_time;</span><br></pre></td></tr></table></figure>
+<p>(4)杀掉对应进程执行命令：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">kill</span> <span class="keyword">session</span>’<span class="number">1025</span>,<span class="number">41</span>’;</span><br><span class="line">//其中1025为sid,41为serial<span class="comment">#.</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/oracle-lock-table/" data-id="cki5zwl3b000ez1y1f30aawpj" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">Share</a>
+        <a data-url="http://yoursite.com/oracle-lock-table/" data-id="cki6ztwc5000e14y142kjaow2" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">Share</a>
       
 
       
@@ -144,6 +155,7 @@
   <section id="comments">
     <div id="ds-thread" class="ds-thread" data-thread-key="oracle-lock-table/" data-title="oracle处理锁表" data-url="http://yoursite.com/oracle-lock-table/"></div>
   </section>
+
 </section>
       
       <aside id="sidebar">
@@ -152,7 +164,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -162,7 +174,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -172,7 +184,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 10px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -182,7 +194,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
     </div>
   </div>
 
@@ -195,11 +207,15 @@
       <ul>
         
           <li>
-            <a href="/gc-time/">gc-time</a>
+            <a href="/program-for-new-01/">JAVA新手入门01</a>
           </li>
         
           <li>
-            <a href="/mybatis-param/">mybatis传参</a>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">mybatis参数</a>
           </li>
         
           <li>
@@ -208,10 +224,6 @@
         
           <li>
             <a href="/about/">关于我</a>
-          </li>
-        
-          <li>
-            <a href="/rfc-815/">RFC815-IP分片重组</a>
           </li>
         
       </ul>

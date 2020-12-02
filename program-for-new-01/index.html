@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  
+  <title>JAVA新手入门01 | do what you want</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。 你真的学会了if else 了吗？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA新手入门01">
+<meta property="og:url" content="http://yoursite.com/program-for-new-01/index.html">
+<meta property="og:site_name" content="do what you want">
+<meta property="og:description" content="这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。 你真的学会了if else 了吗？">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-12-02T03:50:10.000Z">
+<meta property="article:modified_time" content="2020-12-02T05:34:49.421Z">
+<meta property="article:author" content="hushengdong">
+<meta property="article:tag" content="新手入门">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">do what you want</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">文章</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-program-for-new-01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA新手入门01
+    </h1>
+  
+
+        </div>
+        <div style="text-align:center" class="article-meta">
+          <a href="/program-for-new-01/" class="article-date">
+  <time datetime="2020-12-02T03:50:10.000Z" itemprop="datePublished">2020-12-02</time>
+</a>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a>
+  </div>
+
+        </div>
+        <div style="border:2px solid #009688"></div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。</p>
+<h1 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h1><a id="more"></a>
+
+<p>场景1，我们有1个变量的值type：</p>
+<p>type =0 表示A种情况  type=1 表示另外一种情况，可能会有更多的情况，在不用switch的情况下，你会有以下2种写法(java版本的，且省略了大括号，你们写代码的时候，即使只有1行代码，也要写{})：</p>
+<p>推荐写法:</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="class"><span class="keyword">type</span> </span>== <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">do</span> something;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(<span class="class"><span class="keyword">type</span> </span>== <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">throw <span class="keyword">new</span> RuntimeException(<span class="string">&quot;类型错误，请检查：&quot;</span> + <span class="class"><span class="keyword">type</span>);</span></span><br></pre></td></tr></table></figure>
+<p>不推荐写法:</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">type</span> <span class="type">== </span><span class="number">0</span>)</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="keyword">do</span> something</span><br></pre></td></tr></table></figure>
+<p>这种写法，在某一天，如果type的值增加了1个，测试的时候容易出现诡异的BUG，如果你不测试，直接上线了，那可能会更糟糕。</p>
+<p>严格检查类型的值，否则容易出错，当type的类型是固定的几个值的时候，即使是用switch case when实现，也要注意这种类似的错误，尤其是以后typ的值增加了，错误的写法还不容易发现，尽量让代码早报错，可以避免不少BUG</p>
+<p>核心思想：严格检查类型的值，程序要早报错</p>
+<h2 id="延伸-你对抽象的理解对吗？"><a href="#延伸-你对抽象的理解对吗？" class="headerlink" title="延伸 你对抽象的理解对吗？"></a>延伸 你对抽象的理解对吗？</h2><p>我们接着上文，假设有变量a b，a、b在不同的情况下，有不同的业务场景，例如：</p>
+<p>a == 1 &amp;&amp; b== 1 表示客户现金支付<br>a == 1 &amp;&amp; b == 2 表示客户信用卡支付</p>
+<p>推荐写法：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(a == <span class="number">1</span> &amp;&amp; b == <span class="number">1</span>)</span></span> &#123;</span><br><span class="line">	do something</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">if</span><span class="params">(a == <span class="number">1</span> &amp;&amp; b == <span class="number">2</span>)</span></span> &#123;</span><br><span class="line">	do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不推荐写法：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(a == <span class="number">1</span> &amp;&amp; b == <span class="number">1</span>)</span></span> &#123;</span><br><span class="line">	do something</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>( <span class="selector-tag">a</span> == <span class="number">1</span> &amp;&amp; <span class="selector-tag">b</span> == <span class="number">2</span>) &#123;</span><br><span class="line">	do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这2种写法会有细微的区别，看起来功能是一样的，在逻辑简单的时候，几乎一样，当以后的逻辑更复杂的时候，会有不同，例如 增加了1个变量c，前面1种情况，可以更好的处理增加了c的这种情况， 后面的写法，就需要慎重的考虑，c应该放在哪个位置，增加了else，测试的时候就复杂了很多。</p>
+<p>一种更好的办法是抽象逻辑</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int <span class="keyword">type</span>;</span><br><span class="line"><span class="keyword">if</span>(a == <span class="number">1</span> &amp;&amp; b == <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="keyword">type</span> = <span class="number">0</span>; <span class="comment">//客户现金支付</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>( a == <span class="number">1</span> &amp;&amp; b == <span class="number">2</span>) &#123;</span><br><span class="line">	<span class="keyword">type</span> = <span class="number">1</span>; <span class="comment">//客户信用卡支付</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">switch</span>(<span class="keyword">type</span>) &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">		<span class="keyword">do</span> something;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">		<span class="keyword">do</span> something;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">do</span> somthing;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就能在众多复杂的代码中，把业务发生代码的前缀，和业务的实际处理逻辑，剥离开来，将代码抽象成2部分，1部分用来描述业务发生的条件，1部分用来描述业务条件触发之后的逻辑。</p>
+<p>上述的代码，只是为了演示使用，不能作为实际的支付逻辑的处理。</p>
+<p>如果对上述代码，再进行修改的话：</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a == <span class="number">1</span> &amp;&amp; b == <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span> </span>= <span class="number">0</span>; <span class="comment">//客户现金支付</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight fsharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(cash(a,b)) &#123;</span><br><span class="line">	<span class="class"><span class="keyword">type</span> </span>= <span class="number">0</span>; <span class="comment">//客户现金支付</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样是不是代码更容易阅读了呢？ 我们是不是可以更进一步，把type的值用枚举来表示呢？</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">PAY_CHANNEL</span> &#123;</span></span><br><span class="line">	CASH,CREDIT_CARD;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PAY_CHANNEL channel = PAY_CHANNEL.CASH;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(cash(a,b)) &#123;</span><br><span class="line">	channel = PAY_CHANNEL.CASH;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(credit_card(a,b)) &#123;</span><br><span class="line">	channel = PAY_CHANNEL.CREDIT_CARD;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">switch(channel) &#123;</span><br><span class="line">	<span class="keyword">case</span> PAY_CHANNEL.<span class="symbol">CASH:</span></span><br><span class="line">		<span class="keyword">do</span> something;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> PAY_CHANNEL.<span class="symbol">CREDIT_CARD:</span></span><br><span class="line">		<span class="keyword">do</span> something;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="symbol">default:</span></span><br><span class="line">		<span class="keyword">do</span> something;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，要不要把一个if else写到如此的复杂，就要看实际的需求的情况了。</p>
+<p>还有一种比较容易出错的地方是，只写了if ，不写else ，这种写法，也会带来一些隐蔽的错误，当然，并不是任何情况下，不写else，都会出错，只是写代码的时候，要考虑下，到了else，我该怎么办？ 所以：</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( <span class="built_in">cond</span> ) &#123;</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果等同于</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( cond ) &#123;</span><br><span class="line">	<span class="regexp">//</span> cond == true</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="regexp">//</span> cond == false 时候，是不是真的什么都不做</span><br><span class="line">	<span class="regexp">//</span> <span class="keyword">do</span> nothing</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总是要确认，是不是真的在else中什么都不做。</p>
+<h1 id="DEBUG-可以有一些技巧"><a href="#DEBUG-可以有一些技巧" class="headerlink" title="DEBUG 可以有一些技巧"></a>DEBUG 可以有一些技巧</h1><p>在JAVA中，你可以定义一个测试类，叫DebugConstant，然后其中可以定义很多debug的常量信息，例如：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> DEBUG = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEBUG_SKU = <span class="number">12345</span>; <span class="comment">// 表示遇到该SKU时候，打印DEBUG日志信息</span></span><br></pre></td></tr></table></figure>
+<p>然后在业务代码中，写:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(DEBUG)</span></span></span><br><span class="line">	do something</span><br></pre></td></tr></table></figure>
+
+<p>这样在单元测试中，就可以开启DEBUG或者，你也可以设置Java的启动参数 -DDEBUG=true 来启动DEBUG信息，当然，如果你学习的是C语言，那就可以使用条件编译了，定义1个变量DEBUG，需要DEBUG的时候就开启</p>
+<p>需要debug的时候，直接</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(DEBUG) &#123;</span><br><span class="line">    <span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心思想： 善用条件编译，来实现DEBUG</p>
+<h1 id="finally只用来释放资源"><a href="#finally只用来释放资源" class="headerlink" title="finally只用来释放资源"></a>finally只用来释放资源</h1><p>看看这段代码会返回什么？</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际会返回false，所以给我们的启示就是finally中，不能返回值只可以用来做释放资源（文件流、锁等）</p>
+<h1 id="谨慎修改常量的值"><a href="#谨慎修改常量的值" class="headerlink" title="谨慎修改常量的值"></a>谨慎修改常量的值</h1><p>如果你修改了1个常量的值，一定要全局搜索所有使用这个常量的地方，仔细判断这个修改，是否有副作用。需要注意的是，注解里面不可以使用常量，一定要特别注意，尤其是mybatis的多数据源配置。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki6ztwc6000g14y1ezu65dat" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/program-for-new-01/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/gc-time/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JVM垃圾回收的一些细节</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="program-for-new-01/" data-title="JAVA新手入门01" data-url="http://yoursite.com/program-for-new-01/"></div>
+  </section>
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 10px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">mybatis参数</a>
+          </li>
+        
+          <li>
+            <a href="/controller/">OVS控制器</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于我</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 hushengdong<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?a8fb7488394296eeac5c581862b1ff49";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"reqianduan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+
+</script>
+
+<!-- 百度分享 end -->
+
+// highlight
+hljs.initHighlightingOnLoad();
+
+$('pre code').each(function(i, block) {
+  //hljs.highlightBlock(block);
+  var lines = $(this).text().split('\n').length - 1;
+  var $numbering = $('<ul/>').addClass('pre-numbering');
+  $(this)
+    .addClass('has-numbering')
+    .parent()
+    .append($numbering);
+  for(i=1;i<=lines;i++){
+    $numbering.append($('<li/>').text(i));
+  }
+});
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

@@ -6,18 +6,18 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   
-  <title>打好技术基础</title>
+  <title>do what you want</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="打好技术基础">
+<meta property="og:title" content="do what you want">
 <meta property="og:url" content="http://yoursite.com/page/3/index.html">
-<meta property="og:site_name" content="打好技术基础">
+<meta property="og:site_name" content="do what you want">
 <meta property="og:locale">
 <meta property="article:author" content="hushengdong">
 <meta name="twitter:card" content="summary">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/img/favicon.ico">
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -34,7 +34,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">打好技术基础</a>
+        <a href="/" id="logo">do what you want</a>
       </h1>
       
     </div>
@@ -66,31 +66,95 @@
     </div>
   </div>
 </header>
+
     <div class="outer">
       <section id="main">
   
-    <article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/harmful-icon/" class="article-date">
-  <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-  </div>
-
-  </div>
+    <article id="post-oracle-lock-table" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
       <header class="article-header">
-        
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/oracle-lock-table/">oracle处理锁表</a>
+    </h1>
+  
+
+        </div>
+        <div style="text-align:center" class="article-meta">
+          <a href="/oracle-lock-table/" class="article-date">
+  <time datetime="2019-05-17T07:35:05.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+        </div>
+        <div style="border:2px solid #009688"></div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>(1)锁表查询的代码有以下的形式：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>() <span class="keyword">from</span> v$locked_object;<span class="keyword">select</span> <span class="keyword">from</span> v$locked_object;</span><br></pre></td></tr></table></figure>
+<p>(2)查看哪个表被锁</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.owner,b.object_name,a.session_id,a.locked_mode <span class="keyword">from</span> v$locked_object a,dba_objects b <span class="keyword">where</span> b.object_id = a.object_id;</span><br></pre></td></tr></table></figure>
+<p>(3)查看是哪个session引起的</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.username,b.sid,b.serial#,logon_time <span class="keyword">from</span> v$locked_object a,v$<span class="keyword">session</span> b <span class="keyword">where</span> a.session_id = b.sid <span class="keyword">order</span> <span class="keyword">by</span> b.logon_time;</span><br></pre></td></tr></table></figure>
+<p>(4)杀掉对应进程执行命令：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">kill</span> <span class="keyword">session</span>’<span class="number">1025</span>,<span class="number">41</span>’;</span><br><span class="line">//其中1025为sid,41为serial<span class="comment">#.</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/oracle-lock-table/" data-id="cki6ztwc5000e14y142kjaow2" class="article-share-link" data-share="baidu" data-title="oracle处理锁表">Share</a>
+      
+
+      
+        <a href="http://yoursite.com/oracle-lock-table/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-harmful-icon" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
   
     <h1 itemprop="name">
       <a class="article-title" href="/harmful-icon/">rel=shortcut icon是有害的</a>
     </h1>
   
 
+        </div>
+        <div style="text-align:center" class="article-meta">
+          <a href="/harmful-icon/" class="article-date">
+  <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+  </div>
+
+        </div>
+        <div style="border:2px solid #009688"></div>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
@@ -103,14 +167,14 @@
 <p>今天，我学习了shortcut不是一个有效的链接符，确实，这并不在HTML5的4.12.5关于link类型的说明中，实际上，这可能是IE特有的属性，在IE之外，应该使用rel=”icon”更好。</p>
         
           <p class="article-more-link">
-            <a href="/harmful-icon/#more">Read More</a>
+            <a href="/harmful-icon/#more">查看全部</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/harmful-icon/" data-id="cki5zwl380008z1y17eaw8v07" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
+        <a data-url="http://yoursite.com/harmful-icon/" data-id="cki6ztwc2000b14y18759anp9" class="article-share-link" data-share="baidu" data-title="rel=shortcut icon是有害的">Share</a>
       
 
       
@@ -126,29 +190,33 @@
 </article>
 
 
+
   
     <article id="post-web-need-know" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/web-need-know/" class="article-date">
-  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a>
-  </div>
-
-  </div>
   <div class="article-inner">
     
     
       <header class="article-header">
-        
+        <div style="text-align:center">
+            
   
     <h1 itemprop="name">
       <a class="article-title" href="/web-need-know/">开发一个WEB网站需要知道什么</a>
     </h1>
   
 
+        </div>
+        <div style="text-align:center" class="article-meta">
+          <a href="/web-need-know/" class="article-date">
+  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">2019-05-17</time>
+</a>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a>
+  </div>
+
+        </div>
+        <div style="border:2px solid #009688"></div>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
@@ -156,14 +224,14 @@
         <p>开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。</p>
         
           <p class="article-more-link">
-            <a href="/web-need-know/#more">Read More</a>
+            <a href="/web-need-know/#more">查看全部</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/web-need-know/" data-id="cki5zwl3p000oz1y19emc41wz" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
+        <a data-url="http://yoursite.com/web-need-know/" data-id="cki6ztwcc000r14y1fq6u0nz2" class="article-share-link" data-share="baidu" data-title="开发一个WEB网站需要知道什么">Share</a>
       
 
       
@@ -179,67 +247,14 @@
 </article>
 
 
-  
-    <article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/fast-cookie/" class="article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自<a target="_blank" rel="noopener" href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/">a-few-speed-improvements</a>，并不是原创。</p>
-<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
-<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
-        
-          <p class="article-more-link">
-            <a href="/fast-cookie/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/fast-cookie/" data-id="cki5zwl350005z1y1cz3h4jn6" class="article-share-link" data-share="baidu" data-title="stackOverFlow性能提升之Cookie">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/fast-cookie/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
 
   
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
   </nav>
+
 </section>
       
       <aside id="sidebar">
@@ -248,7 +263,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/">理论知识</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -258,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" rel="tag">HTTP WEB开发 cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -268,7 +283,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 20px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTP-WEB%E5%BC%80%E5%8F%91-cookie/" style="font-size: 10px;">HTTP WEB开发 cookie</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 20px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 10px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -278,7 +293,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">10</span></li></ul>
     </div>
   </div>
 
@@ -291,11 +306,15 @@
       <ul>
         
           <li>
-            <a href="/gc-time/">gc-time</a>
+            <a href="/program-for-new-01/">JAVA新手入门01</a>
           </li>
         
           <li>
-            <a href="/mybatis-param/">mybatis传参</a>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">mybatis参数</a>
           </li>
         
           <li>
@@ -304,10 +323,6 @@
         
           <li>
             <a href="/about/">关于我</a>
-          </li>
-        
-          <li>
-            <a href="/rfc-815/">RFC815-IP分片重组</a>
           </li>
         
       </ul>
