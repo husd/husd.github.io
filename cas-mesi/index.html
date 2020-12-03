@@ -7,15 +7,22 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
 
   
-  <title>Archives | 好好学习，天天向上</title>
+  <title>CAS和MESI缓存一致性协议 | 好好学习，天天向上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="好好学习，天天向上">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。 ME">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAS和MESI缓存一致性协议">
+<meta property="og:url" content="http://yoursite.com/cas-mesi/index.html">
 <meta property="og:site_name" content="好好学习，天天向上">
+<meta property="og:description" content="CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。 ME">
 <meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/cpu-cache.png">
+<meta property="article:published_time" content="2020-12-03T06:24:33.000Z">
+<meta property="article:modified_time" content="2020-12-03T09:04:38.180Z">
 <meta property="article:author" content="hushengdong">
+<meta property="article:tag" content="CPU">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/cpu-cache.png">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -69,140 +76,112 @@
 </header>
 
     <div class="outer">
-      <section id="main">
-  
-  
+      <section id="main"><article id="post-cas-mesi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      CAS和MESI缓存一致性协议
+    </h1>
+  
+
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/harmful-icon/" class="archive-article-date">
-  <time datetime="2019-05-17T07:30:55.000Z" itemprop="datePublished">May 17</time>
+        <br>
+        <div style="text-align:center" class="article-meta">
+          <a href="/cas-mesi/" class="article-date">
+  <time datetime="2020-12-03T06:24:33.000Z" itemprop="datePublished">2020-12-03</time>
 </a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/harmful-icon/">rel=shortcut icon是有害的</a>
-    </h1>
-  
-
-    </header>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
   </div>
-</article>
-  
+
+          <div class="article-category">作者：双king</div>
+          <div class="article-category">浏览量：1 次</div>
+        </div>
+        <div style="border:2px solid #009688"></div>
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/web-need-know/" class="archive-article-date">
-  <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">May 17</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/web-need-know/">开发一个WEB网站需要知道什么</a>
-    </h1>
-  
+        <p>CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。</p>
+<h2 id="MESI协议"><a href="#MESI协议" class="headerlink" title="MESI协议"></a>MESI协议</h2><p>现代CPU都有L1，L2和L3的3级缓存，L3一般是多个核心共享，L1和L2是核心单独访问的，既然有缓存，就会产生缓存不一致的情况，MESI协议就是用来保证缓存一致性的协议。</p>
+<p><img src="/img/cpu-cache.png" alt="cpu cache"></p>
+<a id="more"></a>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/fast-cookie/" class="archive-article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">May 17</time>
-</a>
+<p>MESI协议的名称由来是指这一协议为缓存的每个数据单位（称为cache line，在Intel CPU上一般是64字节）维护两个状态位，使得每个数据单位可能处于M、E、S或I这四种状态之一。各种状态含义如下：</p>
+<ul>
+<li>M: 被修改的。处于这一状态的数据只在本CPU核心中有缓存，且其数据已被修改，没有更新到内存中。</li>
+<li>E: 独占的。处于这一状态的数据只在本CPU核心中有缓存，且其数据没有被修改，与内存一致。</li>
+<li>S: 共享的。处于这一状态的数据在多个CPU核心中有缓存。</li>
+<li>I: 无效的。本CPU核心中的这份缓存已经无效了。</li>
+</ul>
+<p>如果当前核心中是I，那需要去主存中读取，如果不是I，都可以从缓存中读。这种读取的操作，都会被其它核心捕获这个信号，如果捕获到读取操作的核心的状态是M或者E，会把自己缓存中的数据，写回到主内存中去，并将自己的状态设置为S，这个时候，刚才的读操作才能继续执行。</p>
+<ul>
+<li>只有M或者E的核心才可以修改数据，修改后状态修改为M。</li>
+<li>如果CPU要修改数据时发现其缓存不处于E或M状态，则需要发出特殊的RFO指令（Read For Ownership），将其它CPU的缓存设为I状态。</li>
+<li>如果要修改主内存中变量的值，一般来说是要锁住总线，不让其它核心修改。</li>
+<li>如果1个线程，对1个变量的值进行多次修改，该核心的状态一直是M，就可以直接修改，不需要锁总线。</li>
+</ul>
+<p>所以不一定要锁总线，就在于这个并发操作冲突的严重还是不严重，如果冲突很多，怎么多得锁住总线。在并发编程的时候，降低冲突也是一种手段。</p>
+<h2 id="写缓冲器和无效化队列"><a href="#写缓冲器和无效化队列" class="headerlink" title="写缓冲器和无效化队列"></a>写缓冲器和无效化队列</h2><p>根据MESI协议，例如写了数据，要向总线发消息，等到其它核心回复之后，才能生效，这段等待的时间，这个核心就处于阻塞的状态，该怎么办呢？这时候就引入了写缓冲器和无效化队列，来优化这个阻塞。</p>
+<ul>
+<li>状态为 E、M，直接写入，不向总线发送消息。</li>
+<li>状态为 S，变量写入[写缓冲器]，并发送Invalidate消息，继续下一个指令。</li>
+<li>状态为 I，变量写入[写缓冲器]，并发送Invalidate消息，继续下一个指令。</li>
+<li>收到其他所有处理器回应的Read Response、Invalidate Acknowledge消息后，处理器才会将写缓冲器中对应的写操作写入相应的缓存行，这个时候，写操作才算真正完成。</li>
+<li>读的时候先去[写缓冲器]中去读，如果没读到，再去缓存中读。</li>
+</ul>
+<p>无效化队列的意思是说如果核心收到了其它核心的Invalidate消息，就先把消息消息存入到无效队列之后，就回复Invalidate Acknowledge，提高了效率，可以看到，队列的使用无处不在，你还在犹豫要不要使用队列吗？但是这样也带来了新的问题，每次读取缓存的时候，其它核心的写缓冲器中，可能有没有生效的值，那怎么办呢？</p>
+<h2 id="解决写缓冲器和无效化队列带来的可见性问题"><a href="#解决写缓冲器和无效化队列带来的可见性问题" class="headerlink" title="解决写缓冲器和无效化队列带来的可见性问题"></a>解决写缓冲器和无效化队列带来的可见性问题</h2><p>解决办法就是内存屏障</p>
+<p>存储屏障（Store Barrier）:  cpu 将写缓冲器排空，写入高速缓存 这叫冲刷，这样其他cpu 就会收到通知，其他cpu可以来拿新数据。<br>加载屏障（Load Barrier）:  cpu 根据无效化队列里面的信息，删除其高速缓存的无效数据(就是状态变为I)。</p>
+<p>这2个屏障的成对使用，才能保证更新可见，本质上就是要保证，每次读数据之前，都已经看到了前面的所有的写，这个写肯定是已经生效了；</p>
+<p>具体是： load load/store store/load store/store load</p>
+<ul>
+<li>LoadLoad屏障： 对于这样的语句Load1; LoadLoad; Load2，在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。</li>
+<li>StoreStore屏障：对于这样的语句Store1; StoreStore; Store2，在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。</li>
+<li>LoadStore屏障：对于这样的语句Load1; LoadStore; Store2，在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。</li>
+<li>StoreLoad屏障：对于这样的语句Store1; StoreLoad; Load2，在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。</li>
+</ul>
+<p>Java中的volatile关键字其实有2个作用：</p>
+<ul>
+<li>禁止重排序。</li>
+<li>保证可见性，写操作之后的读肯定能看到最新值。</li>
+</ul>
+<p>全文完。</p>
+
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/sort-fast/" class="archive-article-date">
-  <time datetime="2019-05-17T06:11:39.000Z" itemprop="datePublished">May 17</time>
-</a>
+    </div>
+    <footer class="article-footer">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/sort-fast/">处理有序数据比无序的数组要快</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/cpu-pipeline/" class="archive-article-date">
-  <time datetime="2019-05-17T02:52:24.000Z" itemprop="datePublished">May 17</time>
-</a>
+        <a data-url="http://yoursite.com/cas-mesi/" data-id="cki8oijln0001sqy1bi56gh80" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/cpu-pipeline/">CPU Pipeline了解CPU的工作内容</a>
-    </h1>
-  
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/" class="archive-article-date">
-  <time datetime="2019-05-17T02:39:30.000Z" itemprop="datePublished">May 17</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/cpu%E6%81%92%E5%AE%9A%E6%97%B6%E9%97%B4/">cpu恒定时间</a>
-    </h1>
-  
 
-    </header>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/program-for-new-03/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA新手入门03</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/archives/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
-
 </section>
       
       <aside id="sidebar">
