@@ -16,7 +16,7 @@
 <meta property="og:description" content="这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。 你真的学会了if else 了吗？">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-12-02T03:50:10.000Z">
-<meta property="article:modified_time" content="2020-12-02T07:08:34.244Z">
+<meta property="article:modified_time" content="2020-12-03T02:12:21.909Z">
 <meta property="article:author" content="hushengdong">
 <meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
@@ -103,7 +103,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。</p>
-<h1 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h1><a id="more"></a>
+<h2 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h2><a id="more"></a>
 
 <p>场景1，我们有1个变量的值type：</p>
 <p>type =0 表示A种情况  type=1 表示另外一种情况，可能会有更多的情况，在不用switch的情况下，你会有以下2种写法(java版本的，且省略了大括号，你们写代码的时候，即使只有1行代码，也要写{})：</p>
@@ -137,7 +137,7 @@
 <p>结果等同于</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( cond ) &#123;</span><br><span class="line">	<span class="regexp">//</span> cond == true</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="regexp">//</span> cond == false 时候，是不是真的什么都不做</span><br><span class="line">	<span class="regexp">//</span> <span class="keyword">do</span> nothing</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>总是要确认，是不是真的在else中什么都不做。</p>
-<h1 id="DEBUG-可以有一些技巧"><a href="#DEBUG-可以有一些技巧" class="headerlink" title="DEBUG 可以有一些技巧"></a>DEBUG 可以有一些技巧</h1><p>在JAVA中，你可以定义一个测试类，叫DebugConstant，然后其中可以定义很多debug的常量信息，例如：</p>
+<h2 id="DEBUG-可以有一些技巧"><a href="#DEBUG-可以有一些技巧" class="headerlink" title="DEBUG 可以有一些技巧"></a>DEBUG 可以有一些技巧</h2><p>在JAVA中，你可以定义一个测试类，叫DebugConstant，然后其中可以定义很多debug的常量信息，例如：</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> DEBUG = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> DEBUG_SKU = <span class="number">12345</span>; <span class="comment">// 表示遇到该SKU时候，打印DEBUG日志信息</span></span><br></pre></td></tr></table></figure>
 <p>然后在业务代码中，写:</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(DEBUG)</span></span></span><br><span class="line">	do something</span><br></pre></td></tr></table></figure>
@@ -147,12 +147,12 @@
 <figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(DEBUG) &#123;</span><br><span class="line">    <span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>核心思想： 善用条件编译，来实现DEBUG</p>
-<h1 id="finally只用来释放资源"><a href="#finally只用来释放资源" class="headerlink" title="finally只用来释放资源"></a>finally只用来释放资源</h1><p>看看这段代码会返回什么？</p>
+<h2 id="finally只用来释放资源"><a href="#finally只用来释放资源" class="headerlink" title="finally只用来释放资源"></a>finally只用来释放资源</h2><p>看看这段代码会返回什么？</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>实际会返回false，所以给我们的启示就是finally中，不能返回值只可以用来做释放资源（文件流、锁等）</p>
-<h1 id="谨慎修改常量的值"><a href="#谨慎修改常量的值" class="headerlink" title="谨慎修改常量的值"></a>谨慎修改常量的值</h1><p>如果你修改了1个常量的值，一定要全局搜索所有使用这个常量的地方，仔细判断这个修改，是否有副作用。需要注意的是，注解里面不可以使用常量，一定要特别注意，尤其是mybatis的多数据源配置。</p>
-<h1 id="思考下return的位置"><a href="#思考下return的位置" class="headerlink" title="思考下return的位置"></a>思考下return的位置</h1><p>在日常的开发中，经常会写1个函数，返回1个值，在函数执行的过程中，会有各种各样的判断，各种情况，可能会中途跳出，如果是C语言，可以使用goto，如果是Java的话，就需要仔细思考下，把return的位置放在哪里，接下来仔细研究，该怎么做：</p>
+<h2 id="谨慎修改常量的值"><a href="#谨慎修改常量的值" class="headerlink" title="谨慎修改常量的值"></a>谨慎修改常量的值</h2><p>如果你修改了1个常量的值，一定要全局搜索所有使用这个常量的地方，仔细判断这个修改，是否有副作用。需要注意的是，注解里面不可以使用常量，一定要特别注意，尤其是mybatis的多数据源配置。</p>
+<h2 id="思考下return的位置"><a href="#思考下return的位置" class="headerlink" title="思考下return的位置"></a>思考下return的位置</h2><p>在日常的开发中，经常会写1个函数，返回1个值，在函数执行的过程中，会有各种各样的判断，各种情况，可能会中途跳出，如果是C语言，可以使用goto，如果是Java的话，就需要仔细思考下，把return的位置放在哪里，接下来仔细研究，该怎么做：</p>
 <h2 id="提前声明返回值，并在最后返回。"><a href="#提前声明返回值，并在最后返回。" class="headerlink" title="提前声明返回值，并在最后返回。"></a>提前声明返回值，并在最后返回。</h2><p>这种方法是1种最常见的写法，不容易出错，而且代码容易看懂，也容易跟踪变量的变化，如果业务十分复杂，难免会增加复杂度，但是不论如何增加复杂度，<br>在AB之间，都不要写return就行了。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> sum(<span class="keyword">int</span> a,<span class="keyword">int</span> b) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> res = <span class="number">0</span>; <span class="comment">// A</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		res = a + b;</span><br><span class="line">	&#125; <span class="keyword">catch</span>(<span class="built_in">Exception</span> e) &#123;</span><br><span class="line">		res = <span class="number">-1</span>; <span class="comment">// 不要纠结这个-1，只是为了演示</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res; <span class="comment">// B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -181,7 +181,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki87c3mj000iauy1a1o802sd" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
+        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki87s9ey000keay14a105ipd" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
       
 
       

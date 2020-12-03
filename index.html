@@ -101,74 +101,16 @@
       
         <p>这篇文章，将会详细的列出来，新手入门的话，需要学习哪些Java的基础知识，这些知识，是必须要掌握的，而且不能学的半盆子水平，要深入原理的去学习，然后才能在以后使用的时候，得心应手。</p>
 <h1 id="String篇"><a href="#String篇" class="headerlink" title="String篇"></a>String篇</h1><p>string会伴随Java开发的一生，几乎每天都会用到，所以要去研究这个类，目前作为新手入门，要理解的是如下内容：</p>
-<ul>
-<li>string底层是什么 它不是基本类型，对吧，它是用哪种基本类型实现的</li>
-<li>string的比较问题 str1 == str2 和 str1.equals(str2)的区别</li>
-<li>字符串的拼接问题 str = str1 + str2 + str3 这里会延伸到StringBuffer和StringBuilder</li>
-<li>字符串的子字符串 即substring() 要学会使用</li>
-<li>字符串和各种类型的转换，例如string转int int转string等 long和double float这些都要会</li>
-<li>字符串的hash和equals方法，可能在某些情况下要重写，该怎么重写，这里其实会涉及到List<String>的contains方法的使用</li>
-<li>大写转小写 或反向怎么实现</li>
-<li>判断字符串是否为空 可以用apache的StringUtils</li>
-<li>trim()方法，去除字符串2边的空格</li>
-</ul>
-<p>想要拔高的话，可以学习：</p>
-<ul>
-<li>正则表达式</li>
-<li>indexof()，怎么在字符串中查找另外的字符串，这里会涉及到几个算法，经典的有KMP，涉及的领域例如敏感词过滤、黑名单、查找替换等等</li>
-<li>可以试试判断字符串是否是回文、反转字符串等操作</li>
-<li>可以去研究下jvm怎么缓存的字符串</li>
-<li>可以研究下String.intern()</li>
-</ul>
-<h1 id="集合类篇"><a href="#集合类篇" class="headerlink" title="集合类篇"></a>集合类篇</h1><p>面试八股文，经常出现在这里，我刚开始工作的时候，面试必问，可以说是Java的热门话题了。集合类就是Java的一些常见的数据结构，可以很方便的辅助我们日常的编程。</p>
-<ul>
-<li>HashMap 看源码，理解用法，会有几个延伸，例如LinkedHashMap等</li>
-<li>List 链表 经典的ArrayList 和 LinkedList的区别</li>
-<li>Set 集合 可以关注下底层实现和对null值的处理</li>
-<li>Stack 栈 掌握用法即可</li>
-<li>List 需要注意下遍历过程中同时删除的问题，不会可以网上搜</li>
-</ul>
-<p>我写的很少，但是需要自己下功夫，这里有1个Java的泛型的问题，可以不用深究，如果受过C语言泛型的毒打，相信会很喜欢Java的泛型，写各种数据结构的时候，不需要太关心类型。</p>
-<h1 id="基本类型和它的包装类"><a href="#基本类型和它的包装类" class="headerlink" title="基本类型和它的包装类"></a>基本类型和它的包装类</h1><ul>
-<li>自动拆箱装箱问题 即你可以写 Integer a = 10; int a = 10;两者有一点不同。</li>
-<li>包装类的比较问题， Integer a,b; a == b ?</li>
-<li>基本类型和string的各种转换</li>
-<li>double和float的精度问题，必须要理解，可以去网上找IEEE 754 标准</li>
-<li>double和float的比较问题 即 0.0 == 0.0 是返回true还是false，本质上同上1个问题</li>
-<li>类型提升问题</li>
-<li>溢出问题，即 Integer.MAX_VALUE + 1 会是多少？</li>
-<li>溢出问题，即 int a = b + c; 如果 b 和 c的和太大就会溢出，在你学习2分法的时候，可能要计算中间值，需要注意这个溢出问题</li>
-<li>char型和 ‘A’ ‘a’ ‘Z’ ‘z’的灵活运用</li>
-<li>和数据库交互的时候一般用包装类，和mysql或者oracle的列的对应 可以去网上搜</li>
-<li>Java的无符号和有符号，需要注意一下</li>
-</ul>
-<h1 id="多线程和内存"><a href="#多线程和内存" class="headerlink" title="多线程和内存"></a>多线程和内存</h1><p>这块相对来说比较难，我觉的不适合新手投入过多的精力，在学习编程的前1年，可以稍微关注一下就行了，理解以下概念即可</p>
-<ul>
-<li>进程是计算机分配内存等资源的最小单元，线程是计算机分配CPU时间的最小单元。</li>
-<li>线程有几个状态 NEW RUNNABLE BLOCKED WAITING TIMED_WAITING TERMINATED</li>
-<li>你需要理解什么是阻塞，什么是等待，可能需要一点计算机基础，不会也可以先跳过</li>
-<li>创建线程的几种方式</li>
-<li>怎么实现2个线程交叉打印奇数和偶数，用到了哪几个方法。</li>
-<li>怎么写1个线程池，线程池的队列的作用，满了怎么办</li>
-<li>什么时候用多线程？ IO密集是什么意思？ CPU密集是什么意思？</li>
-<li>学会用linux命令，查看JVM的进程，学会kill -9 pid 和 kill pid的区别</li>
-<li>学会2个线程顺序执行，即A执行完了，B再执行</li>
-</ul>
-<p>暂时就这么几点把，不需要太多</p>
-<h1 id="Java的变量初始化顺序"><a href="#Java的变量初始化顺序" class="headerlink" title="Java的变量初始化顺序"></a>Java的变量初始化顺序</h1><p>简单来说就是静态变量、静态块、非静态变量等的初始化顺序，涉及到Java的类加载机制，这块如果搞清楚了，详细类加载机制你也就学的差不多了。这里先说结论，然后大家再做1道题，看看输出结果和你想象的一样，还是不一样就可以了</p>
-<p>结论： 对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）&gt;（变量、初始化块）&gt;构造器。</p>
-<p>题目：说出输出结果</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InitOrderDemo</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 程序入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> SubClass();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> &#123;</span></span><br><span class="line">    <span class="comment">// 静态变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> p_StaticField = <span class="string">&quot;父类--静态变量&quot;</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> j = <span class="number">8</span>;</span><br><span class="line">    <span class="comment">// 变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> p_Field = <span class="string">&quot;父类--变量&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 静态初始化块</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(p_StaticField);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;父类--静态初始化块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化块</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(p_Field);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;父类--初始化块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造器</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Parent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;父类--构造器&quot;</span>);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;, j=&quot;</span> + j);</span><br><span class="line">        j = <span class="number">9</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubClass</span> <span class="title">extends</span> <span class="title">Parent</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 静态变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> s_StaticField = <span class="string">&quot;子类--静态变量&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> s_Field = <span class="string">&quot;子类--变量&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 静态初始化块</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(s_StaticField);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;子类--静态初始化块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化块</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(s_Field);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;子类--初始化块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造器</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SubClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;子类--构造器&quot;</span>);</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;,j=&quot;</span> + j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>程序的输出结果是：</p>
-<p>父类–静态变量<br>父类–静态初始化块<br>子类–静态变量<br>子类–静态初始化块<br>父类–变量<br>父类–初始化块<br>父类–构造器<br>i=1, j=8<br>子类–变量<br>子类–初始化块<br>子类–构造器<br>i=1,j=9</p>
-<p>这里的顺序，需要牢牢的记住，说不定哪天你就用上了。</p>
-
+        
+          <p class="article-more-link">
+            <a href="/program-for-new-03/#more">查看全部</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/program-for-new-03/" data-id="cki87c3mn000pauy13dep9edf" class="article-share-link" data-share="baidu" data-title="JAVA新手入门03">Share</a>
+        <a data-url="http://yoursite.com/program-for-new-03/" data-id="cki87s9f3000reay1gta4hq2i" class="article-share-link" data-share="baidu" data-title="JAVA新手入门03">Share</a>
       
 
       
@@ -226,7 +168,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/program-for-new-02/" data-id="cki87c3ml000mauy1f8jigxar" class="article-share-link" data-share="baidu" data-title="JAVA新手入门02">Share</a>
+        <a data-url="http://yoursite.com/program-for-new-02/" data-id="cki87s9eu000geay18p4bgbvp" class="article-share-link" data-share="baidu" data-title="JAVA新手入门02">Share</a>
       
 
       
@@ -274,7 +216,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。</p>
-<h1 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h1>
+<h2 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h2>
         
           <p class="article-more-link">
             <a href="/program-for-new-01/#more">查看全部</a>
@@ -284,7 +226,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki87c3mj000iauy1a1o802sd" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
+        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki87s9ey000keay14a105ipd" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
       
 
       
