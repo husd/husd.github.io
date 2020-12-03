@@ -6,14 +6,19 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   
-  <title>do what you want</title>
+  <title>JAVA新手入门03 | do what you want</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="do what you want">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="这篇文章，将会详细的列出来，新手入门的话，需要学习哪些Java的基础知识，这些知识，是必须要掌握的，而且不能学的半盆子水平，要深入原理的去学习，然后才能在以后使用的时候，得心应手。 String篇string会伴随Java开发的一生，几乎每天都会用到，所以要去研究这个类，目前作为新手入门，要理解的是如下内容：  string底层是什么 它不是基本类型，对吧，它是用哪种基本类型实现的 string的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA新手入门03">
+<meta property="og:url" content="http://yoursite.com/program-for-new-03/index.html">
 <meta property="og:site_name" content="do what you want">
+<meta property="og:description" content="这篇文章，将会详细的列出来，新手入门的话，需要学习哪些Java的基础知识，这些知识，是必须要掌握的，而且不能学的半盆子水平，要深入原理的去学习，然后才能在以后使用的时候，得心应手。 String篇string会伴随Java开发的一生，几乎每天都会用到，所以要去研究这个类，目前作为新手入门，要理解的是如下内容：  string底层是什么 它不是基本类型，对吧，它是用哪种基本类型实现的 string的">
 <meta property="og:locale">
+<meta property="article:published_time" content="2020-12-02T11:18:16.000Z">
+<meta property="article:modified_time" content="2020-12-03T01:59:08.425Z">
 <meta property="article:author" content="hushengdong">
+<meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
   
   
@@ -68,9 +73,7 @@
 </header>
 
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-program-for-new-03" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-program-for-new-03" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -78,8 +81,8 @@
         <div style="text-align:center">
             
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-03/">JAVA新手入门03</a>
+    <h1 class="article-title" itemprop="name">
+      JAVA新手入门03
     </h1>
   
 
@@ -181,157 +184,24 @@
     </footer>
   </div>
   
-</article>
-
-
-
-  
-    <article id="post-program-for-new-02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
     
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-02/">JAVA新手入门02</a>
-    </h1>
   
+    <a href="/program-for-new-02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA新手入门02</div>
+    </a>
+  
+</nav>
 
-        </div>
-        <div style="text-align:center" class="article-meta">
-          <a href="/program-for-new-02/" class="article-date">
-  <time datetime="2020-12-02T07:08:25.000Z" itemprop="datePublished">2020-12-02</time>
-</a>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a>
-  </div>
-
-        </div>
-        <div style="border:2px solid #009688"></div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。</p>
-<h1 id="Math-min-int-a-int-b-方法的必要性"><a href="#Math-min-int-a-int-b-方法的必要性" class="headerlink" title="Math.min(int a, int b)方法的必要性"></a>Math.min(int a, int b)方法的必要性</h1><!-- more -- >
-
-Math.min(a,b)方法，会返回a和b之中的较小的值。如果对java.lang.Math类中的这个方法不熟悉，也没有关系，这里并不想讨论方法的重载，也不想讨论怎么比较2个double类型或者2个float类型在获取最小值时候的不同（如果你是编程新手，建议你去学习下怎么比较2个double值），返回2个整型值中的较小的值，代码非常的简单，例如可以这么写：
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么，问题来了，我为什么要把这么简单的1个功能，做出来1个方法呢？干嘛要调用1个方法，而不是直接在调用Math.min(a,b)的方法，直接写这段逻辑呢？</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">int</span> c = a &gt; b ? b : a; <span class="comment">// A</span></span><br><span class="line"><span class="built_in">int</span> d = <span class="module-access"><span class="module"><span class="identifier">Math</span>.</span></span>min(a,b); <span class="comment">// B</span></span><br></pre></td></tr></table></figure>
-<p>对于A和B的不同的写法，有什么不同吗？ 其实有很大的不同，这里先不考虑方法调用的开销，直观上来说，使用Math.min()让代码的可读性有了很大的提高，而且减少了出错的可能性，a,b两个变量的顺序，不影响最终的结果，Math.min(a,b)和Math.min(b,a)是等效的，但是对于A这种写法，就需要注意，是不是有可能会给写反了？</p>
-<p>由此，我们可以延伸考虑，是什么时候需要把一段代码抽出来1个方法，什么时候不需要呢？先来考虑这么一种编程的场景：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// a == 10 &amp;&amp; b == 20 表示业务情况A</span></span><br><span class="line"><span class="keyword">if</span>(a == <span class="number">10</span> &amp;&amp; b == <span class="number">20</span>) &#123;</span><br><span class="line">  <span class="keyword">do</span> something</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有一点要考虑的是是否有必要把条件修改为1个函数<br>boolean 业务情况A = a == 10 &amp;&amp; b == 20<br>if(业务情况A) {</p>
-<p>}</p>
-<p>这样的代码，这其实和经常用的一个StringUtils.isBlank()或者CollectionUtils.isEmpty()有类似的地方，能用代码表示清楚意图的，尽量用代码表示，而不是写一段注释。所以可以时常考虑把一些代码的逻辑抽象出来，不一定要抽象成1个方法，也可以用1个变量来表示。</p>
-<p>你可以再思考下，有没有其它的什么办法，能够提高代码的可读性？</p>
-<h1 id="关于日志"><a href="#关于日志" class="headerlink" title="关于日志"></a>关于日志</h1><p>刚开始学习写代码的时候，如果想追踪代码，可以使用debug模型运行代码，也可以把一些变量输出在控制台，查看一些关键变量的值，在正式工作之后，就不能再把一些关键信息输出到控制台了，毕竟服务器上的标准输出，是不能保留的，而且性能不佳，无法落地留存，Java的日志框架也挺多，主流的也不多，但是今天我们想聊的是怎么打日志，哪里要打日志，打哪些内容。</p>
-<ul>
-<li>日志要把关键信息打出来，就像写小说一样，人物，时间，地点，剧情都要写清楚，一般来说不用管时间，日志会自带，就只剩下人物和地点和剧情了，什么业务，什么参数，结果是成功还是失败，都要打印出来。</li>
-</ul>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 良好的日志</span></span><br><span class="line"><span class="built_in">log</span>.info(<span class="string">&quot;sku:&#123;&#125; 发生了一笔业务，参数是:&#123;&#125; 结果是:&#123;&#125;&quot;</span>,sku,参数,结果);</span><br><span class="line"></span><br><span class="line"><span class="comment">//不好的日志 很鸡肋，不能起到日志应该有的作用，反而影响了性能</span></span><br><span class="line"><span class="built_in">log</span>.info(<span class="string">&quot;sku 发生了一笔业务&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>日志要有节制，不能随意打，关键业务打印日志，报错的地方打印日志</li>
-<li>日志应该尽量短，不能太长</li>
-<li>日志可以在某些条件下打印，采样打印，例如可以判断当前时间戳，如果可以被10整除，才打印日志，这样能减少日志的条数</li>
-<li>打印日志的时候，主要空指针异常</li>
-</ul>
-<h1 id="合理的设计类，不要把所有代码都放到1个文件"><a href="#合理的设计类，不要把所有代码都放到1个文件" class="headerlink" title="合理的设计类，不要把所有代码都放到1个文件"></a>合理的设计类，不要把所有代码都放到1个文件</h1><p>之前工作的1家公司，要求每个Java类长度不超过500行，我觉的是一个非常好的约定，避免了1个类膨胀的特别大，每个类应该设计为只为某一件事服务，不能什么都做。 比较经典的MVC分层结构，是大家都在用的方法，这里我认为并没有一个规则，来约定必须要多大的类，才需要拆分，如果你认为有必要，可以把读取Excel和读取Txt的类，拆分成2个类； 也可以把常量单独拆分、计算公式单独拆分、检查参数、解析文件、读取数据库、外部接口交互、MQ等，都单独拆分出来。</p>
-<p>一直到拆的不能拆为止，但是也不能拆的太碎了，如果拆的太碎了，一定要有1个胶水类，把代码组织起来，这个胶水类，可以不做任何其它事情，就是调用其它的方法。</p>
-<p>需要注意的是，类最好只堆外暴露需要暴露的方法，而不是把所有的方法，都设置为public的可见级别。</p>
-<p>接口也是，谨慎的设计接口，因为一旦开始使用某个接口方法，后续可能会很难去掉。关于接口设计这块，其实也可以单独拿出来，仔细的分析一下，接口的设计也需要相当的功力，不过作为入门的文章，这里就不再多说了，可以参考下List这个接口，设计了size()接口方法，也设计了isEmpty()接口方法，看起来有重复，实际上是很玄学的事情，代表了2个不同的意思，体现了接口和实现的不同，你可以设计一个实现，size()不是0，但是isEmpty()返回true，只要你愿意的话。</p>
-<h1 id="其它的一些事情"><a href="#其它的一些事情" class="headerlink" title="其它的一些事情"></a>其它的一些事情</h1><p>对于新手入门的文章，接下来打算说一下具体的Java入门需要学习的东西，想要把编程的基础扎实了，还是要从Java基础学起，那么什么是Java基础呢？有哪些需要学习的东西呢？ 接下来会讨论一下。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/program-for-new-02/" data-id="cki86zzoe000kqgy1h3w0blmc" class="article-share-link" data-share="baidu" data-title="JAVA新手入门02">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/program-for-new-02/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-
-  
-    <article id="post-program-for-new-01" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-01/">JAVA新手入门01</a>
-    </h1>
-  
-
-        </div>
-        <div style="text-align:center" class="article-meta">
-          <a href="/program-for-new-01/" class="article-date">
-  <time datetime="2020-12-02T03:50:10.000Z" itemprop="datePublished">2020-12-02</time>
-</a>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">新手入门</a>
-  </div>
-
-        </div>
-        <div style="border:2px solid #009688"></div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇文章给新入门的程序员看的，高手就不要看了，对于刚开始参加工作，或者在大学学习了计算机的编程知识，不管是学的C语言，还是JAVA，还是C# 等等，都迫切的想要提高自己，这篇文章将结合本人多年的编程经验，说一说新手在编程中，应当注意的一些事项。</p>
-<h1 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h1>
-        
-          <p class="article-more-link">
-            <a href="/program-for-new-01/#more">查看全部</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/program-for-new-01/" data-id="cki86zzob000gqgy14zse6vwf" class="article-share-link" data-share="baidu" data-title="JAVA新手入门01">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/program-for-new-01/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-  </nav>
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="program-for-new-03/" data-title="JAVA新手入门03" data-url="http://yoursite.com/program-for-new-03/"></div>
+  </section>
 
 </section>
       
