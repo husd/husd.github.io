@@ -190,9 +190,6 @@ body {
     margin: 0 0.833333333333333%;
   }
 }
-#main {
-  float: right;
-}
 .article-date,
 .article-category-link,
 .archive-year,
@@ -404,8 +401,13 @@ body {
   position: relative;
 }
 #header-inner {
-  position: relative;
-  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  width: 100%;
+  height: 60px;
+  left: -7px;
 }
 #banner {
   position: absolute;
@@ -414,10 +416,6 @@ body {
   width: 100%;
   height: 100%;
   background: #21282e;
-  background: url("images/banner.jpg") center #000;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
   z-index: -1;
 }
 #header-title {
@@ -439,30 +437,29 @@ body {
   font-size: 40px;
   line-height: 40px;
   letter-spacing: 2px;
-  background: #e32d40;
+  background: #1d2b2c;
   padding: 5px 10px;
   border-radius: 5px;
 }
 #subtitle {
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 32px;
+  line-height: 32px;
   letter-spacing: 1px;
   color: #687e91;
 }
 #subtitle-wrap {
-  margin-top: 16px;
+  margin-top: 32px;
 }
 #main-nav {
-  float: left;
-  margin-left: -15px;
+  float: right;
+  margin-right: 150px;
+  padding-top: 10px;
 }
 .nav-icon,
 .main-nav-link {
   float: left;
-  color: #fff;
-  opacity: 0.6;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  filter: alpha(opacity=60);
+  color: #000;
+  font-weight: bold;
   text-decoration: none;
   text-shadow: 0 1px rgba(0,0,0,0.2);
   -webkit-transition: opacity 0.2s;
@@ -490,7 +487,8 @@ body {
   cursor: pointer;
 }
 .main-nav-link {
-  font-weight: 300;
+  font-weight: 340;
+  padding: 10px 15px;
   letter-spacing: 1px;
 }
 @media screen and (max-width: 479px) {
@@ -639,6 +637,7 @@ a.article-title:hover {
   color: #e32d40;
 }
 .article-entry {
+  font-size: 18px;
   zoom: 1;
   color: #000;
   padding: 0 20px;
@@ -1258,10 +1257,10 @@ code.has-numbering {
   background: #c8c3cd;
   padding: 50px 0;
   border-top: 1px solid #ddd;
-  color: #999;
+  color: #21282e;
 }
 #footer a {
-  color: #e32d40;
+  color: #21282e;
   text-decoration: none;
 }
 #footer a:hover {
@@ -1269,7 +1268,7 @@ code.has-numbering {
 }
 #footer-info {
   line-height: 1.6em;
-  font-size: 0.85em;
+  font-size: 1.4em;
 }
 .article-entry pre,
 .article-entry .highlight {
@@ -1569,4 +1568,11 @@ pre .javascript .function {
 }
 .tagcloud a {
   margin-right: 5px;
+}
+.widget li {
+  margin-bottom: 8px;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border-bottom: solid #d6dce2 0.5px;
 }
