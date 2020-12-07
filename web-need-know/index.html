@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>开发一个WEB网站需要知道什么 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。">
 <meta property="og:type" content="article">
@@ -90,24 +90,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/web-need-know/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/web-need-know/" class="article-date">
   <time datetime="2019-05-17T06:52:21.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。</p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>开发一个WEB项目，到底有多少技术细节需要程序员注意呢？有人在stackOverFlow上提问了这个问题，其中得到2000多赞同的答案如下：我觉的很好，有必要翻译一下。</p>
 <a id="more"></a>
 
 <hr>
@@ -194,7 +196,8 @@
 <h2 id="8-后记"><a href="#8-后记" class="headerlink" title="8 后记"></a>8 后记</h2><p>确实如作者所说，很多东西要么太详细，超出了本文的范围，要么不适合在这里讲出来，在做任何事，写任何文章之前，一定要明确你的目的是什么，确定了目的才有方向，千万不能像无头苍蝇一样乱撞，如果你恰好看到了本文的翻译，也请思考下，你看这篇译文的目的是什么，看完了之后是否达到了你的目的，</p>
 <p>全文完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -565,13 +568,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -605,44 +614,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

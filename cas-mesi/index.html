@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>CAS和MESI缓存一致性协议 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉">
 <meta property="og:type" content="article">
@@ -92,24 +92,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/cas-mesi/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/cas-mesi/" class="article-date">
   <time datetime="2020-12-03T06:24:33.000Z" itemprop="datePublished">2020-12-03</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p style="width:800px;">
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
     <img src="/img/cpu-cache.png" align="right" width="20%" hspace="5" vspace="5">
     <p>
       CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。
@@ -160,7 +162,8 @@
 </ul>
 <p>全文完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -531,13 +534,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -571,44 +580,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

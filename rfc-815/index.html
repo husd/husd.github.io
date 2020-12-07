@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>RFC815-IP分片重组 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。 David D. ClarkMIT计算机科学实验室计算机系统通讯组1982年7月">
 <meta property="og:type" content="article">
@@ -90,24 +90,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/rfc-815/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/rfc-815/" class="article-date">
   <time datetime="2019-05-17T07:37:32.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。</p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。</p>
 <p>David D. Clark<br>MIT计算机科学实验室<br>计算机系统通讯组<br>1982年7月</p>
 <a id="more"></a>
 
@@ -141,7 +143,8 @@
 <p>包含所有部分的完整算法曾经在BCPL做了一个测试，完整的算法使用了1.5页的链表（指的是纸带吗？），生成了大约400个机器指令，算法部分实际上只包含20行左右的洞管理代码，本文档描述的算法实际上是作者原始版本的简化版本，感谢她在MIT的高瞻远瞩的观察测试。</p>
 <p>全文完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -512,13 +515,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -552,44 +561,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

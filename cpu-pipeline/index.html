@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>CPU Pipeline了解CPU的工作内容 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在我的另外的一篇博文为什么处理有序数组比无序数组要快中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。CPU的Pineline遨游之旅 一个好的程序员有必要去了解下在处理器的内部是怎么工作的，CPU就是关键。那么在CPU内部发生了什么事情呢？执行一条命令需要多长时间？一款新的CPU有12">
 <meta property="og:type" content="article">
@@ -96,24 +96,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/cpu-pipeline/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/cpu-pipeline/" class="article-date">
   <time datetime="2019-05-17T02:52:24.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在我的另外的一篇博文为什么<a href="/sort-fast/">处理有序数组比无序数组要快</a>中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。CPU的Pineline遨游之旅</p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>在我的另外的一篇博文为什么<a href="/sort-fast/">处理有序数组比无序数组要快</a>中，提到了当代的CPU都有很深的pipeline，那么CPU的pipeline到底是什么东西呢？在CPU的工作流程中起到了什么样的作用呢？于是搜到了这么一篇文章。CPU的Pineline遨游之旅</p>
 <p>一个好的程序员有必要去了解下在处理器的内部是怎么工作的，CPU就是关键。<br>那么在CPU内部发生了什么事情呢？执行一条命令需要多长时间？一款新的CPU有12层流水线或者18层又代表了什么呢？甚至31层？</p>
 <p>应用程序一般把CPU当作一个黑盒子，指令按一定的顺序进入这个黑盒子，按顺序出来，这里面就有一些门道了。作为一个开发人员，学习下CPU内部发生了什么是非有用，特别是当你在进行调优的时候。</p>
 <p>这篇文章就是要说说基于X86架构下的CPU的深度流水线（说明文章的目的和内容，背景非常重要）。</p>
@@ -143,7 +145,7 @@
 <p>获取，<br>D1（主解码）<br>D2（第2层解码，也叫做翻译或者转换）<br>EX（执行）<br>WB（回写寄存器和主存）<br>一条指令有可能在任何一层中。</p>
 <p><img src="/img/486pipeline.png" alt="486pipeline"></p>
 <p>这个CPU的Pipeline架构有一个主要的缺陷，想象一下下面的代码流，在执行回退前的交换2个变量的值：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">XOR </span>a,<span class="keyword">b</span></span><br><span class="line"><span class="keyword">XOR </span><span class="keyword">b,a</span></span><br><span class="line"><span class="keyword">XOR </span>a,<span class="keyword">b</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">XOR a,b</span><br><span class="line">XOR b,a</span><br><span class="line">XOR a,b</span><br></pre></td></tr></table></figure>
 <p>CPU从8086开始直到386都没有一个内部流水线，他们同一时间只执行一条指令，指令之间完全相互独立，在这样的架构中3个连续的XOR指令不是问题。</p>
 <p>我们假设这个操作发生在i486因为i486是第一个拥有内部流水线的X86架构的处理器，当我们某一时刻去看指令执行状态可能会感到疑惑，所以需要回头去看看上面那幅图。</p>
 <p>第一条指令进入获取阶段并且我们执行完毕，在下一步第一条指令进入D1阶段，并且第2条指令被加载进到获取阶段，第3步第一条指令进入D2阶段，第2条D1，第3条刚被加载到获取阶段，在下面就会出错了，因为第一条指令进入到EX阶段…但是其它的指令并没有提前，解码停止了因为第2条的XOR指令需要依赖第1条XOR指令的结果，变量a要被第2条指令使用，但是a直到第1条指令执行完毕才会被回写，所以流水线就暂时挂起直到第一条指令执行完毕并回写结束，然后第2条指令才可以执行，第3条指令也是类似被卡住了，直到第2条指令执行完毕。</p>
@@ -196,7 +198,8 @@
 <h2 id="8-License"><a href="#8-License" class="headerlink" title="8 License"></a>8 License</h2><p>Gamedev.net Open License</p>
 <p>翻译完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -567,13 +570,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -607,44 +616,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

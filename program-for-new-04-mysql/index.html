@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>JAVA新手入门04之MYSQL基础篇 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这篇文章主要讲解一下基础MYSQL，纯粹为新人准备的，老手可以直接略过。在真实的项目中，数据一般都是要落地到数据库进行存储的，例如你在购物网站购买了一个手机，那么购物网站需要把你购买手机的时间、价格、订单号、支付信息等存储起来，如果有积分，还会记录一下积分信息。明白了数据库的作用，我们再来看看MYSQL这个关系数据库的一些基本操作。            这一篇我">
 <meta property="og:type" content="article">
@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://yoursite.com/img/mysql01.png">
 <meta property="og:image" content="http://yoursite.com/img/mysql02.png">
 <meta property="article:published_time" content="2020-12-05T03:22:20.000Z">
-<meta property="article:modified_time" content="2020-12-05T14:46:51.555Z">
+<meta property="article:modified_time" content="2020-12-07T11:12:44.988Z">
 <meta property="article:author" content="双king">
 <meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
@@ -94,24 +94,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/program-for-new-04-mysql/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-04-mysql/" class="article-date">
   <time datetime="2020-12-05T03:22:20.000Z" itemprop="datePublished">2020-12-05</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p style="width:800px;">
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
     <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
     <p>
       这篇文章主要讲解一下基础MYSQL，纯粹为新人准备的，老手可以直接略过。在真实的项目中，数据一般都是要落地到数据库进行存储的，例如你在购物网站购买了一个手机，那么购物网站需要把你购买手机的时间、价格、订单号、支付信息等存储起来，如果有积分，还会记录一下积分信息。明白了数据库的作用，我们再来看看MYSQL这个关系数据库的一些基本操作。
@@ -134,7 +136,7 @@
 </ul>
 <h2 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h2><p>假如我们创建1个表，存储学生的基本信息，有学号、姓名、年龄3个列。</p>
 <p>1、创建表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`student`</span> (</span><br><span class="line">  <span class="string">`num`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">&#x27;学号&#x27;</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">smallint</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`num`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8 <span class="keyword">COMMENT</span>=<span class="string">&#x27;学生信息&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看表的建表语句 会返回上述内容</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`student`</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看表的结构</span></span><br><span class="line">desc `student`;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 创建表</span><br><span class="line">CREATE TABLE &#96;student&#96; (</span><br><span class="line">  &#96;num&#96; int(11) NOT NULL AUTO_INCREMENT COMMENT &#39;学号&#39;,</span><br><span class="line">  &#96;name&#96; varchar(10) DEFAULT &#39;&#39; COMMENT &#39;姓名&#39;,</span><br><span class="line">  &#96;age&#96; smallint(11) DEFAULT 0 COMMENT &#39;年龄&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;num&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;学生信息&#39;;</span><br><span class="line"></span><br><span class="line">#查看表的建表语句 会返回上述内容</span><br><span class="line">show create table &#96;student&#96;;</span><br><span class="line"></span><br><span class="line">#查看表的结构</span><br><span class="line">desc &#96;student&#96;;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>create table 是固定写法，记住即可。</li>
@@ -149,17 +151,17 @@
 <li>COMMENT=’学生信息’ 是表的备注</li>
 </ul>
 <p>2、删除表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除表中的数据，并且删除表的结构</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="string">`student`</span>; </span><br><span class="line"><span class="comment">#只删除表中的数据，保留表的结构</span></span><br><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span> <span class="string">`student`</span>; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 删除表中的数据，并且删除表的结构</span><br><span class="line">drop table &#96;student&#96;; </span><br><span class="line">#只删除表中的数据，保留表的结构</span><br><span class="line">truncate table &#96;student&#96;; </span><br></pre></td></tr></table></figure>
 
 <p>3、增加列 ，假如我们增加一列性别</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="string">`student`</span> <span class="keyword">add</span> <span class="keyword">column</span> <span class="string">`sex`</span> <span class="built_in">smallint</span>(<span class="number">6</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;0女生 1男生&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table &#96;student&#96; add column &#96;sex&#96; smallint(6) NOT NULL DEFAULT 0 COMMENT &#39;0女生 1男生&#39;;</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="DML-增删改查"><a href="#DML-增删改查" class="headerlink" title="DML 增删改查"></a>DML 增删改查</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 增加一条记录，学生学号是数据库自动生成的，可以不设置</span></span><br><span class="line"><span class="comment">#这2条插入语句都可以</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`student`</span> (<span class="string">`num`</span>,<span class="string">`name`</span>,<span class="string">`age`</span>,<span class="string">`sex`</span>) <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;小明&#x27;</span>,<span class="number">10</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="string">`student`</span> (<span class="string">`name`</span>,<span class="string">`age`</span>,<span class="string">`sex`</span>) <span class="keyword">values</span> (<span class="string">&#x27;小明&#x27;</span>,<span class="number">10</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除学号是1的学生信息</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改小明的年龄为11岁</span></span><br><span class="line"><span class="keyword">update</span> <span class="string">`student`</span> <span class="keyword">set</span> age = <span class="number">11</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果有2个人，名字都是小明，那么就会把2个小明的年龄都修改为11岁，所以可以根据学号来修改，</span></span><br><span class="line"><span class="comment"># 学号是唯一的，不会重复</span></span><br><span class="line"><span class="keyword">update</span> <span class="string">`student`</span> <span class="keyword">set</span> age = <span class="number">11</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#可以同时修改2个列的值，例如把年龄修改为11岁，性别修改为男（用1表示）</span></span><br><span class="line"><span class="keyword">update</span> <span class="string">`student`</span> <span class="keyword">set</span> age = <span class="number">11</span>,age=<span class="number">1</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询学号1的学生信息，只会返回1条记录 *星号表示查询所有的字段</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#只查询名字和性别，不查询所有</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,sex <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询名字是小明的学生信息，可能会返回多条记录</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询名字是小明，性别是男的学生信息</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span> <span class="keyword">and</span> sex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询名字是小明的同学的人数，一下这2个语句都可以，推荐使用count(*)这种方式。</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(<span class="keyword">num</span>) <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="DML-增删改查"><a href="#DML-增删改查" class="headerlink" title="DML 增删改查"></a>DML 增删改查</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 增加一条记录，学生学号是数据库自动生成的，可以不设置</span><br><span class="line">#这2条插入语句都可以</span><br><span class="line">insert into &#96;student&#96; (&#96;num&#96;,&#96;name&#96;,&#96;age&#96;,&#96;sex&#96;) values (1,&#39;小明&#39;,10,1);</span><br><span class="line">insert into &#96;student&#96; (&#96;name&#96;,&#96;age&#96;,&#96;sex&#96;) values (&#39;小明&#39;,10,1);</span><br><span class="line"></span><br><span class="line"># 删除学号是1的学生信息</span><br><span class="line">delete from &#96;student&#96; where num &#x3D; 1;</span><br><span class="line"></span><br><span class="line"># 修改小明的年龄为11岁</span><br><span class="line">update &#96;student&#96; set age &#x3D; 11 where name &#x3D; &#39;小明&#39;;</span><br><span class="line"></span><br><span class="line"># 如果有2个人，名字都是小明，那么就会把2个小明的年龄都修改为11岁，所以可以根据学号来修改，</span><br><span class="line"># 学号是唯一的，不会重复</span><br><span class="line">update &#96;student&#96; set age &#x3D; 11 where num &#x3D; 1;</span><br><span class="line"></span><br><span class="line">#可以同时修改2个列的值，例如把年龄修改为11岁，性别修改为男（用1表示）</span><br><span class="line">update &#96;student&#96; set age &#x3D; 11,age&#x3D;1 where num &#x3D; 1;</span><br><span class="line"></span><br><span class="line">#查询学号1的学生信息，只会返回1条记录 *星号表示查询所有的字段</span><br><span class="line">select * from &#96;student&#96; where num &#x3D; 1;</span><br><span class="line"></span><br><span class="line">#只查询名字和性别，不查询所有</span><br><span class="line">select name,sex from &#96;student&#96; where num &#x3D; 1;</span><br><span class="line"></span><br><span class="line">#查询名字是小明的学生信息，可能会返回多条记录</span><br><span class="line">select * from &#96;student&#96; where name &#x3D; &#39;小明&#39;;</span><br><span class="line"></span><br><span class="line">#查询名字是小明，性别是男的学生信息</span><br><span class="line">select * from &#96;student&#96; where name &#x3D; &#39;小明&#39; and sex &#x3D; 1;</span><br><span class="line"></span><br><span class="line">#查询名字是小明的同学的人数，一下这2个语句都可以，推荐使用count(*)这种方式。</span><br><span class="line">select count(*) from &#96;student&#96; where name &#x3D; &#39;小明&#39;;</span><br><span class="line">select count(num) from &#96;student&#96; where name &#x3D; &#39;小明&#39;;</span><br></pre></td></tr></table></figure>
 
 <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>索引你可以理解为书的目录，通过目录，可以快速知道内容的页数。通过索引，可以快速找到数据所在磁盘的位置。索引的结构，MYSQL用B+树来存储。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建索引 一般来说 索引可以在1个列上创建索引，也可以在多个列上创建索引</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_name <span class="keyword">on</span> student</span><br><span class="line">(</span><br><span class="line">   <span class="keyword">name</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> idx_name_sex <span class="keyword">on</span> student</span><br><span class="line">(</span><br><span class="line">   <span class="keyword">name</span>,</span><br><span class="line">   sex</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要查看索引是否生效，可以使用如下语句</span></span><br><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`student`</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">&#x27;小明&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 创建索引 一般来说 索引可以在1个列上创建索引，也可以在多个列上创建索引</span><br><span class="line">create index idx_name on student</span><br><span class="line">(</span><br><span class="line">   name</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">create index idx_name_sex on student</span><br><span class="line">(</span><br><span class="line">   name,</span><br><span class="line">   sex</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 要查看索引是否生效，可以使用如下语句</span><br><span class="line">explain select * from &#96;student&#96; where name &#x3D; &#39;小明&#39;;</span><br></pre></td></tr></table></figure>
 
 <p>explain的返回值如下：</p>
 <p><img src="/img/mysql01.png" alt="mysql02"></p>
@@ -182,7 +184,8 @@
 <p>select * from student where num in (1,2);</p>
 <p> 这一篇只是简单的讲解了一下SQL的用法，下一篇我们会讲一些稍微有点难度的。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -553,13 +556,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -593,44 +602,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

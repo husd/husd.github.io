@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>关于我 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="程序员一枚，学习好技术无可厚非，希望可以把技术的基础打的很好，虽然已经工作了有接近9年了，但是感觉在计算机基础上面，仍然有许多要学习的地方。 目前精通哪些内容呢？">
 <meta property="og:type" content="article">
@@ -89,24 +89,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/about/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/about/" class="article-date">
   <time datetime="2019-05-17T07:41:38.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>程序员一枚，学习好技术无可厚非，希望可以把技术的基础打的很好，虽然已经工作了<br>有接近9年了，但是感觉在计算机基础上面，仍然有许多要学习的地方。</p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>程序员一枚，学习好技术无可厚非，希望可以把技术的基础打的很好，虽然已经工作了<br>有接近9年了，但是感觉在计算机基础上面，仍然有许多要学习的地方。</p>
 <h2 id="目前精通哪些内容呢？"><a href="#目前精通哪些内容呢？" class="headerlink" title="目前精通哪些内容呢？"></a>目前精通哪些内容呢？</h2><a id="more"></a>
 
 <p>1、Java的Web编程（后端）<br>2、Java多线程编程<br>3、Java的垃圾回收<br>4、版本管理工具Git SVN</p>
@@ -126,7 +128,8 @@
 </ul>
 <h2 id="目前正在学习的内容呢？"><a href="#目前正在学习的内容呢？" class="headerlink" title="目前正在学习的内容呢？"></a>目前正在学习的内容呢？</h2><p>1、KMP<br>2、epoll</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -495,13 +498,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -535,44 +544,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

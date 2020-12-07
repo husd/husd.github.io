@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>处理有序数据比无序的数组要快 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，原文链接    1 问题下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。 12345678910111213141516171819202122232425262728#include &amp;">
 <meta property="og:type" content="article">
@@ -92,35 +92,37 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/sort-fast/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/sort-fast/" class="article-date">
   <time datetime="2019-05-17T06:11:39.000Z" itemprop="datePublished">2019-05-17</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array,%22title%22">原文链接</a></p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>为什么处理有序数据比无序的数组要快呢？这个问题在stackoverflow上面有很高的投票数，虽然涉及的原理很基础，但是也有必要翻译一下，看看具体的解释，<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array,%22title%22">原文链接</a></p>
 <!-- 查看更多 -->
 
 <hr>
 <h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1 问题"></a>1 问题</h2><p>下面有一段C++的代码看起来很奇怪，因为一些未知的原因，排序之后的代码速度奇迹般的比没有排序的时候快6倍。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Generate data</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">unsigned</span> arraySize = <span class="number">32768</span>;</span><br><span class="line">    <span class="keyword">int</span> data[arraySize];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">        data[c] = <span class="built_in">std</span>::rand() % <span class="number">256</span>;</span><br><span class="line">    <span class="comment">// !!! With this, the next loop runs faster</span></span><br><span class="line">    <span class="built_in">std</span>::sort(data, data + arraySize);</span><br><span class="line">    <span class="comment">// Test</span></span><br><span class="line">    <span class="keyword">clock_t</span> start = clock();</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Primary loop</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">unsigned</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (data[c] &gt;= <span class="number">128</span>)</span><br><span class="line">                sum += data[c];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> elapsedTime = <span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(clock() - start) / CLOCKS_PER_SEC;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; elapsedTime &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;sum = &quot;</span> &lt;&lt; sum &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;ctime&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; Generate data</span><br><span class="line">    const unsigned arraySize &#x3D; 32768;</span><br><span class="line">    int data[arraySize];</span><br><span class="line">    for (unsigned c &#x3D; 0; c &lt; arraySize; ++c)</span><br><span class="line">        data[c] &#x3D; std::rand() % 256;</span><br><span class="line">    &#x2F;&#x2F; !!! With this, the next loop runs faster</span><br><span class="line">    std::sort(data, data + arraySize);</span><br><span class="line">    &#x2F;&#x2F; Test</span><br><span class="line">    clock_t start &#x3D; clock();</span><br><span class="line">    long long sum &#x3D; 0;</span><br><span class="line">    for (unsigned i &#x3D; 0; i &lt; 100000; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; Primary loop</span><br><span class="line">        for (unsigned c &#x3D; 0; c &lt; arraySize; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            if (data[c] &gt;&#x3D; 128)</span><br><span class="line">                sum +&#x3D; data[c];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    double elapsedTime &#x3D; static_cast&lt;double&gt;(clock() - start) &#x2F; CLOCKS_PER_SEC;</span><br><span class="line">    std::cout &lt;&lt; elapsedTime &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; &quot;sum &#x3D; &quot; &lt;&lt; sum &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
 
 <p>没有std::sort(data, data + arraySize);，这段代码运行了11.54秒。<br>加上了这段排序的代码，这段代码运行了1.93秒。</p>
 <p>起初，我以为这和语言或者编译器有关，所以我用java语言又试了一次。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// Generate data</span></span><br><span class="line">        <span class="keyword">int</span> arraySize = <span class="number">32768</span>;</span><br><span class="line">        <span class="keyword">int</span> data[] = <span class="keyword">new</span> <span class="keyword">int</span>[arraySize];</span><br><span class="line">        Random rnd = <span class="keyword">new</span> Random(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">            data[c] = rnd.nextInt() % <span class="number">256</span>;</span><br><span class="line">        <span class="comment">// !!! With this, the next loop runs faster</span></span><br><span class="line">        Arrays.sort(data);</span><br><span class="line">        <span class="comment">// Test</span></span><br><span class="line">        <span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">        <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Primary loop</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; arraySize; ++c)</span><br><span class="line">            &#123;。</span><br><span class="line">                <span class="keyword">if</span> (data[c] &gt;= <span class="number">128</span>)</span><br><span class="line">                    sum += data[c];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println((System.nanoTime() - start) / <span class="number">1000000000.0</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;sum = &quot;</span> + sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Random;</span><br><span class="line">public class Main</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; Generate data</span><br><span class="line">        int arraySize &#x3D; 32768;</span><br><span class="line">        int data[] &#x3D; new int[arraySize];</span><br><span class="line">        Random rnd &#x3D; new Random(0);</span><br><span class="line">        for (int c &#x3D; 0; c &lt; arraySize; ++c)</span><br><span class="line">            data[c] &#x3D; rnd.nextInt() % 256;</span><br><span class="line">        &#x2F;&#x2F; !!! With this, the next loop runs faster</span><br><span class="line">        Arrays.sort(data);</span><br><span class="line">        &#x2F;&#x2F; Test</span><br><span class="line">        long start &#x3D; System.nanoTime();</span><br><span class="line">        long sum &#x3D; 0;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 100000; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Primary loop</span><br><span class="line">            for (int c &#x3D; 0; c &lt; arraySize; ++c)</span><br><span class="line">            &#123;。</span><br><span class="line">                if (data[c] &gt;&#x3D; 128)</span><br><span class="line">                    sum +&#x3D; data[c];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println((System.nanoTime() - start) &#x2F; 1000000000.0);</span><br><span class="line">        System.out.println(&quot;sum &#x3D; &quot; + sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虽然差距没那么大，但是也是相似的结果（指排序之后变快了）。</p>
 <p>我第一感觉是排序之后数据会被加载进缓存，但之后我就觉的这个想法太蠢了，因为数组是刚刚生成的。</p>
 <p>发生了什么事情？<br>为什么排序的数组比没有排序的更快了？<br>这段代码和任何团队无关，并且顺序也不重要。</p>
@@ -130,7 +132,7 @@
 <p>火车自重很大，惯性也很大，所以停下来和重新启动耗费了很长时间。还有更好的方法吗？比方说先猜一下火车的方向：</p>
 <p>如果猜对了，挺好，火车继续走。<br>如果猜错了，司机会停下来，退回去，你把铁路扳正确了，火车重新启动再继续走。<br>如果你每次都猜对的话，火车就永远不会停。<br>如果你猜错的次数很多的话，火车就会频繁的停下、退回去、重新发动。</p>
 <p>考虑一个if语句，在CPU这个级别，是这样执行的：</p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if(data[c] &gt; <span class="number">128</span>) &#123;</span><br><span class="line">sum += data[c]<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">movsxd</span> <span class="built_in">rdx</span>,<span class="built_in">DWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rcx</span>]</span><br><span class="line"><span class="keyword">cmp</span> <span class="built_in">edx</span> <span class="number">128</span>				 <span class="comment">; 00000080H</span></span><br><span class="line"><span class="keyword">jl</span> SHORT $LN3@main</span><br><span class="line"><span class="keyword">add</span> <span class="built_in">rbx</span>,<span class="built_in">rdx</span></span><br><span class="line">$LN3@main:</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if(data[c] &gt; 128) &#123;</span><br><span class="line">sum +&#x3D; data[c];</span><br><span class="line">&#125;</span><br><span class="line">movsxd rdx,DWORD PTR [rcx]</span><br><span class="line">cmp edx 128				 ; 00000080H</span><br><span class="line">jl SHORT $LN3@main</span><br><span class="line">add rbx,rdx</span><br><span class="line">$LN3@main:</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>现在假设你就是CPU，你看到了一个分支，但是不知道该走哪个分支，你该怎么做？你挂起当前操作，等待分支判断的结果，然后再选择正确的分支。现在的CPU是很复杂的，有很长的执行命令管线（这块不知道怎么翻译了，Modern processors are complicated and have long pipelines），所以永远在热身和停止。</p>
 </blockquote>
@@ -142,28 +144,29 @@
 </blockquote>
 <p>更多请阅读维基百科的分支预测</p>
 <p>由此推断，上面的if语句是排序后程序运行更快的原因：</p>
-<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">if</span> (<span class="class"><span class="keyword">data</span>[c] &gt;= 128)</span></span><br><span class="line">    sum += <span class="class"><span class="keyword">data</span>[c];</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (data[c] &gt;&#x3D; 128)</span><br><span class="line">    sum +&#x3D; data[c];</span><br></pre></td></tr></table></figure>
 
 <p>我们注意到数据分布在0到255之间，当数据是有序的，大概算一下前半部分都没有满足条件，后面的部分都满足了data[c] &gt; 128的条件，就不判断这个条件了，在这之后，程序都是直接进入到sum+=data[c]。</p>
 <p>有序的数据很适合拿来做分支预测因为大部分的情况下都能命中猜测。</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">T</span> = branch taken</span><br><span class="line"><span class="built_in">N</span> = branch <span class="built_in">not</span> taken</span><br><span class="line">data[] = <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, ... <span class="number">126</span>, <span class="number">127</span>, <span class="number">128</span>, <span class="number">129</span>, <span class="number">130</span>, ... <span class="number">250</span>, <span class="number">251</span>, <span class="number">252</span>, ...</span><br><span class="line">branch = <span class="built_in">N</span>  <span class="built_in">N</span>  <span class="built_in">N</span>  <span class="built_in">N</span>  <span class="built_in">N</span>  ...   <span class="built_in">N</span>    <span class="built_in">N</span>    <span class="built_in">T</span>    <span class="built_in">T</span>    <span class="built_in">T</span>  ...   <span class="built_in">T</span>    <span class="built_in">T</span>    <span class="built_in">T</span>  ...</span><br><span class="line">       = NNNNNNNNNNNN ... NNNNNNNTTTTTTTTT ... TTTTTTTTTT  (easy to predict)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">T &#x3D; branch taken</span><br><span class="line">N &#x3D; branch not taken</span><br><span class="line">data[] &#x3D; 0, 1, 2, 3, 4, ... 126, 127, 128, 129, 130, ... 250, 251, 252, ...</span><br><span class="line">branch &#x3D; N  N  N  N  N  ...   N    N    T    T    T  ...   T    T    T  ...</span><br><span class="line">       &#x3D; NNNNNNNNNNNN ... NNNNNNNTTTTTTTTT ... TTTTTTTTTT  (easy to predict)</span><br></pre></td></tr></table></figure>
 <p>当数据是完全随机的时候，分支预测就很难提高效率了，大概有50%会判断错误（根据历史规律猜中的概率差不多是瞎猜了）。</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data[] = <span class="number">226</span>, <span class="number">185</span>, <span class="number">125</span>, <span class="number">158</span>, <span class="number">198</span>, <span class="number">144</span>, <span class="number">217</span>, <span class="number">79</span>, <span class="number">202</span>, <span class="number">118</span>,  <span class="number">14</span>, <span class="number">150</span>, <span class="number">177</span>, <span class="number">182</span>, <span class="number">133</span>, ...</span><br><span class="line">branch =   <span class="built_in">T</span>,   <span class="built_in">T</span>,   <span class="built_in">N</span>,   <span class="built_in">T</span>,   <span class="built_in">T</span>,   <span class="built_in">T</span>,   <span class="built_in">T</span>,  <span class="built_in">N</span>,   <span class="built_in">T</span>,   <span class="built_in">N</span>,   <span class="built_in">N</span>,   <span class="built_in">T</span>,   <span class="built_in">T</span>,   <span class="built_in">T</span>,   <span class="built_in">N</span>  ...</span><br><span class="line">       = TTNTTTTNTNNTTTN ...   (completely random - hard to predict)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data[] &#x3D; 226, 185, 125, 158, 198, 144, 217, 79, 202, 118,  14, 150, 177, 182, 133, ...</span><br><span class="line">branch &#x3D;   T,   T,   N,   T,   T,   T,   T,  N,   T,   N,   N,   T,   T,   T,   N  ...</span><br><span class="line">       &#x3D; TTNTTTTNTNNTTTN ...   (completely random - hard to predict)</span><br></pre></td></tr></table></figure>
 <h2 id="3-我们该怎么办"><a href="#3-我们该怎么办" class="headerlink" title="3 我们该怎么办"></a>3 我们该怎么办</h2><p>如果编译器不能做分支预测的优化，我们该怎么办呢？如果我们可以为了性能而牺牲代码的可读性的话，可以尝试以下的优化方法，可以把下面的代码：</p>
-<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">if</span> (<span class="class"><span class="keyword">data</span>[c] &gt;= 128)</span></span><br><span class="line">    sum += <span class="class"><span class="keyword">data</span>[c];</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (data[c] &gt;&#x3D; 128)</span><br><span class="line">    sum +&#x3D; data[c];</span><br></pre></td></tr></table></figure>
 <p>替换为：</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">t</span> = (data[c] - <span class="number">128</span>) &gt;&gt; <span class="number">31</span>;</span><br><span class="line"><span class="built_in">sum</span> += ~<span class="built_in">t</span> &amp; data[c];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int t &#x3D; (data[c] - 128) &gt;&gt; 31;</span><br><span class="line">sum +&#x3D; ~t &amp; data[c];</span><br></pre></td></tr></table></figure>
 
 <p>这样就使用位移操作避免了分支判断。</p>
 <p>以下是一些测试数据（Benchmarks: Core i7 920 @ 3.5 GHz）：<br>C++ - Visual Studio 2010 - x64 Release：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span>  Branch - Random</span><br><span class="line">seconds = <span class="number">11.777</span></span><br><span class="line"><span class="regexp">//</span>  Branch - Sorted</span><br><span class="line">seconds = <span class="number">2.352</span></span><br><span class="line"><span class="regexp">//</span>  Branchless - Random</span><br><span class="line">seconds = <span class="number">2.564</span></span><br><span class="line"><span class="regexp">//</span>  Branchless - Sorted</span><br><span class="line">seconds = <span class="number">2.587</span></span><br><span class="line">Java - Netbeans <span class="number">7.1</span>.<span class="number">1</span> JDK <span class="number">7</span> - x64：</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span>  Branch - Random</span><br><span class="line">seconds = <span class="number">10.93293813</span></span><br><span class="line"><span class="regexp">//</span>  Branch - Sorted</span><br><span class="line">seconds = <span class="number">5.643797077</span></span><br><span class="line"><span class="regexp">//</span>  Branchless - Random</span><br><span class="line">seconds = <span class="number">3.113581453</span></span><br><span class="line"><span class="regexp">//</span>  Branchless - Sorted</span><br><span class="line">seconds = <span class="number">3.186068823</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;  Branch - Random</span><br><span class="line">seconds &#x3D; 11.777</span><br><span class="line">&#x2F;&#x2F;  Branch - Sorted</span><br><span class="line">seconds &#x3D; 2.352</span><br><span class="line">&#x2F;&#x2F;  Branchless - Random</span><br><span class="line">seconds &#x3D; 2.564</span><br><span class="line">&#x2F;&#x2F;  Branchless - Sorted</span><br><span class="line">seconds &#x3D; 2.587</span><br><span class="line">Java - Netbeans 7.1.1 JDK 7 - x64：</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;  Branch - Random</span><br><span class="line">seconds &#x3D; 10.93293813</span><br><span class="line">&#x2F;&#x2F;  Branch - Sorted</span><br><span class="line">seconds &#x3D; 5.643797077</span><br><span class="line">&#x2F;&#x2F;  Branchless - Random</span><br><span class="line">seconds &#x3D; 3.113581453</span><br><span class="line">&#x2F;&#x2F;  Branchless - Sorted</span><br><span class="line">seconds &#x3D; 3.186068823</span><br></pre></td></tr></table></figure>
 
 <p>结论：</p>
 <p>使用分支预测，排序数据和随机数据运行时间差别特别大。<br>使用位移消除分支，排序数据和随机数据运行时间差别不大。<br>C++分支预测运行排序数据比第2种去分支优化方法稍微快一点。</p>
 <p>有一个第一个要考虑的原则是避免在循环里面写和数据相关的分支判断，就像示例中的代码一样的那种，要避免。</p>
 <p>全文完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -534,13 +537,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -574,44 +583,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

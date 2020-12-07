@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>JAVA新手入门02 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。 Math.min(int a, int b)方法的必要性">
 <meta property="og:type" content="article">
@@ -90,33 +90,35 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/program-for-new-02/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-02/" class="article-date">
   <time datetime="2020-12-02T07:08:25.000Z" itemprop="datePublished">2020-12-02</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。</p>
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。</p>
 <h2 id="Math-min-int-a-int-b-方法的必要性"><a href="#Math-min-int-a-int-b-方法的必要性" class="headerlink" title="Math.min(int a, int b)方法的必要性"></a>Math.min(int a, int b)方法的必要性</h2><a id="more"></a>
 
 <p>Math.min(a,b)方法，会返回a和b之中的较小的值。如果对java.lang.Math类中的这个方法不熟悉，也没有关系，这里并不想讨论方法的重载，也不想讨论怎么比较2个double类型或者2个float类型在获取最小值时候的不同（如果你是编程新手，建议你去学习下怎么比较2个double值），返回2个整型值中的较小的值，代码非常的简单，例如可以这么写：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int min(int a,int b) &#123;</span><br><span class="line">  return a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么，问题来了，我为什么要把这么简单的1个功能，做出来1个方法呢？干嘛要调用1个方法，而不是直接在调用Math.min(a,b)的方法，直接写这段逻辑呢？</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">int</span> c = a &gt; b ? b : a; <span class="comment">// A</span></span><br><span class="line"><span class="built_in">int</span> d = <span class="module-access"><span class="module"><span class="identifier">Math</span>.</span></span>min(a,b); <span class="comment">// B</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 10;</span><br><span class="line">int b &#x3D; 20;</span><br><span class="line">int c &#x3D; a &gt; b ? b : a; &#x2F;&#x2F; A</span><br><span class="line">int d &#x3D; Math.min(a,b); &#x2F;&#x2F; B</span><br></pre></td></tr></table></figure>
 <p>对于A和B的不同的写法，有什么不同吗？ 其实有很大的不同，这里先不考虑方法调用的开销，直观上来说，使用Math.min()让代码的可读性有了很大的提高，而且减少了出错的可能性，a,b两个变量的顺序，不影响最终的结果，Math.min(a,b)和Math.min(b,a)是等效的，但是对于A这种写法，就需要注意，是不是有可能会给写反了？</p>
 <p>由此，我们可以延伸考虑，是什么时候需要把一段代码抽出来1个方法，什么时候不需要呢？先来考虑这么一种编程的场景：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// a == 10 &amp;&amp; b == 20 表示业务情况A</span></span><br><span class="line"><span class="keyword">if</span>(a == <span class="number">10</span> &amp;&amp; b == <span class="number">20</span>) &#123;</span><br><span class="line">  <span class="keyword">do</span> something</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int a &#x3D; 10;</span><br><span class="line">int b &#x3D; 20;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; a &#x3D;&#x3D; 10 &amp;&amp; b &#x3D;&#x3D; 20 表示业务情况A</span><br><span class="line">if(a &#x3D;&#x3D; 10 &amp;&amp; b &#x3D;&#x3D; 20) &#123;</span><br><span class="line">  do something</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有一点要考虑的是是否有必要把条件修改为1个函数<br>boolean 业务情况A = a == 10 &amp;&amp; b == 20<br>if(业务情况A) {</p>
 <p>}</p>
 <p>这样的代码，这其实和经常用的一个StringUtils.isBlank()或者CollectionUtils.isEmpty()有类似的地方，能用代码表示清楚意图的，尽量用代码表示，而不是写一段注释。所以可以时常考虑把一些代码的逻辑抽象出来，不一定要抽象成1个方法，也可以用1个变量来表示。</p>
@@ -125,7 +127,7 @@
 <ul>
 <li>日志要把关键信息打出来，就像写小说一样，人物，时间，地点，剧情都要写清楚，一般来说不用管时间，日志会自带，就只剩下人物和地点和剧情了，什么业务，什么参数，结果是成功还是失败，都要打印出来。</li>
 </ul>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 良好的日志</span></span><br><span class="line"><span class="built_in">log</span>.info(<span class="string">&quot;sku:&#123;&#125; 发生了一笔业务，参数是:&#123;&#125; 结果是:&#123;&#125;&quot;</span>,sku,参数,结果);</span><br><span class="line"></span><br><span class="line"><span class="comment">//不好的日志 很鸡肋，不能起到日志应该有的作用，反而影响了性能</span></span><br><span class="line"><span class="built_in">log</span>.info(<span class="string">&quot;sku 发生了一笔业务&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 良好的日志</span><br><span class="line">log.info(&quot;sku:&#123;&#125; 发生了一笔业务，参数是:&#123;&#125; 结果是:&#123;&#125;&quot;,sku,参数,结果);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;不好的日志 很鸡肋，不能起到日志应该有的作用，反而影响了性能</span><br><span class="line">log.info(&quot;sku 发生了一笔业务&quot;);</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>日志要有节制，不能随意打，关键业务打印日志，报错的地方打印日志</li>
@@ -140,7 +142,8 @@
 <h2 id="其它的一些事情"><a href="#其它的一些事情" class="headerlink" title="其它的一些事情"></a>其它的一些事情</h2><p>对于新手入门的文章，接下来打算说一下具体的Java入门需要学习的东西，想要把编程的基础扎实了，还是要从Java基础学起，那么什么是Java基础呢？有哪些需要学习的东西呢？ 接下来会讨论一下。</p>
 <p>全文完。</p>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -511,13 +514,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -551,44 +560,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 

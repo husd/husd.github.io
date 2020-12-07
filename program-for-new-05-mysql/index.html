@@ -7,7 +7,7 @@
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
-  <title>JAVA新手入门05之MYSQL提高篇 | 双king的技术博客 - www.epoooll.com</title>
+  <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这一篇我们会讲解下mysql的一些稍微有点难度的内容，目前的互联网公司，面试的时候问mysql的时候也还是挺多的，不仅仅开发岗位，有些测试岗位在面试的时候，也需要会mysql，所以本篇比上一篇的基础篇要稍微难点。            主要会讲解以下内容：  多表联合查询 索引命中规则">
 <meta property="og:type" content="article">
@@ -97,24 +97,26 @@
 
         </div>
         <br>
-        <div style="text-align:center" class="article-meta">
-          <a href="/program-for-new-05-mysql/" class="article-date">
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-05-mysql/" class="article-date">
   <time datetime="2020-12-05T04:40:05.000Z" itemprop="datePublished">2020-12-05</time>
 </a>
-          
+          <div class="search-solid icon"></div>
   <div class="article-category">
     <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
-          <div class="article-category">作者: 双king</div>
-          <div class="article-category">浏览量:<span id="busuanzi_value_page_pv"></span>次</div>
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
         </div>
-        <div style="border:2px solid #009688"></div>
+        <div style="border:2px solid #0f897d"></div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p style="width:800px;">
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
     <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
     <p>
       这一篇我们会讲解下mysql的一些稍微有点难度的内容，目前的互联网公司，面试的时候问mysql的时候也还是挺多的，不仅仅开发岗位，有些测试岗位在面试的时候，也需要会mysql，所以本篇比上一篇的基础篇要稍微难点。
@@ -134,10 +136,10 @@
 </ul>
 <h2 id="1、联合查询"><a href="#1、联合查询" class="headerlink" title="1、联合查询"></a>1、联合查询</h2><p>多个表联合查询，是说查询的时候，同时查询2个或者2个以上的表，为什么要这么做呢？是因为数据都是按分类存储的，往往学生信息单独存储在一张表，学生成绩会存储在另外一张表，所以要同时查询出学生的姓名和成绩的时候，就需要联合2个表，同时查询。也可以先看看第3节的表结构设计三范式，加深一下理解。</p>
 <p>继续上一节的内容，假设我们除了有学生表，还有一张学生成绩表(student_score)，现在我们就有2张表，表的结构如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`student`</span> (</span><br><span class="line">  <span class="string">`num`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>  <span class="keyword">COMMENT</span> <span class="string">&#x27;学号&#x27;</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">smallint</span>(<span class="number">6</span>) <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`num`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8 <span class="keyword">COMMENT</span>=<span class="string">&#x27;学生信息&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`student_score`</span> (</span><br><span class="line">  <span class="string">`num`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>  <span class="keyword">COMMENT</span> <span class="string">&#x27;学号&#x27;</span>,</span><br><span class="line">  <span class="string">`type`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;0数学 1语文 2英语&#x27;</span>,</span><br><span class="line">  <span class="string">`score`</span> <span class="built_in">smallint</span>(<span class="number">6</span>) <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">&#x27;考试分数&#x27;</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`num`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8 <span class="keyword">COMMENT</span>=<span class="string">&#x27;学生考试分数表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;student&#96; (</span><br><span class="line">  &#96;num&#96; int(11) NOT NULL  COMMENT &#39;学号&#39;,</span><br><span class="line">  &#96;name&#96; varchar(10) DEFAULT &#39;&#39; COMMENT &#39;姓名&#39;,</span><br><span class="line">  &#96;age&#96; smallint(6) DEFAULT 0 COMMENT &#39;年龄&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;num&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;学生信息&#39;;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;student_score&#96; (</span><br><span class="line">  &#96;num&#96; int(11) NOT NULL  COMMENT &#39;学号&#39;,</span><br><span class="line">  &#96;type&#96; varchar(10) DEFAULT &#39;&#39; COMMENT &#39;0数学 1语文 2英语&#39;,</span><br><span class="line">  &#96;score&#96; smallint(6) DEFAULT 0 COMMENT &#39;考试分数&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;num&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;学生考试分数表&#39;;</span><br></pre></td></tr></table></figure>
 
 <p>1.1 简单关联</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查询学生语文成绩</span></span><br><span class="line">select </span><br><span class="line">	<span class="keyword">a</span>.<span class="built_in">num</span>,</span><br><span class="line">	<span class="keyword">a</span>.name,</span><br><span class="line">	<span class="keyword">a</span>.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line"><span class="built_in">from</span></span><br><span class="line">	student <span class="keyword">a</span> join student_score b</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	<span class="keyword">a</span>.<span class="built_in">num</span> = b.<span class="built_in">num</span></span><br><span class="line">where</span><br><span class="line">	b.type = <span class="number">1</span></span><br><span class="line">	</span><br><span class="line"><span class="comment">#使用left join 或者right join</span></span><br><span class="line"><span class="comment"># a left join b 是说如果a表中有num=1的学生，b表中没有num=1的学生的成绩，也有返回结果，只是有学生信息，没有成绩</span></span><br><span class="line"><span class="comment"># a right join b 是正好反过来</span></span><br><span class="line"><span class="comment"># a join b 如果是上述情况，则不会返回数据</span></span><br><span class="line">select </span><br><span class="line">	<span class="keyword">a</span>.<span class="built_in">num</span>,</span><br><span class="line">	<span class="keyword">a</span>.name,</span><br><span class="line">	<span class="keyword">a</span>.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line"><span class="built_in">from</span></span><br><span class="line">	student <span class="keyword">a</span> left join student_score b</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	<span class="keyword">a</span>.<span class="built_in">num</span> = b.<span class="built_in">num</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">#查询男生和女生的平均成绩，这里要用到avg这个函数，但是这里主要是想讲解</span></span><br><span class="line">	<span class="comment">#group by 的用法，</span></span><br><span class="line">	select </span><br><span class="line">	(<span class="keyword">case</span> when <span class="keyword">a</span>.sex = <span class="number">0</span> <span class="keyword">then</span> <span class="string">&#x27;女生&#x27;</span> <span class="keyword">else</span> <span class="string">&#x27;男生&#x27;</span> <span class="keyword">end</span>) <span class="keyword">as</span> 性别,</span><br><span class="line">	<span class="built_in">avg</span>(b.score) <span class="keyword">as</span> <span class="string">&#x27;平均成绩&#x27;</span></span><br><span class="line"><span class="built_in">from</span></span><br><span class="line">	student <span class="keyword">a</span> join student_score b</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">	<span class="keyword">a</span>.<span class="built_in">num</span> = b.<span class="built_in">num</span></span><br><span class="line">group <span class="keyword">by</span> <span class="keyword">a</span>.sex</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果查询语句是: select a,b,c,sum(d),avg(f) from table</span></span><br><span class="line"><span class="comment"># 那么必须要使用group by ，group by的列，用逗号分隔，且所有非聚合函数的列，都必须在group by的后面，</span></span><br><span class="line"><span class="comment"># 这个例子就是a,b,c这3个列</span></span><br><span class="line"><span class="comment">#正确SQL：</span></span><br><span class="line">select <span class="keyword">a</span>,b,c,<span class="built_in">sum</span>(d),<span class="built_in">avg</span>(f) <span class="built_in">from</span> table where <span class="keyword">a</span> =<span class="number">10</span> group <span class="keyword">by</span> <span class="keyword">a</span>,b,c</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#查询学生语文成绩</span><br><span class="line">select </span><br><span class="line">	a.num,</span><br><span class="line">	a.name,</span><br><span class="line">	a.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line">from</span><br><span class="line">	student a join student_score b</span><br><span class="line">on</span><br><span class="line">	a.num &#x3D; b.num</span><br><span class="line">where</span><br><span class="line">	b.type &#x3D; 1</span><br><span class="line">	</span><br><span class="line">#使用left join 或者right join</span><br><span class="line"># a left join b 是说如果a表中有num&#x3D;1的学生，b表中没有num&#x3D;1的学生的成绩，也有返回结果，只是有学生信息，没有成绩</span><br><span class="line"># a right join b 是正好反过来</span><br><span class="line"># a join b 如果是上述情况，则不会返回数据</span><br><span class="line">select </span><br><span class="line">	a.num,</span><br><span class="line">	a.name,</span><br><span class="line">	a.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line">from</span><br><span class="line">	student a left join student_score b</span><br><span class="line">on</span><br><span class="line">	a.num &#x3D; b.num</span><br><span class="line">	</span><br><span class="line">	#查询男生和女生的平均成绩，这里要用到avg这个函数，但是这里主要是想讲解</span><br><span class="line">	#group by 的用法，</span><br><span class="line">	select </span><br><span class="line">	(case when a.sex &#x3D; 0 then &#39;女生&#39; else &#39;男生&#39; end) as 性别,</span><br><span class="line">	avg(b.score) as &#39;平均成绩&#39;</span><br><span class="line">from</span><br><span class="line">	student a join student_score b</span><br><span class="line">on</span><br><span class="line">	a.num &#x3D; b.num</span><br><span class="line">group by a.sex</span><br><span class="line"></span><br><span class="line"># 如果查询语句是: select a,b,c,sum(d),avg(f) from table</span><br><span class="line"># 那么必须要使用group by ，group by的列，用逗号分隔，且所有非聚合函数的列，都必须在group by的后面，</span><br><span class="line"># 这个例子就是a,b,c这3个列</span><br><span class="line">#正确SQL：</span><br><span class="line">select a,b,c,sum(d),avg(f) from table where a &#x3D;10 group by a,b,c</span><br></pre></td></tr></table></figure>
 
 <p>来看下left join的结果</p>
 <p><img src="/img/mysql06.png" alt="image-20201205130701583"></p>
@@ -149,7 +151,7 @@
 <li><p>多个表查询，需要使用别名，就是表的名字后面跟的a、b，可以用来区分每个表</p>
 </li>
 <li><p>注意 a.num = b.num 和 b.type = 1的不同位置，可能有的地方会教大家不使用on的版本，如下：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#查询学生语文成绩 不使用on的版本，不推荐这种写法</span><br><span class="line">select </span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.num</span>,</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.name</span>,</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.age</span>,</span><br><span class="line">	<span class="selector-tag">b</span><span class="selector-class">.type</span>,</span><br><span class="line">	<span class="selector-tag">b</span>.score</span><br><span class="line">from</span><br><span class="line">	student <span class="selector-tag">a</span>,student_score b</span><br><span class="line">where</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.num</span> = <span class="selector-tag">b</span>.num</span><br><span class="line">	and <span class="selector-tag">b</span><span class="selector-class">.type</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#查询学生语文成绩 不使用on的版本，不推荐这种写法</span><br><span class="line">select </span><br><span class="line">	a.num,</span><br><span class="line">	a.name,</span><br><span class="line">	a.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line">from</span><br><span class="line">	student a,student_score b</span><br><span class="line">where</span><br><span class="line">	a.num &#x3D; b.num</span><br><span class="line">	and b.type &#x3D; 1</span><br></pre></td></tr></table></figure>
 
 <p>这种写法是不推荐的，模糊了表的关联条件和过滤条件，关联条件是2个表的纽带，on后面跟的是关联条件，过滤条件是数据查询出来之后，where之后的内容，尽量分开写。</p>
 </li>
@@ -160,14 +162,14 @@
 </ul>
 <p>1.2 子查询</p>
 <p>mysql支持子查询，可以做1个临时表，例如上面的语句可以修改为:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.num</span>,</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.name</span>,</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.age</span>,</span><br><span class="line">	<span class="selector-tag">b</span><span class="selector-class">.type</span>,</span><br><span class="line">	<span class="selector-tag">b</span>.score</span><br><span class="line">from</span><br><span class="line">	(select num,name,age from student) <span class="selector-tag">a</span> </span><br><span class="line">	<span class="attribute">left</span> join </span><br><span class="line">	(select type,score from student_score) b</span><br><span class="line">on</span><br><span class="line">	<span class="selector-tag">a</span><span class="selector-class">.num</span> = <span class="selector-tag">b</span>.num</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	a.num,</span><br><span class="line">	a.name,</span><br><span class="line">	a.age,</span><br><span class="line">	b.type,</span><br><span class="line">	b.score</span><br><span class="line">from</span><br><span class="line">	(select num,name,age from student) a </span><br><span class="line">	left join </span><br><span class="line">	(select type,score from student_score) b</span><br><span class="line">on</span><br><span class="line">	a.num &#x3D; b.num</span><br></pre></td></tr></table></figure>
 
 <p>尽管这么修改毫无意义，但是在某些情况下，不得不使用子查询，例如有1个表category，里面存储了商品的分类信息，表有以下4个字段：id name level p_id，分别表示分类ID，名称，级别（1级，2级，3级），父ID</p>
 <p>这个时候如果要查询这样的结果：</p>
 <p>1级ID    一级分类名称    2级ID        二级分类名称</p>
 <p>100        数码                 100100      手机</p>
 <p>就需要使用子查询了：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	a.id,</span><br><span class="line">	a.name,</span><br><span class="line">	b.id,</span><br><span class="line">	b.name</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(<span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">category</span> <span class="keyword">where</span> <span class="keyword">level</span> = <span class="number">1</span>) a</span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,p_id <span class="keyword">from</span> <span class="keyword">category</span> <span class="keyword">where</span> <span class="keyword">level</span> = <span class="number">2</span>) b</span><br><span class="line"><span class="keyword">on</span></span><br><span class="line">a.id = b.p_id</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	a.id,</span><br><span class="line">	a.name,</span><br><span class="line">	b.id,</span><br><span class="line">	b.name</span><br><span class="line">from</span><br><span class="line">(select id,name from category where level &#x3D; 1) a</span><br><span class="line">join </span><br><span class="line">(select id,name,p_id from category where level &#x3D; 2) b</span><br><span class="line">on</span><br><span class="line">a.id &#x3D; b.p_id</span><br></pre></td></tr></table></figure>
 
 <h3 id="2、索引命中规则"><a href="#2、索引命中规则" class="headerlink" title="2、索引命中规则"></a>2、索引命中规则</h3><p>单个索引 ，例如student表中的列，num是有索引的，那么下面几种将命中索引：</p>
 <ul>
@@ -222,7 +224,8 @@
 <li>注意索引失效的几种方式，对列做运算或者使用函数会使索引失效。</li>
 </ul>
 
-      
+        
+      </div>
     </div>
     <footer class="article-footer">
       
@@ -593,13 +596,19 @@
     </div>
   </div>
   <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
 </script>
 
 </footer>
@@ -633,44 +642,6 @@ var _hmt = _hmt || [];
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-
-<! -- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-                processEscapes: true
-                    
-}
-  
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-                  
-}
-    
-        });
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                            all[i].SourceElement().parentNode.className += ' has-jax';
-                                    
-            }
-                
-        });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 
 
 
