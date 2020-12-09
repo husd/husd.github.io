@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://yoursite.com/img/mysql04.png">
 <meta property="og:image" content="http://yoursite.com/img/mysql05.png">
 <meta property="article:published_time" content="2020-12-05T04:40:05.000Z">
-<meta property="article:modified_time" content="2020-12-05T15:18:30.132Z">
+<meta property="article:modified_time" content="2020-12-09T12:02:52.526Z">
 <meta property="article:author" content="双king">
 <meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
@@ -223,6 +223,53 @@
 <li>如果有子查询做多表联合查询，尽量先使用where条件降低数据量，再做关联查询。</li>
 <li>注意索引失效的几种方式，对列做运算或者使用函数会使索引失效。</li>
 </ul>
+<h5 id="其它-提高内容"><a href="#其它-提高内容" class="headerlink" title="其它 提高内容"></a>其它 提高内容</h5><p>mysql还有2个用的比较少的关键字HAVING EXISTS，下面简单说一下这2个关键字</p>
+<h5 id="HAVING"><a href="#HAVING" class="headerlink" title="HAVING"></a>HAVING</h5><p>一般是和group by 搭配使用的，用来分组，例如，你有一个订单表，order_id,sku_id,amount,create_date这4列</p>
+<p>统计订单的金额:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	order_id,</span><br><span class="line">	sum(amount) as total</span><br><span class="line">from order</span><br><span class="line">where</span><br><span class="line">create_date &#x3D; &#39;2020-01-01&#39;</span><br><span class="line">group by order_id</span><br></pre></td></tr></table></figure>
+
+<p>现在需要加1个过滤条件，哪些订单的金额大于100元</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	order_id,</span><br><span class="line">	sum(amount) as total</span><br><span class="line">from order</span><br><span class="line">where</span><br><span class="line">create_date &#x3D; &#39;2020-01-01&#39;</span><br><span class="line">group by order_id</span><br><span class="line">having total &gt; 100</span><br></pre></td></tr></table></figure>
+
+<p>只需要记住，当使用sum()这类聚合的函数的时候，如果需要对聚合的值进行过滤，可以使用</p>
+<h4 id="EXISTS和NOT-EXISTS"><a href="#EXISTS和NOT-EXISTS" class="headerlink" title="EXISTS和NOT EXISTS"></a>EXISTS和NOT EXISTS</h4><p>先看exist吧，exist子查询会返回1个true或者false，如果返回了true，就显示对应的数据，可以先来1个简单的SQL看看</p>
+<p>假设我们有1张表sku，存储了sku的基本信息，另外一个表就是刚才的订单表order</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from order where exists (select 1)</span><br></pre></td></tr></table></figure>
+
+<p>由于select 1总是会返回值，所以这个SQL，相当于:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from order where 1&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>所以我们 一般不这么用，而是把前1个表的字段和子查询的字段关联起来，例如要查询sku_id在1到100之间的，有订单的SKU的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">a.*</span><br><span class="line">from sku a</span><br><span class="line">where </span><br><span class="line">a.sku_id in </span><br><span class="line">(</span><br><span class="line">select sku_id from order where sku_id between 1 and 100</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用EXISTS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">a.*</span><br><span class="line">from sku a</span><br><span class="line">where </span><br><span class="line">exists</span><br><span class="line">(</span><br><span class="line">select b.sku_id from order b where a.sku_id &#x3D; b.sku_id and a.sku_id between 1 and 100</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>NOT EXISTS就是不满足的意思，恰好相反。</p>
+<p>下面来看一个更复杂的场景，假设我们有3张表，</p>
+<ul>
+<li>student 学生表 ，有id name2个字段 分别表示学生的学号和姓名</li>
+<li>course 课程表 有 c_id c_name 2个字段 分别表示课程的ID和名称</li>
+<li>score 成绩表 id,c_id,score 3个字段 分别表示学号、课程ID、分数</li>
+</ul>
+<p>刚开始的数据是，小明选了所有的3门课程，ABC，小丽选择了AB两门课程，没有选择C</p>
+<p>假设学生只要选学了课程，就一定有分数，那么怎么查出来，哪些学生选学了所有的课程呢？我们的一般思维是，把课程数量算出来，select count(c_id) from course ，然后查询成绩表，看看学生的课程数量</p>
+<p>select id,count(c_id) from score ，最后关联学生表，查询学生的成绩，用子查询就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select d.name</span><br><span class="line">from</span><br><span class="line">(select a.id</span><br><span class="line">from</span><br><span class="line">(select id,count(c_id) as _count from score group by id) a</span><br><span class="line">join</span><br><span class="line">(select count(c_id) as _count from course) b</span><br><span class="line">where</span><br><span class="line">a._count &#x3D; b._count ) c join student d</span><br><span class="line">on c.id &#x3D; d.id</span><br></pre></td></tr></table></figure>
+
+<p>那么用exists来怎么写呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select name from student a</span><br><span class="line">where not exists</span><br><span class="line">(</span><br><span class="line">select c_id from course b </span><br><span class="line">where not exists</span><br><span class="line">(select id from score c where a.id &#x3D; c.id and b.c_id &#x3D; c.c_id)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>这个SQL有点复杂，似乎很难理解，先分析最里面的not exists ，可以降低难度，先分析最里面的exists是什么意思？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select c_id from course b </span><br><span class="line">where exists</span><br><span class="line">(select id from score c where a.id &#x3D; c.id and b.c_id &#x3D; c.c_id)</span><br></pre></td></tr></table></figure>
+
+<p>查询所有的课程，看看是不是有分数，对于小明来说，小明所有课程有分数，返回TRUE，所以如果变更为not exists，就变成FALSE了，外侧的: select name from student a where not exists 正好是需要FALSE，所以小明命中，他选择了所有课程。</p>
+<p>对于小丽来说，内侧的这个语句，很明显，小丽的C课程没有分数，所以NOT EXISTS返回TRUE，但是外侧也是NOT EXISTS，需要返回FALSE才能命中，所以小丽不符合条件，得出，小丽没有选择所有的课程。</p>
+<p>大家可以思考下，下面这个写法，为什么不行？（归根到底的原因是EXISTS只有有记录返回，就算TRUE，所以内侧的EXISTS，只要选了课程，一定会返回TRUE，外侧的EXISTS，也会是TRUE，这个SQL表示查询至少选择了1门课程的学生）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select name from student a</span><br><span class="line">where exists</span><br><span class="line">(</span><br><span class="line">select c_id from course b </span><br><span class="line">where exists</span><br><span class="line">(select id from score c where a.id &#x3D; c.id and b.c_id &#x3D; c.c_id)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>希望对你有帮助。</p>
+<p>全文完。</p>
 
         
       </div>
