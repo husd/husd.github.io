@@ -9,20 +9,20 @@
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉">
+  <meta name="description" content="对于新入门的程序员或者即将要学习计算机软件开发的人员来说，打好基础是非常关键的，但是我感觉网上的很多资料，对于什么是计算机基础，说的都比较官方和笼统，新人不愿意看；或者说的都是计算机操作系统、数据结构和算法等，这肯定没有错，但是对于新人来说，意义并不大，这篇文章将结合笔者多年的编程经验，给新手说清楚什么是基础？              不当杠精，接受现实对于新手">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CAS和MESI缓存一致性协议">
-<meta property="og:url" content="http://yoursite.com/cas-mesi/index.html">
+<meta property="og:title" content="JAVA新手入门07之泛谈编程基础">
+<meta property="og:url" content="http://yoursite.com/program-for-new-07/index.html">
 <meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
-<meta property="og:description" content="CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉">
+<meta property="og:description" content="对于新入门的程序员或者即将要学习计算机软件开发的人员来说，打好基础是非常关键的，但是我感觉网上的很多资料，对于什么是计算机基础，说的都比较官方和笼统，新人不愿意看；或者说的都是计算机操作系统、数据结构和算法等，这肯定没有错，但是对于新人来说，意义并不大，这篇文章将结合笔者多年的编程经验，给新手说清楚什么是基础？              不当杠精，接受现实对于新手">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/img/cpu-cache.png">
-<meta property="article:published_time" content="2020-12-03T06:24:33.000Z">
-<meta property="article:modified_time" content="2020-12-05T15:18:59.260Z">
+<meta property="og:image" content="http://yoursite.com/img/base03.jpeg">
+<meta property="article:published_time" content="2020-12-10T03:10:16.000Z">
+<meta property="article:modified_time" content="2020-12-10T03:57:56.264Z">
 <meta property="article:author" content="双king">
-<meta property="article:tag" content="CPU">
+<meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/img/cpu-cache.png">
+<meta name="twitter:image" content="http://yoursite.com/img/base03.jpeg">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -77,7 +77,7 @@
 </header>
 
     <div class="outer">
-      <section id="main"><article id="post-cas-mesi" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-program-for-new-07" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -86,19 +86,19 @@
             
   
     <h1 class="article-title" itemprop="name">
-      CAS和MESI缓存一致性协议
+      JAVA新手入门07之泛谈编程基础
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/cas-mesi/" class="article-date">
-  <time datetime="2020-12-03T06:24:33.000Z" itemprop="datePublished">2020-12-03</time>
+          <div class="card-solid icon"></div><a href="/program-for-new-07/" class="article-date">
+  <time datetime="2020-12-10T03:10:16.000Z" itemprop="datePublished">2020-12-10</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
 
@@ -112,54 +112,38 @@
       <div class="article-entry" itemprop="articleBody">
         
           <p style="width:800px;">
-    <img src="/img/cpu-cache.png" align="right" width="20%" hspace="5" vspace="5">
+    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
     <p>
-      CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。
+      对于新入门的程序员或者即将要学习计算机软件开发的人员来说，打好基础是非常关键的，但是我感觉网上的很多资料，对于什么是计算机基础，说的都比较官方和笼统，新人不愿意看；或者说的都是计算机操作系统、数据结构和算法等，这肯定没有错，但是对于新人来说，意义并不大，这篇文章将结合笔者多年的编程经验，给新手说清楚什么是基础？
         </p>
 </p>
 
-<h2 id="MESI协议"><a href="#MESI协议" class="headerlink" title="MESI协议"></a>MESI协议</h2><p>现代CPU都有L1，L2和L3的3级缓存，L3一般是多个核心共享，L1和L2是核心单独访问的，既然有缓存，就会产生缓存不一致的情况，MESI协议就是用来保证缓存一致性的协议。</p>
+
+
+<h5 id="不当杠精，接受现实"><a href="#不当杠精，接受现实" class="headerlink" title="不当杠精，接受现实"></a>不当杠精，接受现实</h5><p>对于新手来说，有些知识是需要先死记硬背的，例如语法，一些成熟算法等，这些东西前期不需要纠结的太多，记住就行了，每个人其实都站在了巨人的肩膀上，无论你现在有什么样的成绩，以后打算取得什么样的成绩，都是在前人不断总结的经验上，再有其它的创新，所以接受一些既定的事实是非常重要的。这并不是让大家不要问为什么，而是强调，不能在牛角尖里出不来，知识在没有形成体系的时候，最好的建议就是加大知识的面，让自己的知识形成体系，先把语法之类的东西死记硬背下来，这是必须要经历的一个过程。前几年是进步最快的时候，需要不会的，先记下来，可能慢慢你就会了，知道了，理解了，懂了为什么了，有一种豁然开朗的感觉了，如果找不到这种感觉，那你需要找个前辈，请教一下。</p>
 <a id="more"></a>
 
-<p>MESI协议的名称由来是指这一协议为缓存的每个数据单位（称为cache line，在Intel CPU上一般是64字节）维护两个状态位，使得每个数据单位可能处于M、E、S或I这四种状态之一。各种状态含义如下：</p>
+<h4 id="1、基础就是计算机知识体系"><a href="#1、基础就是计算机知识体系" class="headerlink" title="1、基础就是计算机知识体系"></a>1、基础就是计算机知识体系</h4><p>什么是知识体系？简单来说就是你所掌握的知识，一种是理论性的研究，一种是建立在理论性的研究上的应用，对于计算机来说，数据结构和算法就是理论性质的研究，操作系统的进程调度就是建立在这种理论上的实际应用，所以要建立一套完整的知识体系，应当重点学习对理论的应用，注意，这里说的是对理论的应用，而不是对理论的研究。这里对于新手的建议就是，不要深入到各种复杂深奥的数据结构和算法中去，掌握计算的几种基本结构和算法就可以了，具体要掌握的几种最重要的理论，有下面几种：</p>
+<h5 id="2、队列"><a href="#2、队列" class="headerlink" title="2、队列"></a>2、队列</h5><p>计算机中很多事情，都用到了队列，生活中也经常排队，所以要理解排队是非常必要的，队列可以让我们在计算机资源不足的时候，把要做的事情，放到队列里，慢慢做。当然生活中有人插队，计算机中也有人插队，这里就有一个概念，就是公平和非公平，对吧，是不是很好理解。如果大家刚好开始学习计算机软件编程，一定要自己去实现一个队列。</p>
+<h5 id="3、常用数据结构"><a href="#3、常用数据结构" class="headerlink" title="3、常用数据结构"></a>3、常用数据结构</h5><p>常用的数据结构是必须要学习的内容，无论你学什么语言，数据结构都是必学的内容，常见的数据结构有:</p>
 <ul>
-<li>M: 被修改的。处于这一状态的数据只在本CPU核心中有缓存，且其数据已被修改，没有更新到内存中。</li>
-<li>E: 独占的。处于这一状态的数据只在本CPU核心中有缓存，且其数据没有被修改，与内存一致。</li>
-<li>S: 共享的。处于这一状态的数据在多个CPU核心中有缓存。</li>
-<li>I: 无效的。本CPU核心中的这份缓存已经无效了。</li>
+<li>链表，包括单链表和双向链表</li>
+<li>数组</li>
+<li>Map或者字典，原理都是一样的，KV的结构。</li>
+<li>Set 集合，不重复</li>
+<li>栈 FIFO</li>
+<li>各种树 二叉树、红黑树、B、B+</li>
+<li>图</li>
 </ul>
-<p>如果当前核心中是I，那需要去主存中读取，如果不是I，都可以从缓存中读。这种读取的操作，都会被其它核心捕获这个信号，如果捕获到读取操作的核心的状态是M或者E，会把自己缓存中的数据，写回到主内存中去，并将自己的状态设置为S，这个时候，刚才的读操作才能继续执行。</p>
-<ul>
-<li>只有M或者E的核心才可以修改数据，修改后状态修改为M。</li>
-<li>如果CPU要修改数据时发现其缓存不处于E或M状态，则需要发出特殊的RFO指令（Read For Ownership），将其它CPU的缓存设为I状态。</li>
-<li>如果要修改主内存中变量的值，一般来说是要锁住总线，不让其它核心修改。</li>
-<li>如果1个线程，对1个变量的值进行多次修改，该核心的状态一直是M，就可以直接修改，不需要锁总线。</li>
-</ul>
-<p>所以不一定要锁总线，就在于这个并发操作冲突的严重还是不严重，如果冲突很多，怎么多得锁住总线。在并发编程的时候，降低冲突也是一种手段。</p>
-<h2 id="写缓冲器和无效化队列"><a href="#写缓冲器和无效化队列" class="headerlink" title="写缓冲器和无效化队列"></a>写缓冲器和无效化队列</h2><p>根据MESI协议，例如写了数据，要向总线发消息，等到其它核心回复之后，才能生效，这段等待的时间，这个核心就处于阻塞的状态，该怎么办呢？这时候就引入了写缓冲器和无效化队列，来优化这个阻塞。</p>
-<ul>
-<li>状态为 E、M，直接写入，不向总线发送消息。</li>
-<li>状态为 S，变量写入[写缓冲器]，并发送Invalidate消息，继续下一个指令。</li>
-<li>状态为 I，变量写入[写缓冲器]，并发送Invalidate消息，继续下一个指令。</li>
-<li>收到其他所有处理器回应的Read Response、Invalidate Acknowledge消息后，处理器才会将写缓冲器中对应的写操作写入相应的缓存行，这个时候，写操作才算真正完成。</li>
-<li>读的时候先去[写缓冲器]中去读，如果没读到，再去缓存中读。</li>
-</ul>
-<p>无效化队列的意思是说如果核心收到了其它核心的Invalidate消息，就先把消息消息存入到无效队列之后，就回复Invalidate Acknowledge，提高了效率，可以看到，队列的使用无处不在，你还在犹豫要不要使用队列吗？但是这样也带来了新的问题，每次读取缓存的时候，其它核心的写缓冲器中，可能有没有生效的值，那怎么办呢？</p>
-<h2 id="解决写缓冲器和无效化队列带来的可见性问题"><a href="#解决写缓冲器和无效化队列带来的可见性问题" class="headerlink" title="解决写缓冲器和无效化队列带来的可见性问题"></a>解决写缓冲器和无效化队列带来的可见性问题</h2><p>解决办法就是内存屏障</p>
-<p>存储屏障（Store Barrier）:  cpu 将写缓冲器排空，写入高速缓存 这叫冲刷，这样其他cpu 就会收到通知，其他cpu可以来拿新数据。<br>加载屏障（Load Barrier）:  cpu 根据无效化队列里面的信息，删除其高速缓存的无效数据(就是状态变为I)。</p>
-<p>这2个屏障的成对使用，才能保证更新可见，本质上就是要保证，每次读数据之前，都已经看到了前面的所有的写，这个写肯定是已经生效了；</p>
-<p>具体是： load load/store store/load store/store load</p>
-<ul>
-<li>LoadLoad屏障： 对于这样的语句Load1; LoadLoad; Load2，在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。</li>
-<li>StoreStore屏障：对于这样的语句Store1; StoreStore; Store2，在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。</li>
-<li>LoadStore屏障：对于这样的语句Load1; LoadStore; Store2，在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。</li>
-<li>StoreLoad屏障：对于这样的语句Store1; StoreLoad; Load2，在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。</li>
-</ul>
-<p>Java中的volatile关键字其实有2个作用：</p>
-<ul>
-<li>禁止重排序。</li>
-<li>保证可见性，写操作之后的读肯定能看到最新值。</li>
-</ul>
+<p>对于新手来说，掌握前4种即可，后续有兴趣，可以多研究下剩余的3种。</p>
+<h5 id="4、缓存"><a href="#4、缓存" class="headerlink" title="4、缓存"></a>4、缓存</h5><p>计算机中经常用到了缓存，对于一些我们经常使用的数据或者资源，往往会放到缓存中去，下次再用的时候，就能很快的拿到需要的数据，缓存不管是在操作系统、框架、应用层面，都应用广泛，缓存是1个空间换时间的例子，当然，也有时间换空间的例子（例如压缩）。如果你要学习缓存，就会学习到各种的缓存策略，如果你要学习LRU，就可能会用到队列，你看，知识是不是一环套一环的呢？到这里是不是对知识体系，有一点体会了呢？</p>
+<p>当前比较经典的缓存如memorycache redis 都是KV类型的内存型缓存，平时也可以自己用Map，数组，弄个临时缓存，灵活多变，掌握缓存的思想即可： 当一个数据需要重复利用的时候，把它缓存起来。</p>
+<p>备注： 深入学习，需要解决缓存一致性问题，不过这个东西，后续慢慢学吧，不急。</p>
+<h5 id="5、池化技术"><a href="#5、池化技术" class="headerlink" title="5、池化技术"></a>5、池化技术</h5><p>你可能在以后，会经常遇到线程池、连接池、内存池等各种池化技术，池子这种技术和缓存有点类似，但是也并不完全一样，池子里面的资源，往往是因为创建和销毁，太耗费时间或者其它，才需要放到池子里面存起来，而且要严格控制池里的对象的数量，和缓存是不一样的；刚开始学，可以简单的学习下连接池就可以了，知道是干什么的，怎么用的，就可以了。比方说java连接数据库，就需要用到连接池，那么你可以思考下，为什么要用连接池？不用会怎么样？ 连接池里面的各个参数都是什么意思？为什么要这么设置。如果都理解了，你就理解了其它类型的池的技术，相信以后你自己遇到类似的问题的时候（资源创建和销毁耗费大），也可以想到，是不是可以用池？</p>
+<h5 id="6、接口的概念"><a href="#6、接口的概念" class="headerlink" title="6、接口的概念"></a>6、接口的概念</h5><p>这个应该放到比较靠前的地方，计算机中的接口，无处不在，生活中也有很多的接口，只是你没有意识到，那么什么是接口呢？ 比方说电视机的遥控器开关，就是1个接口，你按下音量键，声音增大或者减小了，这体现了什么思想呢？ 这种思想是把功能暴露出来，把接口内部怎么做的，隐藏了起来。</p>
+<p>所以你不需要知道当你按下音量键的时候，遥控器到底做了什么，而只需要知道，只要我按下音量键，就能增加或者减小音量，这是一种非常美妙的体验，普通人也可以控制电视机的音量，如果没有良好的接口设计，可能控制电视机的音量就会很困难。那么计算机也是如此，如果没有接口这个思想，你编程的时候，需要关心茫茫多的细节，会陷入到细节中出不来，没有操作系统接口，编程会特别困难。你需要学习到的是，仔细并且谨慎的设计你的接口，把内部实现隐藏起来，让它用起来像电视机的遥控器那么简单。</p>
+<h5 id="7、小就是美"><a href="#7、小就是美" class="headerlink" title="7、小就是美"></a>7、小就是美</h5><p>对于新入行的程序员来说，可能会犯一个错误，把所有的代码，都放到了1个文件中去，或者写了1个5000行的源代码文件，这是一个很让人伤心的事情，可能会是你的同事，也可能是自己，因为在之后的日子里，维护这段代码，将会痛不欲生。对于新手来说，一定要记住的一件事是，写代码占用了你1个星期的时间，后续的几年中，你都在维护它，或者进行二次开发，维护这段代码的时间，会占代码寿命的90%，代码一定要容易维护。请记住，一定要把代码拆分成小文件，这里的难度，在于定义小，什么算小 ？从java的角度看，大于500行可能就需要拆飞成2个文件。拆飞的原则就是，按功能进行拆分，你还记得接口的概念吧，把功能以接口的形式提供出来，尽量把复杂的内部实现隐藏掉。</p>
+<p>暂时就写这么多吧，后续有时间了再写更多的关于编程基础的知识，学号了基础，还要学习一些基础之上的内容，切合工作实际的内容才能体现你的工作能力，光学基础也不行，所以对于新手来说，学基础的同时，还是要善于总结日常工作中遇到的问题和解决办法，不仅总结自己遇到的，还要总结团队遇到的，还要关注业界遇到的问题，这样才能迅速的成长起来，建议大家弄一个小本，把知识都记下来，每天进步一小步，人生才能迈开一大步，哈哈，老男人的情怀又开始泛滥了。</p>
 <p>全文完。</p>
 
         
@@ -167,7 +151,7 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
 
     </footer>
   </div>
@@ -175,19 +159,10 @@
     
 <nav id="article-nav">
   
-    <a href="/program-for-new-04-mysql/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          JAVA新手入门04之MYSQL基础篇
-        
-      </div>
-    </a>
   
-  
-    <a href="/program-for-new-03/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/program-for-new-06-mysql/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JAVA新手入门03</div>
+      <div class="article-nav-title">JAVA新手入门06之MYSQL提高篇2</div>
     </a>
   
 </nav>
