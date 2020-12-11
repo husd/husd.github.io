@@ -170,7 +170,7 @@
 </p>
 
 <h2 id="Math-min-int-a-int-b-方法的必要性"><a href="#Math-min-int-a-int-b-方法的必要性" class="headerlink" title="Math.min(int a, int b)方法的必要性"></a>Math.min(int a, int b)方法的必要性</h2><p>Math.min(a,b)方法，会返回a和b之中的较小的值。如果对java.lang.Math类中的这个方法不熟悉，也没有关系，这里并不想讨论方法的重载，也不想讨论怎么比较2个double类型或者2个float类型在获取最小值时候的不同（如果你是编程新手，建议你去学习下怎么比较2个double值），返回2个整型值中的较小的值，代码非常的简单，例如可以这么写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int min(int a,int b) &#123;</span><br><span class="line">  return a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么，问题来了，我为什么要把这么简单的1个功能，做出来1个方法呢？干嘛要调用1个方法，而不是直接在调用Math.min(a,b)的方法，直接写这段逻辑呢？</p>
           
             <p class="article-more-link">
@@ -239,7 +239,7 @@
 <h2 id="你真的学会了if-else-了吗？"><a href="#你真的学会了if-else-了吗？" class="headerlink" title="你真的学会了if else 了吗？"></a>你真的学会了if else 了吗？</h2><p>场景1，我们有1个变量的值type：</p>
 <p>type =0 表示A种情况  type=1 表示另外一种情况，可能会有更多的情况，在不用switch的情况下，你会有以下2种写法(java版本的，且省略了大括号，你们写代码的时候，即使只有1行代码，也要写{})：</p>
 <p>推荐写法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(type &#x3D;&#x3D; 0)</span><br><span class="line">	do something;</span><br><span class="line">else if(type &#x3D;&#x3D; 1)</span><br><span class="line">	do something</span><br><span class="line">throw new RuntimeException(&quot;类型错误，请检查：&quot; + type);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(type == <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">do</span> something;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(type == <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;类型错误，请检查：&quot;</span> + type);</span><br></pre></td></tr></table></figure>
           
             <p class="article-more-link">
               <a href="/program-for-new-01/#more">查看全部</a>
