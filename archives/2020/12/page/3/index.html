@@ -9,17 +9,12 @@
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文翻译自a-few-speed-improvements，并不是原创。 作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。 在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="stackOverFlow性能提升之Cookie">
-<meta property="og:url" content="http://yoursite.com/fast-cookie/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:url" content="http://yoursite.com/archives/2020/12/page/3/index.html">
 <meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
-<meta property="og:description" content="本文翻译自a-few-speed-improvements，并不是原创。 作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。 在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-05-17T06:49:27.000Z">
-<meta property="article:modified_time" content="2020-12-04T08:03:07.612Z">
 <meta property="article:author" content="双king">
-<meta property="article:tag" content="HTTP">
 <meta name="twitter:card" content="summary">
   
   
@@ -75,96 +70,44 @@
 </header>
 
     <div class="outer">
-      <section id="main"><article id="post-fast-cookie" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      stackOverFlow性能提升之Cookie
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/mybatis-param/" class="archive-article-date">
+  <time datetime="2020-12-01T12:27:58.000Z" itemprop="datePublished">Dec 1</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/mybatis-param/">MYBATIS参数</a>
     </h1>
   
 
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/fast-cookie/" class="article-date">
-  <time datetime="2019-05-17T06:49:27.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </header>
   </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p>本文翻译自<a target="_blank" rel="noopener" href="https://stackoverflow.blog/2009/08/a-few-speed-improvements/">a-few-speed-improvements</a>，并不是原创。</p>
-<p>作者Jeff Atwood 2009年8月9日，似乎是一篇很老的文章了。<br>在WEB开发的时候，性能提升的方法有很多，来看看stackoverflow的工程师的一些做法。</p>
-<p>在上周的时候，我们对Stack Overflow的引擎做了几个性能上的提升。</p>
-<a id="more"></a>
-
-<p>首先，我们使用ANTS Profiler做了一次快速检查并且在代码中找到了几个冗余或者没有必要的数据库查询，我们几乎每几个月都会对几个页面做这样的检查，开始跟踪页面的性能之后，我们刷新指定的页面50次，然后检查热点代码，发现几乎都是数据库查询阻塞并拖慢了性能，我们很少把热点代码写的如此之糟糕，但是确实出现在了我们的热点代码中，不管怎么说，黄金法则就是评估，然后优化，这就是我们尝试去做的。</p>
-<p>我们也花了很长时间，很多精力在优化服务端发送给浏览器的Cookie上面，（当然，浏览器很尽职尽责的把cookie加在每一个HTTP请求中返回给服务端了），你可能会特别惊讶Cookie对性能的影响有多么大，我们去掉了ASP.NET表单鉴权Cookie，并且把我们Cookie中的Key的长度减小到原来的一半，我也把登陆页面的很多确实不需要的Cookie给删除了。在我的测试中，现在的Cookie大约是360字节，以前大约是500多字节，随着时间的推移，这些旧的不需要的Cookie会自然慢慢减少，不过你（这里暗指作者自己）可能想通过手动的清理Cookie来提供最快最好的Stack Overflow的浏览体验。</p>
-<p>有一个不是最新的但是绝对值得注意的是，几个星期之前，我们把HTTP GZIP压缩的级别从默认的0提高到4，压缩速度有那么一点点慢了，但是整个页面的大小减少了10%，在CPU性能和文件大小之间权衡的设置请查看Scott Forsyth的详尽记录，最合适的设置是4。</p>
-<p>我们很早就是YSlow的用户了，最近也在用Google Page Speed，一些工具的选择也只有当你是Google或者雅虎量级的时候才会比较敏感，（‘gee的很少的选择，多样化的一个很好的问题。注：这里不知道怎么翻译，原文：a very rare and select club of the ‘gee,tht’s a nice problem to have’ variety），很多时候不管你的网站流量有多大，这些工具都十分重要。</p>
-<p>我们最近使用的YSlow Page Speed和Page Speed建议中最值得跟踪的就是去Cookie的中间件。</p>
-<p>当浏览器带着Cookie去请求一个静态图片的时候，服务器根据不使用这些Cookie，除了造成网络拥堵之外没有更好的作用了，你应该让你的组件在请求静态资源的时候是没有Cookie的，创建一个2级域名来提供这些服务。</p>
-<p>如果你的主站是<a target="_blank" rel="noopener" href="http://www.example.org,你可以把静态资源放到static.example.org,但是,如果已经在1级域名里example.org中设置了cookie,那么所有发往static.example.org的请求都会携带这些cookie,在这种情况下,可以买一个全新的域名,把静态资源放在这里,然后保持没有cookie,雅虎使用了yimg.com,youtube使用的是ytimg.com,亚马逊使用的是images-amazon.com等等./">www.example.org，你可以把静态资源放到static.example.org，但是，如果已经在1级域名里example.org中设置了Cookie，那么所有发往static.example.org的请求都会携带这些Cookie，在这种情况下，可以买一个全新的域名，把静态资源放在这里，然后保持没有Cookie，雅虎使用了yimg.com，YouTube使用的是ytimg.com，亚马逊使用的是images-amazon.com等等。</a></p>
-<p>另外一个使用单独主机来存放静态资源的好处是有些代理拒绝缓存携带Cookie的请求。这个前提下，如果你需要使用example.org或者<a target="_blank" rel="noopener" href="http://www.example.com作为主页,考虑下cookie碰撞,删除www使用example就没选择了,这么做就会把cookie写到*.example.org,(意思是所有的1级域名的2级或者3级域名都会携带这些cookie),所以最好把cookie写到2级域名下.(意思是不能写到1级域名下)/">www.example.com作为主页，考虑下Cookie碰撞，删除www使用example就没选择了，这么做就会把Cookie写到＊.example.org，（意思是所有的1级域名的2级或者3级域名都会携带这些Cookie），所以最好把Cookie写到2级域名下。（意思是不能写到1级域名下）</a></p>
-<p>为此我们一个月前注册了sstatic.net，我们荣幸的告诉大家所有的stackOverFlow的系列网站的静态资源都已经放到sstatic.net下了。，这个主机肯定是不携带Cookie的并且专门为提供静态资源做了优化，减小了请求头。（并且像以前一样，几乎不过期，所以几乎没有请求能穿透缓存服务器)。</p>
-<p>下面是一个新配置下的get请求/响应的的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;so&#x2F;js&#x2F;master.js?v&#x3D;4143 HTTP&#x2F;1.1</span><br><span class="line">Host: sstatic.net</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.2)</span><br><span class="line">            Gecko&#x2F;20090729 Firefox&#x2F;3.5.2 (.NET CLR 3.5.30729)</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Accept-Language: en-us,en;q&#x3D;0.5</span><br><span class="line">Accept-Encoding: gzip,deflate</span><br><span class="line">Accept-Charset: ISO-8859-1,utf-8;q&#x3D;0.7,*;q&#x3D;0.7</span><br><span class="line">Keep-Alive: 300</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Referer: http:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;1252349</span><br><span class="line">Pragma: no-cache</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">sstatic.net的响应是：</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">200 OK</span><br><span class="line"></span><br><span class="line">Cache-Control: max-age&#x3D;604800</span><br><span class="line">Content-Type: application&#x2F;x-javascript</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Last-Modified: Sun, 09 Aug 2009 18:45:13 GMT</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">ETag: &quot;75e6f1872119ca1:0&quot;</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">Server: Microsoft-IIS&#x2F;7.0</span><br><span class="line">Date: Sun, 09 Aug 2009 23:40:45 GMT</span><br><span class="line">Content-Length: 10417</span><br><span class="line">(... gzipped data ...)</span><br></pre></td></tr></table></figure>
-
-<p>看到了没，没有Cookie！（ 是的，我也想在响应中删除服务器头部和ETag头部，但是不容易做到。）</p>
-<p>使用其他的服务器来提供静态内容服务也是原始的负载均衡的实现方式，我们已经把成百上千的请求从我们私有的服务器上明确的分发给其他的已经专门做过优化的服务器上，浏览器在看到资源来自不同的主机之后也乐于并行处理下载，或者至少是来自不同的子域名。</p>
-<p>不管怎么说，我们相信性能是未来的趋势，并且我们对于Stack Overflow下的所有网站提供尽可能快的访问速度是很重视的，我们将会在未来的几个月里继续重新检查我们的性能并且每一次都会尽力提升一点。</p>
-<p>全文完。</p>
-
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/web-need-know/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          开发一个WEB网站需要知道什么
-        
-      </div>
-    </a>
-  
-  
-    <a href="/sort-fast/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">处理有序数据比无序的数组要快</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/archives/2020/12/page/2/">前一页</a><a class="page-number" href="/archives/2020/12/">1</a><a class="page-number" href="/archives/2020/12/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
       

@@ -9,13 +9,20 @@
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="双king的技术博客 - www.epoooll.com">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="之前在网上看到了一篇关于RocketMQ的事务消息的文章，感觉讲的并不好，甚至有错误的地方，所以就想自己来写一篇文章，讲一讲我对与RocketMQ的事务消息的理解，不一定会正确，各位在看的时候，可以结合自己的思考，看看是否有一定的参考性，这里会单刀直入的讲解重点，而不会讲一些铺垫的东西，例如什么是RocketMQ，什么是事务消息，什么是事务等等，如果你遇到了一些名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ的事务消息">
+<meta property="og:url" content="http://yoursite.com/rocketMQ-transaction-msg/index.html">
 <meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="之前在网上看到了一篇关于RocketMQ的事务消息的文章，感觉讲的并不好，甚至有错误的地方，所以就想自己来写一篇文章，讲一讲我对与RocketMQ的事务消息的理解，不一定会正确，各位在看的时候，可以结合自己的思考，看看是否有一定的参考性，这里会单刀直入的讲解重点，而不会讲一些铺垫的东西，例如什么是RocketMQ，什么是事务消息，什么是事务等等，如果你遇到了一些名">
 <meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/rmq-logo.png">
+<meta property="article:published_time" content="2020-12-16T03:10:16.000Z">
+<meta property="article:modified_time" content="2020-12-16T10:07:04.756Z">
 <meta property="article:author" content="双king">
+<meta property="article:tag" content="MQ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/rmq-logo.png">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -70,9 +77,7 @@
 </header>
 
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-rocketMQ-transaction-msg" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-rocketMQ-transaction-msg" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -80,8 +85,8 @@
         <div style="text-align:center">
             
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+    <h1 class="article-title" itemprop="name">
+      RocketMQ的事务消息
     </h1>
   
 
@@ -117,11 +122,36 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行T1（写DB）</span><br><span class="line">if 成功</span><br><span class="line">	执行T2（发MQ）</span><br></pre></td></tr></table></figure>
 
 <p>如果你这么写，就会有很大的问题，因为T2有可能会失败，这样T1没有回滚，就出现了问题；也有可能是T2超时了，导致T2实际到底有没有成功，不知道，这个时候也会有问题。这里是1个基本的场景，所以理论上来说，是不能这么写代码的，那么要怎么写呢？ RocketMQ给了一个事务消息的选项。</p>
-          
-            <p class="article-more-link">
-              <a href="/rocketMQ-transaction-msg/#more">查看全部</a>
-            </p>
-          
+<a id="more"></a>
+
+<h5 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h5><p>Rocket MQ的事务消息，可以保证MQ如果发送成功，DB事务也一定成功，DB失败了，MQ也一定不会成功，这样就解决了上述的问题，怎么做到的呢？接下来，我主要的目的，就是给大家讲清楚，怎么实现DB成功，MQ成功，DB失败，MQ也一定失败的。</p>
+<p>首先要实现1个TransactionListener的接口,这个接口有2个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * When send transactional prepare(half) message succeed, this method will be invoked to execute local transaction.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> msg Half(prepare) message</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> arg Custom business parameter</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Transaction state</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function">LocalTransactionState <span class="title">executeLocalTransaction</span><span class="params">(<span class="keyword">final</span> Message msg, <span class="keyword">final</span> Object arg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * When no response to prepare(half) message. broker will send check message to check the transaction status, and this</span></span><br><span class="line"><span class="comment">     * method will be invoked to get local transaction status.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> msg Check message</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Transaction state</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function">LocalTransactionState <span class="title">checkLocalTransaction</span><span class="params">(<span class="keyword">final</span> MessageExt msg)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里要重点理解2个方法的注释，不要觉的是英文的注释，就不想看，从这个注释上看，可以理解，Rocket MQ在假设一种未知的状态，什么状态呢？ 就是收不到prepare(half) message的回应，这里引申出来了1个概念，叫做预处理消息，或者叫准备状态的消息，RocketMQ的事务消息是基于两阶段提交实现的，也就是说消息有两个状态，prepared和commited。当消息执行完send方法后，进入的prepared状态。这里我们要讲一下LocalTransactionState这个类，这个类有3种状态： </p>
+<ul>
+<li>COMMIT_MESSAGE：提交消息，这个消息由prepared状态进入到commited状态，消费者可以消费这个消息</li>
+<li>ROLLBACK_MESSAGE：回滚</li>
+<li>UNKNOW：未知状态</li>
+</ul>
+<p>这里的一个场景是，未知状态是什么意思？ 先放下，然后看看我们该怎么用这2个方法。这里我主要写伪代码。</p>
+<p>这里我们降低难度，假设DB的事务就是1个insert，向订单表插入了1条记录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransactionListenerImpl</span> <span class="keyword">implements</span> <span class="title">TransactionListener</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LocalTransactionState <span class="title">executeLocalTransaction</span><span class="params">(Message msg, Object arg)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 开启DB事务</span></span><br><span class="line">        	startDBTransaction();</span><br><span class="line">        	<span class="comment">//执行事务内容</span></span><br><span class="line">        	<span class="keyword">long</span> id = insert();</span><br><span class="line">        	<span class="comment">//提交DB事务</span></span><br><span class="line">        	commit();</span><br><span class="line">        	<span class="keyword">if</span> id &gt; <span class="number">0</span> <span class="keyword">return</span> COMMIT_MESSAGE;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> ROLLBACK_MESSAGE;</span><br><span class="line">        &#125; <span class="keyword">catch</span>() &#123;</span><br><span class="line">            <span class="comment">// 回滚DB事务</span></span><br><span class="line">            rollback();</span><br><span class="line">            <span class="keyword">return</span> ROLLBACK_MESSAGE;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LocalTransactionState <span class="title">checkLocalTransaction</span><span class="params">(MessageExt msg)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//执行SQL，检查刚才的事务，是否成功了，一般msg里，有刚才DB事务的ID，这里是订单ID</span></span><br><span class="line">        <span class="comment">//根据订单ID去查订单存在不，存在就说明DB事务成功了，不存在就说明DB事务失败了</span></span><br><span class="line">        <span class="keyword">long</span> id = msg.getId();</span><br><span class="line">        <span class="keyword">int</span> count = getFromDbByOrderId(id);</span><br><span class="line">        <span class="keyword">if</span>(count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//说明订单插入成功了</span></span><br><span class="line">            <span class="keyword">return</span> COMMIT_MESSAGE;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> ROLLBACK_MESSAGE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这么做，是怎么实现事务消息的呢？RocketMQ的内部应该是这么做的（我没看源码，不确定具体的代码）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> succ = sendMq() <span class="comment">//准备状态，消费者看不见该条消息</span></span><br><span class="line"><span class="keyword">if</span>(succ) &#123;</span><br><span class="line">  <span class="keyword">boolean</span> succ1 = executeLocalTransaction()</span><br><span class="line">  <span class="comment">// A情况 如果执行到这里挂了，或者异常了，触发checkLocalTransaction</span></span><br><span class="line">  <span class="keyword">if</span>(succ1) &#123;</span><br><span class="line">     commitMQ() <span class="comment">//把MQ的状态，从准备改为可消费，消费者可以消费该条消息</span></span><br><span class="line">     <span class="comment">// B情况 如果执行到这里挂了，或者异常了，触发checkLocalTransaction</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     rollbackMQ() <span class="comment">//把MQ的状态，从准备改为取消，消费者不消费这条MQ消息</span></span><br><span class="line">     <span class="comment">// C情况 如果执行到这里挂了，或者异常了，触发checkLocalTransaction</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  	<span class="keyword">return</span> 失败</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果在执行期间挂了，恢复之后还是会checkLocalTransaction,看看DB事务是否成功</span></span><br><span class="line"><span class="comment">//RocketMQ有个后台线程，一直在轮询prepare message,这东西肯定在1个队列里</span></span><br><span class="line"><span class="comment">//重试5次，是我随意写的，具体看源码吧，这个不重要，重要的是思想。</span></span><br><span class="line">MessageExt prepareMsg = getPrepareMessageFromQueue();</span><br><span class="line"><span class="keyword">while</span>(prepareMsg &amp;&amp; 重试次数 &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    LocalTransactionState state = checkLocalTransaction(prepareMsg)</span><br><span class="line">    <span class="keyword">if</span>(state == COMMIT_MESSAGE) &#123;</span><br><span class="line">        <span class="comment">//提交MQ事务</span></span><br><span class="line">        <span class="comment">//从队列里移除这条消息</span></span><br><span class="line">        <span class="comment">//下一条</span></span><br><span class="line">        prepareMsg = getPrepareMessageFromQueue();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(state == ROLLBACK_MESSAGE) &#123;</span><br><span class="line">        <span class="comment">//回滚MQ事务</span></span><br><span class="line">        <span class="comment">//从队列里移除这条消息</span></span><br><span class="line">        <span class="comment">//下一条</span></span><br><span class="line">        prepareMsg = getPrepareMessageFromQueue();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//这里是UNKNOW状态，这里应该什么都不做，直接获取下一条prepare message</span></span><br><span class="line">        <span class="comment">//DB里的事务不应该是UNKNOW状态</span></span><br><span class="line">        <span class="comment">//除非DB超时了，没有告诉MQ数据库事务到底是成功还是失败</span></span><br><span class="line">        prepareMsg = getPrepareMessageFromQueue();</span><br><span class="line">        <span class="comment">//重试次数+1</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心思想：</p>
+<ul>
+<li>先发MQ，再执行DB的事务，再根据DB事务的状态，决定MQ消息是否要给消费者消费，如果DB成功了，MQ通过重试机制，保证prepare(half) message可以变更为commited状态。</li>
+<li>DB的事务，必须在 executeLocalTransaction() 这个方法里写。</li>
+<li> MQ自己内部保证 commitMQ() 或者 rollbackMQ() 一定能成功。</li>
+<li>如果MQ挂了，再启动的时候，可以再去DB里查数据库事务是否成功，保证消息的最终一致。</li>
+</ul>
+<p>这里可以看到，RocketMQ通过先发MQ消息，再执行DB事务，保证了在发送MQ这个环境一旦出现错误，可以通过再次回溯DB，查看DB的事务状态，来判断是提交MQ的事务消息，还是回滚MQ的事务消息，这里其实也有问题，就是一旦MQ执行commitMQ失败了，去回溯DB的时候，恰好DB也挂了，而且MQ重试了几次，DB都没有恢复，这个时候该怎么办呢？大家可以思考下。</p>
+<p>看到这里，我们再回过头来看，未知状态是什么？其实就是各种异常情况导致的未知状态，就是上述代码中的A情况、B情况、C情况，可能还会有网络超时、MQ自己挂了、MQ消息超时等异常情况，这里RocketMQ是通过回溯DB查看DB的事务状态来决定MQ的事务状态的，本质上属于2PC，并不是真正的分布式事务。这里分布式事务的难点在于通信信道的不可靠，具体可以看看2军问题，2军问题和拜占庭将军问题是完全不同的2个问题，大家一定要分清楚。</p>
+<p>全文完。</p>
+
         
       </div>
     </div>
@@ -132,322 +162,20 @@
     </footer>
   </div>
   
-</article>
-
-
-
-  
-    <article id="post-program-for-new-07" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
     
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
-    </h1>
   
+    <a href="/program-for-new-07/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA新手入门07之泛谈编程基础</div>
+    </a>
+  
+</nav>
 
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-07/" class="article-date">
-  <time datetime="2020-12-10T03:10:16.000Z" itemprop="datePublished">2020-12-10</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      对于新入门的程序员或者即将要学习计算机软件开发的人员来说，打好基础是非常关键的，但是我感觉网上的很多资料，对于什么是计算机基础，说的都比较官方和笼统，新人不愿意看；或者说的都是计算机操作系统、数据结构和算法等，这肯定没有错，但是对于新人来说，意义并不大，这篇文章将结合笔者多年的编程经验，给新手说清楚什么是基础？
-        </p>
-</p>
-
-
-<h5 id="不当杠精，接受现实"><a href="#不当杠精，接受现实" class="headerlink" title="不当杠精，接受现实"></a>不当杠精，接受现实</h5><p>对于新手来说，有些知识是需要先死记硬背的，例如语法，一些成熟算法等，这些东西前期不需要纠结的太多，记住就行了，每个人其实都站在了巨人的肩膀上，无论你现在有什么样的成绩，以后打算取得什么样的成绩，都是在前人不断总结的经验上，再有其它的创新，所以接受一些既定的事实是非常重要的。这并不是让大家不要问为什么，而是强调，不能在牛角尖里出不来，知识在没有形成体系的时候，最好的建议就是加大知识的面，让自己的知识形成体系，先把语法之类的东西死记硬背下来，这是必须要经历的一个过程。前几年是进步最快的时候，需要不会的，先记下来，可能慢慢你就会了，知道了，理解了，懂了为什么了，有一种豁然开朗的感觉了，如果找不到这种感觉，那你需要找个前辈，请教一下。</p>
-<h4 id="1、基础就是计算机知识体系"><a href="#1、基础就是计算机知识体系" class="headerlink" title="1、基础就是计算机知识体系"></a>1、基础就是计算机知识体系</h4><p>什么是知识体系？简单来说就是你所掌握的知识，一种是理论性的研究，一种是建立在理论性的研究上的应用，对于计算机来说，数据结构和算法就是理论性质的研究，操作系统的进程调度就是建立在这种理论上的实际应用，所以要建立一套完整的知识体系，应当重点学习对理论的应用，注意，这里说的是对理论的应用，而不是对理论的研究。这里对于新手的建议就是，不要深入到各种复杂深奥的数据结构和算法中去，掌握计算的几种基本结构和算法就可以了，具体要掌握的几种最重要的理论，有下面几种：</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-07/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
-
-
-  
-    <article id="post-program-for-new-06-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-06-mysql/" class="article-date">
-  <time datetime="2020-12-05T06:35:44.000Z" itemprop="datePublished">2020-12-05</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
-    <p>
-      尽管上一篇的内容，对于初学者来说，已经算是稍微有点难度了，但是对于有一点工作经验的开发人员来说，仍然算不上有难度，所以这一篇将从面试的角度，总结一下需要了解的知识点，这一篇将只列知识点，不给答案，或者给一个大致的方向。如果要面试的人，也可以试着回答以下问题。
-        </p>
-</p>
-### 1、索引篇
-
-<ul>
-<li><p>mysql哪些索引会命中，哪些不会命中？</p>
-</li>
-<li><p>怎么查看mysql索引是否命中？ explain查看执行计划</p>
-</li>
-<li><p>联合索引哪些情况索引会命中？ 哪些不会呢？</p>
-</li>
-<li><p>mysql底层索引是什么数据结构？ B+树</p>
-</li>
-<li><p>聚簇索引和覆盖索引有什么区别？</p>
-</li>
-<li><p>mysql索引为什么快？</p>
-</li>
-<li><p>mysql索引为什么用B+，而不是B树？</p>
-</li>
-<li><p>建了索引一定就会快吗？ 不是 </p>
-</li>
-<li><p>建了索引，且索引命中了，就一定会快吗？不是</p>
-</li>
-<li><p>varchar类型的列有100个长度，适合建索引吗？ 如果不适合，怎么解决？</p>
-</li>
-<li><p>哪些列适合建索引？ 区分度大的列适合，像ID</p>
-</li>
-<li><p>哪些列不适合建索引？ SEX这种 text 长度大的varchar</p>
-</li>
-<li><p>varchar和char有什么区别？</p>
-</li>
-<li><p>索引有什么坏处？ 新增和更新、删除慢了点，占用磁盘空间大了点等等</p>
-</li>
-<li><p>什么是慢SQL？怎么查看MYSQL的慢SQL？</p>
-</li>
-<li><p>做过哪些MYSQL的查询优化？</p>
-</li>
-</ul>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-06-mysql/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-program-for-new-05-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-05-mysql/" class="article-date">
-  <time datetime="2020-12-05T04:40:05.000Z" itemprop="datePublished">2020-12-05</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
-    <p>
-      这一篇我们会讲解下mysql的一些稍微有点难度的内容，目前的互联网公司，面试的时候问mysql的时候也还是挺多的，不仅仅开发岗位，有些测试岗位在面试的时候，也需要会mysql，所以本篇比上一篇的基础篇要稍微难点。
-        </p>
-</p>
-
-<p>主要会讲解以下内容：</p>
-<ul>
-<li><p>多表联合查询</p>
-</li>
-<li><p>索引命中规则</p>
-</li>
-<li><p>表结构设计三范式</p>
-</li>
-<li><p>查询优化技巧</p>
-</li>
-</ul>
-<h2 id="1、联合查询"><a href="#1、联合查询" class="headerlink" title="1、联合查询"></a>1、联合查询</h2><p>多个表联合查询，是说查询的时候，同时查询2个或者2个以上的表，为什么要这么做呢？是因为数据都是按分类存储的，往往学生信息单独存储在一张表，学生成绩会存储在另外一张表，所以要同时查询出学生的姓名和成绩的时候，就需要联合2个表，同时查询。也可以先看看第3节的表结构设计三范式，加深一下理解。</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-05-mysql/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-program-for-new-04-mysql" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-04-mysql/">JAVA新手入门04之MYSQL基础篇</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-04-mysql/" class="article-date">
-  <time datetime="2020-12-05T03:22:20.000Z" itemprop="datePublished">2020-12-05</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
-    <p>
-      这篇文章主要讲解一下基础MYSQL，纯粹为新人准备的，老手可以直接略过。在真实的项目中，数据一般都是要落地到数据库进行存储的，例如你在购物网站购买了一个手机，那么购物网站需要把你购买手机的时间、价格、订单号、支付信息等存储起来，如果有积分，还会记录一下积分信息。明白了数据库的作用，我们再来看看MYSQL这个关系数据库的一些基本操作。
-        </p>
-</p>
-
-<h4 id="这一篇我们将会讲解以下内容："><a href="#这一篇我们将会讲解以下内容：" class="headerlink" title="这一篇我们将会讲解以下内容："></a>这一篇我们将会讲解以下内容：</h4><ul>
-<li>DDL：创建表、删除表、增加列等修改表的结构。</li>
-<li>DML：新增、删除、修改、查询，俗称的增删改查，也被人戏称为CRUD，如果你刚开始工作，一般都是干CRUD的工作，如果你已经多年经验，绝对不要还只是CRUD。</li>
-<li>INDEX：索引相关</li>
-</ul>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
-<li>数据库        存储数据的一个软件，mysql是其中一种，你可以把数据库想象成1个Excel。</li>
-<li>关系型数据库 数据库的数据都是规定好的格式。</li>
-<li>SQL 规定好格式和语法的语句，可以从数据库中查询指定的数据，例如根据订单号查询订单信息。</li>
-<li>表      数据是存放在表中的，可以想象成1个Excel表的1个sheet。</li>
-<li>列      列是存在于表中的，可以想象成Excel中的sheet的一列，关系型数据库中每一列数据的类型都是相同的，不可以不同。</li>
-</ul>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-04-mysql/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">后一页</a>
-  </nav>
 
 </section>
       
