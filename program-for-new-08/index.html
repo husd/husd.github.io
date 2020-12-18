@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java的语法糖，就是编译器为了方便大家写代码，对于一些代码，做了一些简化的语法，可以让大家在平时写代码的时候，更方便写出容易阅读的代码，但是在编译完之后，编译器会把这些代码，再还原回来。在Java中，有1个大家最经常使用的语法糖，就是整形变量的自动装箱，Integer a &#x3D; 10;很明显10不是一个对象，Integer是一个对象，不同的东西，不能赋值，为啥还可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA新手入门07之语法糖">
+<meta property="og:url" content="http://yoursite.com/program-for-new-08/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="Java的语法糖，就是编译器为了方便大家写代码，对于一些代码，做了一些简化的语法，可以让大家在平时写代码的时候，更方便写出容易阅读的代码，但是在编译完之后，编译器会把这些代码，再还原回来。在Java中，有1个大家最经常使用的语法糖，就是整形变量的自动装箱，Integer a &#x3D; 10;很明显10不是一个对象，Integer是一个对象，不同的东西，不能赋值，为啥还可">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/base03.jpeg">
+<meta property="article:published_time" content="2020-12-18T07:30:53.000Z">
+<meta property="article:modified_time" content="2020-12-18T08:39:20.211Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="新手入门">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/base03.jpeg">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+        <a class="main-nav-link" href="/program-for-new-01/">新手入门</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-program-for-new-08" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA新手入门07之语法糖
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-08/" class="article-date">
+  <time datetime="2020-12-18T07:30:53.000Z" itemprop="datePublished">2020-12-18</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
+    <p>
+      Java的语法糖，就是编译器为了方便大家写代码，对于一些代码，做了一些简化的语法，可以让大家在平时写代码的时候，更方便写出容易阅读的代码，但是在编译完之后，编译器会把这些代码，再还原回来。在Java中，有1个大家最经常使用的语法糖，就是整形变量的自动装箱，Integer a = 10;很明显10不是一个对象，Integer是一个对象，不同的东西，不能赋值，为啥还可以这么做呢？ 这个东西就是Java的语法糖。
+        </p>
+</p>
+
+<h4 id="Java中的语法糖有以下几种："><a href="#Java中的语法糖有以下几种：" class="headerlink" title="Java中的语法糖有以下几种："></a>Java中的语法糖有以下几种：</h4><ol>
+<li>泛型（JDK1.5） </li>
+<li>自动装箱和拆箱（JDK1.5） </li>
+<li>变长参数（JDK1.5） </li>
+<li>实现Iterable接口的foreach语法（JDK1.5） </li>
+<li>接口AutoCloseable支持的try-with-resource用法（JDK1.7) </li>
+<li>switch支持枚举和String（JDK1.7) </li>
+</ol>
+<a id="more"></a>
+
+<h4 id="1、泛型（JDK1-5）"><a href="#1、泛型（JDK1-5）" class="headerlink" title="1、泛型（JDK1.5）"></a>1、泛型（JDK1.5）</h4><p>泛型是1个编程语言是否友好的重要标志，时下火热的Go语言，至今还没有实现泛型，Java中的泛型是通过类型擦除实现的，并不是真正意义上的泛型，由于本文不打算深入讲解泛型，在此不过多叙述。看以下泛型编译之后，被JVM实际执行的代码是什么样子的<br> <br>源代码(1.5之前)        </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">List arr = <span class="keyword">new</span> ArrayList();</span><br><span class="line">arr.add(<span class="string">&quot;this is first&quot;</span>);</span><br><span class="line">arr.add(<span class="number">123</span>);</span><br><span class="line"><span class="keyword">for</span>(Object obj : arr) &#123;</span><br><span class="line">    System.out.println(obj);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Class文件（1.5之前）：</span></span><br><span class="line">List arr = <span class="keyword">new</span> ArrayList();</span><br><span class="line">arr.add(<span class="string">&quot;this is first&quot;</span>);</span><br><span class="line">arr.add(<span class="number">123</span>);</span><br><span class="line">Iterator var6 = arr.iterator();</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(var6.hasNext()) &#123;</span><br><span class="line">   Object obj = var6.next();</span><br><span class="line">   System.out.println(obj);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>JDK1.5之后，为了兼容1.5之前的代码，老代码可以保持不变，新代码如果是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; arr = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">arr.add(<span class="string">&quot;this is first&quot;</span>);</span><br><span class="line">arr.add(<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+
+<p>会报编译器错误，原理是一样的，都会在编译期转变成Object对象，然后强制转换成需要的类型。 </p>
+<h4 id="2、自动装箱和拆箱（JDK1-5）"><a href="#2、自动装箱和拆箱（JDK1-5）" class="headerlink" title="2、自动装箱和拆箱（JDK1.5）"></a>2、自动装箱和拆箱（JDK1.5）</h4><p>直接上代码吧，这个比较容易理解，就是JAVA会自动在基本类型和基本类型的包装类之间，进行自动转换，当然这只是一种语法糖，代码编译成class文件的时候，就会自动把这个转换成对应的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码</span></span><br><span class="line"><span class="keyword">int</span> a = <span class="number">1290</span>;</span><br><span class="line">Integer b = <span class="number">1000</span>;</span><br><span class="line">Integer a1 = a;  <span class="comment">// 自动装箱</span></span><br><span class="line"><span class="keyword">int</span> b1 = b.intValue(); <span class="comment">//自动拆箱</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Class文件：</span></span><br><span class="line"><span class="keyword">int</span> a = <span class="number">1290</span>;</span><br><span class="line">Integer b = <span class="keyword">new</span> Integer(<span class="number">1000</span>);</span><br><span class="line">Integer a1 = Integer.valueOf(a);</span><br><span class="line"><span class="keyword">int</span> b1 = b; </span><br></pre></td></tr></table></figure>
+
+<p>其它的如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Character ch = <span class="string">&#x27;a&#x27;</span></span><br><span class="line">String s = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line"></span><br><span class="line">Integer a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = a + <span class="number">100</span>; <span class="comment">//操作符做运算触发自动拆箱</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//函数调用参数是包装类，触发自动拆箱/装箱</span></span><br><span class="line"><span class="keyword">int</span> c = add(<span class="number">10</span>,<span class="number">30</span>);</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(Integer a,Integer b)</span> </span>&#123;</span><br><span class="line"><span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java中的以下几种类型都支持自动拆箱，装箱。 </p>
+<ul>
+<li>Primitive type    Wrapper class</li>
+<li>boolean    Boolean</li>
+<li>byte    Byte</li>
+<li>char    Character</li>
+<li>float    Float</li>
+<li>int    Integer</li>
+<li>long    Long</li>
+<li>short    Short</li>
+<li>double    Double</li>
+</ul>
+<p>资料来源：<br><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html">https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html</a>
+ </p>
+<h4 id="3、变长参数（JDK1-5）"><a href="#3、变长参数（JDK1-5）" class="headerlink" title="3、变长参数（JDK1.5）"></a>3、变长参数（JDK1.5）</h4><p>变长参数指的是，一个方法的参数，可以有多个，具体有多少个，不确定，如果没有语法糖，我们一般会传一个List的引用进去，下面来看看，Java的这个变长参数是怎么实现的（强制转换为数组），不过平时我用的也不多。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码：</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">printStr</span><span class="params">(String... arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (String s : arr) &#123;</span><br><span class="line">    	System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//class文件：</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">printStr</span><span class="params">(String... arr)</span> </span>&#123;</span><br><span class="line">    String[] var2 = arr;    <span class="comment">//这里可以看出来，先把参数转为数组，然后读取数组来做的</span></span><br><span class="line">    <span class="keyword">int</span> var3 = arr.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> var4 = <span class="number">0</span>; var4 &lt; var3; ++var4) &#123;</span><br><span class="line">      String s = var2[var4];</span><br><span class="line">      System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、实现Iterable接口的foreach语法（JDK1-5）"><a href="#4、实现Iterable接口的foreach语法（JDK1-5）" class="headerlink" title="4、实现Iterable接口的foreach语法（JDK1.5）"></a>4、实现Iterable接口的foreach语法（JDK1.5）</h4><p>这个是平时用到的最多的一个语法糖了，如果你刚开始写Java，会遇到很多这种代码，算是用的比较多的一个了，其实上面代码中有体现，直接转Iterator迭代实现，所以需要实现了Iterable接口的类，才可以使用这个语法糖。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 源代码</span></span><br><span class="line">List&lt;String&gt; arr = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"><span class="keyword">for</span> (String s : arr) &#123;</span><br><span class="line">	System.out.println(s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//class文件：</span></span><br><span class="line">Iterator var6 = arr.iterator();</span><br><span class="line"><span class="keyword">while</span>(var6.hasNext()) &#123;</span><br><span class="line">  String s = (String)var6.next();</span><br><span class="line">  System.out.println(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="5、接口AutoCloseable支持的try-with-resource用法（JDK1-7"><a href="#5、接口AutoCloseable支持的try-with-resource用法（JDK1-7" class="headerlink" title="5、接口AutoCloseable支持的try-with-resource用法（JDK1.7)"></a>5、接口AutoCloseable支持的try-with-resource用法（JDK1.7)</h4><p>这个用的就更少了，我很少在实际的项目中见到这样的代码，也可能是因为平时读取资源的文件不多，平时很多时候都是CRUD了，仅仅是1个糖，编译后，又还原了最初的样子,还是传统的try{} catch() {} finally{} 这个结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码：</span></span><br><span class="line"></span><br><span class="line">String content = <span class="string">&quot;this is what you want to write to file&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> (BufferedWriter out = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span></span><br><span class="line">       FileWriter(<span class="string">&quot;/tmp/a.txt&quot;</span>, <span class="keyword">true</span>))) &#123;</span><br><span class="line">       out.write(content);</span><br><span class="line">       System.out.println(<span class="string">&quot;content is :&quot;</span> + content);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line"><span class="comment">// error processing code</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//class</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">   BufferedWriter out = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> FileWriter(<span class="string">&quot;/tmp/a.txt&quot;</span>, <span class="keyword">true</span>));</span><br><span class="line">   Throwable var8 = <span class="keyword">null</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    out.write(content);</span><br><span class="line">    System.out.println(<span class="string">&quot;content is :&quot;</span> + content);  </span><br><span class="line">  &#125; <span class="keyword">catch</span> (Throwable var26) &#123;</span><br><span class="line">    var8 = var26;</span><br><span class="line">    <span class="keyword">throw</span> var26;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (out != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (var8 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          out.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable var25) &#123;</span><br><span class="line">          var8.addSuppressed(var25);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        out.close();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException var28) &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="6、switch支持枚举和String（JDK1-7）"><a href="#6、switch支持枚举和String（JDK1-7）" class="headerlink" title="6、switch支持枚举和String（JDK1.7）"></a>6、switch支持枚举和String（JDK1.7）</h4><p>这个就比较冷门了，平时编程使用switch的时候，很少使用String来做枚举，一般都是用int的比较多。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码：</span></span><br><span class="line">String s = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">  <span class="keyword">switch</span> (s) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;abc&quot;</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;this is abc&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;c&quot;</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;this is c&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//class文件：</span></span><br><span class="line">String s = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line"><span class="keyword">byte</span> var3 = -<span class="number">1</span>;</span><br><span class="line"><span class="keyword">switch</span>(s.hashCode()) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">99</span>:</span><br><span class="line">    <span class="keyword">if</span> (s.equals(<span class="string">&quot;c&quot;</span>)) &#123;</span><br><span class="line">       var3 = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">96354</span>:</span><br><span class="line">      <span class="keyword">if</span> (s.equals(<span class="string">&quot;abc&quot;</span>)) &#123;</span><br><span class="line">        var3 = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>(var3) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">      System.out.println(<span class="string">&quot;this is abc&quot;</span>);</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">      System.out.println(<span class="string">&quot;this is c&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见是计算了string的hashcode，然后把hashcode转换为了整型的switch，为了处理hash冲突，使用equals来做最后的确认，并不是在底层就支持String，所以具体在使用的时候，需要知道原理是什么，如果String串特别长，很明显性能就不太好，不适合使用。</p>
+<h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><p>语法糖是java中的一个小小的插曲，不会对你的编程生涯造成什么太大的影响，即使不专门学习，也能在项目中学习到，因为用到的实在太多了，学了一下，感觉也没有提升太多的知识，归根到底，还是因为这个东西太简单了，如果说非要有一点要注意的地方，就是整形的自动装箱和拆箱，会有一个小小的坑，那就是日常使用的时候，经常会写这样的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">if</span>(a != <span class="keyword">null</span> &amp;&amp; a == b) &#123; <span class="comment">// a != null 如果省略了，可能会空指针</span></span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">do</span> something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们在比较a和b的值的时候，需要心里清楚，这是Java的自动拆箱，有的时候也会有空指针异常，所以一定要保证a != null 说到包装类的比较,还有一个小知识点，需要注意的地方，就是包装类的缓存:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">127</span>;</span><br><span class="line">Integer b = <span class="number">127</span>;</span><br><span class="line"><span class="keyword">boolean</span> b1 = a == b;</span><br><span class="line"></span><br><span class="line">Integer a0 = <span class="number">128</span>;</span><br><span class="line">Integer b0 = <span class="number">128</span>;</span><br><span class="line"><span class="keyword">boolean</span> b2 = a0 == b0;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;b1 is :&quot;</span> + b1);</span><br><span class="line">System.out.println(<span class="string">&quot;b2 is :&quot;</span> + b2)</span><br></pre></td></tr></table></figure>
+
+<p>执行上面的代码，b1和b2是true还是false呢？ 实际的结果是b1 is : true b2 is : false，为什么呢？ 因为Java对于包装类，有1个缓存，a和b指向的是同1个对象，这个缓存的范围是 -128 到 127 之间，在这个范围内，2个包装类都是相等的。感兴趣的话可以看Integer的源码，里面有1个IntegerCache的内部类。</p>
+<p>文本完。</p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/rocketMQ-transaction-msg/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RocketMQ的事务消息</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门07之语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04之MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/swift-for-macos-01/">Swift开发macOS应用01</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+          <li>
+            <a href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/sort-fast/">处理有序数据比无序的数组要快</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门07之语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04之MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/swift-for-macos-01/">Swift开发macOS应用01</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于我</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+          <li>
+            <a href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/sort-fast/">处理有序数据比无序的数组要快</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">打赏作者</h3>
+  <div class="widget">
+    <img src="/img/money.jpeg">
+    <br>
+    <br>
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2020 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+    <a href="/program-for-new-01/" class="mobile-nav-link">新手入门</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+
