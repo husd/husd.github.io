@@ -40,13 +40,13 @@
       
         <a class="main-nav-link" href="/">博客首页</a>
       
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+      
         <a class="main-nav-link" href="/archives">全部文章</a>
       
         <a class="main-nav-link" href="/about">关于双King</a>
       
         <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
-      
-        <a class="main-nav-link" href="/program-for-new-01/">新手入门</a>
       
     </nav>
     <nav id="sub-nav">
@@ -82,7 +82,7 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-08/">JAVA新手入门08之语法糖</a>
+      <a class="article-title" href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
     </h1>
   
 
@@ -216,7 +216,7 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
+      <a class="article-title" href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
     </h1>
   
 
@@ -279,7 +279,7 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
+      <a class="article-title" href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
     </h1>
   
 
@@ -307,44 +307,27 @@
           <p style="width:800px;">
     <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
     <p>
-      尽管上一篇的内容，对于初学者来说，已经算是稍微有点难度了，但是对于有一点工作经验的开发人员来说，仍然算不上有难度，所以这一篇将从面试的角度，总结一下需要了解的知识点，这一篇将只列知识点，不给答案，或者给一个大致的方向。如果要面试的人，也可以试着回答以下问题。
+      尽管上一篇的内容，对于初学者来说，已经算是稍微有点难度了，但是对于有一点工作经验的开发人员来说，仍然算不上有难度，所以这一篇将从面试的角度，总结一下需要了解的知识点，这一篇将只列知识点，不给答案，或者给一个大致的方向。如果要面试的人，也可以试着回答以下问题。如果你现在不想深入研究MYSQL，毕竟人的精力都是有限的，也可以把以下内容，放入到你的TODO LIST中去，以后再慢慢研究，我的建议是，<font color="red">每个编程的人，都应该有一个自己编程的笔记本，例如微软的ONE NOTE，印象笔记、苹果的备忘录（我正在用)，然后有一个笔记，是专门存放要做的事情的，在任何时候，任何地点，遇到了不会的东西，立即放入TODO LIST中去。</font>这也是一种编程思想，你想一下，消息队列（MQ）是不是就是这个思路，很多地方都是这个思路，这里就不一一列举了。
         </p>
 </p>
-### 1、索引篇
 
-<ul>
-<li><p>mysql哪些索引会命中，哪些不会命中？</p>
-</li>
-<li><p>怎么查看mysql索引是否命中？ explain查看执行计划</p>
-</li>
-<li><p>联合索引哪些情况索引会命中？ 哪些不会呢？</p>
-</li>
-<li><p>mysql底层索引是什么数据结构？ B+树</p>
-</li>
-<li><p>聚簇索引和覆盖索引有什么区别？</p>
-</li>
-<li><p>mysql索引为什么快？</p>
-</li>
-<li><p>mysql索引为什么用B+，而不是B树？</p>
-</li>
-<li><p>建了索引一定就会快吗？ 不是 </p>
-</li>
-<li><p>建了索引，且索引命中了，就一定会快吗？不是</p>
-</li>
-<li><p>varchar类型的列有100个长度，适合建索引吗？ 如果不适合，怎么解决？</p>
-</li>
-<li><p>哪些列适合建索引？ 区分度大的列适合，像ID</p>
-</li>
-<li><p>哪些列不适合建索引？ SEX这种 text 长度大的varchar</p>
-</li>
-<li><p>varchar和char有什么区别？</p>
-</li>
-<li><p>索引有什么坏处？ 新增和更新、删除慢了点，占用磁盘空间大了点等等</p>
-</li>
-<li><p>什么是慢SQL？怎么查看MYSQL的慢SQL？</p>
-</li>
-<li><p>做过哪些MYSQL的查询优化？</p>
-</li>
+<h4 id="1、索引篇"><a href="#1、索引篇" class="headerlink" title="1、索引篇"></a>1、索引篇</h4><ul>
+<li>mysql哪些索引会命中，哪些不会命中？</li>
+<li>怎么查看mysql索引是否命中？ explain查看执行计划</li>
+<li>联合索引哪些情况索引会命中？ 哪些不会呢？</li>
+<li>mysql底层索引是什么数据结构？ B+树</li>
+<li>聚簇索引和覆盖索引有什么区别？</li>
+<li>mysql索引为什么快？</li>
+<li>mysql索引为什么用B+，而不是B树？</li>
+<li>建了索引一定就会快吗？ 不是</li>
+<li>建了索引，且索引命中了，就一定会快吗？不是</li>
+<li>varchar类型的列有100个长度，适合建索引吗？ 如果不适合，怎么解决？</li>
+<li>哪些列适合建索引？ 区分度大的列适合，像ID</li>
+<li>哪些列不适合建索引？ SEX这种 text 长度大的varchar</li>
+<li>varchar和char有什么区别？</li>
+<li>索引有什么坏处？ 新增和更新、删除慢了点，占用磁盘空间大了点等等</li>
+<li>什么是慢SQL？怎么查看MYSQL的慢SQL？</li>
+<li>做过哪些MYSQL的查询优化？</li>
 </ul>
           
             <p class="article-more-link">
@@ -375,7 +358,7 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
+      <a class="article-title" href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
     </h1>
   
 
@@ -409,16 +392,12 @@
 
 <p>主要会讲解以下内容：</p>
 <ul>
-<li><p>多表联合查询</p>
-</li>
-<li><p>索引命中规则</p>
-</li>
-<li><p>表结构设计三范式</p>
-</li>
-<li><p>查询优化技巧</p>
-</li>
+<li>多表联合查询</li>
+<li>索引命中规则</li>
+<li>表结构设计三范式</li>
+<li>查询优化技巧</li>
 </ul>
-<h2 id="1、联合查询"><a href="#1、联合查询" class="headerlink" title="1、联合查询"></a>1、联合查询</h2><p>多个表联合查询，是说查询的时候，同时查询2个或者2个以上的表，为什么要这么做呢？是因为数据都是按分类存储的，往往学生信息单独存储在一张表，学生成绩会存储在另外一张表，所以要同时查询出学生的姓名和成绩的时候，就需要联合2个表，同时查询。也可以先看看第3节的表结构设计三范式，加深一下理解。</p>
+<h4 id="1、联合查询"><a href="#1、联合查询" class="headerlink" title="1、联合查询"></a>1、联合查询</h4><p>多个表联合查询，是说查询的时候，同时查询2个或者2个以上的表，为什么要这么做呢？是因为数据都是按分类存储的，往往学生信息单独存储在一张表，学生成绩会存储在另外一张表，所以要同时查询出学生的姓名和成绩的时候，就需要联合2个表，同时查询。也可以先看看第3节的表结构设计三范式，加深一下理解。</p>
           
             <p class="article-more-link">
               <a href="/program-for-new-05-mysql/#more">查看全部</a>
@@ -442,7 +421,7 @@
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">后一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
 
 </section>
@@ -497,7 +476,7 @@
       <ul>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08之语法糖</a>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
           </li>
         
           <li>
@@ -505,19 +484,19 @@
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04之MYSQL基础篇</a>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
           </li>
         
           <li>
@@ -525,15 +504,15 @@
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03</a>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02</a>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
           </li>
         
           <li>
-            <a href="/program-for-new-01/">JAVA新手入门01</a>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
           </li>
         
           <li>
@@ -545,7 +524,7 @@
           </li>
         
           <li>
-            <a href="/about/">关于我</a>
+            <a href="/about/">关于双King</a>
           </li>
         
           <li>
@@ -618,7 +597,7 @@
       <ul>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08之语法糖</a>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
           </li>
         
           <li>
@@ -626,19 +605,19 @@
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07之泛谈编程基础</a>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06之MYSQL提高篇2</a>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05之MYSQL提高篇</a>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04之MYSQL基础篇</a>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
           </li>
         
           <li>
@@ -646,15 +625,15 @@
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03</a>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02</a>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
           </li>
         
           <li>
-            <a href="/program-for-new-01/">JAVA新手入门01</a>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
           </li>
         
           <li>
@@ -666,7 +645,7 @@
           </li>
         
           <li>
-            <a href="/about/">关于我</a>
+            <a href="/about/">关于双King</a>
           </li>
         
           <li>
@@ -813,13 +792,13 @@ if(_local_host != "localhost:4000") {
   
     <a href="/" class="mobile-nav-link">博客首页</a>
   
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+  
     <a href="/archives" class="mobile-nav-link">全部文章</a>
   
     <a href="/about" class="mobile-nav-link">关于双King</a>
   
     <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
-  
-    <a href="/program-for-new-01/" class="mobile-nav-link">新手入门</a>
   
 </nav>
   
