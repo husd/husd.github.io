@@ -115,6 +115,7 @@
 </p>
 
 
+
 <h4 id="1、妄想控制JVM进行垃圾回收？？？"><a href="#1、妄想控制JVM进行垃圾回收？？？" class="headerlink" title="1、妄想控制JVM进行垃圾回收？？？"></a>1、妄想控制JVM进行垃圾回收？？？</h4><p>手工把大对象设置为null，并不能优化GC，原因在于GC的时机，jvm并不是时时刻刻都在进行垃圾回收，大部分垃圾收集器力求减少GC，能不要Full GC，就不要Full GC，所以相信JVM的作者是足够聪明的，垃圾收集器可以在适当的时候GC。</p>
 <p>极端情况： 如果你有1个特别长的方法，申请了一个超大的对象，可以考虑在用完之后，把对象设置为null，一种更优的办法是，让方法保持短小精悍。</p>
 <p>System.gc() 更像是毒苹果，JVM不能保证会在调用了这个方法之后，进行垃圾回收。</p>
@@ -564,6 +565,10 @@
       <ul>
         
           <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
             <a href="http://gobue.com/" target="_blank">阿土的博客</a>
           </li>
         
@@ -729,6 +734,10 @@
     <h3 class="widget-title">友情链接</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
         
           <li>
             <a href="http://gobue.com/" target="_blank">阿土的博客</a>
