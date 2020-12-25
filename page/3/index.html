@@ -73,6 +73,137 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-program-for-new-03" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-03/" class="article-date">
+  <time datetime="2020-12-02T11:18:16.000Z" itemprop="datePublished">2020-12-02</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>这篇文章，将会详细的列出来新手入门需要学习的Java基础知识，这些知识，是必须要掌握的，而且不能学的半盆子水平，要深入学习原理，然后才能在以后使用的时候，得心应手。</p>
+<h3 id="String篇"><a href="#String篇" class="headerlink" title="String篇"></a>String篇</h3><p>string会伴随Java开发的一生，几乎每天都会用到，所以要去研究这个类，目前作为新手入门，要理解的是如下内容：</p>
+<ul>
+<li>string底层是什么 它不是基本类型，对吧，它是用哪种基本类型实现的</li>
+<li>string的比较问题 str1 == str2 和 str1.equals(str2)的区别</li>
+<li>字符串的拼接问题 str = str1 + str2 + str3 这里会延伸到StringBuffer和StringBuilder</li>
+<li>字符串的子字符串 即substring() 要学会使用</li>
+<li>字符串和各种类型的转换，例如string转int int转string等 long和double float这些都要会</li>
+<li>字符串的hash和equals方法，可能在某些情况下要重写，该怎么重写，这里其实会涉及到List<String>的contains方法的使用</li>
+<li>大写转小写 或反向怎么实现</li>
+<li>判断字符串是否为空 可以用apache的StringUtils</li>
+<li>trim()方法，去除字符串2边的空格</li>
+</ul>
+          
+            <p class="article-more-link">
+              <a href="/program-for-new-03/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-program-for-new-02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-02/" class="article-date">
+  <time datetime="2020-12-02T07:08:25.000Z" itemprop="datePublished">2020-12-02</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/effective-java.jpg" align="right" width="35%" hspace="5" vspace="5">
+    <p>
+     这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。还是想再次推荐一下Effective Java这本书，所以用这本书做了封面，并不是只需要看这1本书，作为程序员，会看很多本书，但是这本书，绝对是Java新手的首选，没有之一。
+        </p>
+</p>
+
+<h2 id="Math-min-int-a-int-b-方法的必要性"><a href="#Math-min-int-a-int-b-方法的必要性" class="headerlink" title="Math.min(int a, int b)方法的必要性"></a>Math.min(int a, int b)方法的必要性</h2><p>Math.min(a,b)方法，会返回a和b之中的较小的值。如果对java.lang.Math类中的这个方法不熟悉，也没有关系，这里并不想讨论方法的重载，也不想讨论怎么比较2个double类型或者2个float类型在获取最小值时候的不同（如果你是编程新手，建议你去学习下怎么比较2个double值），返回2个整型值中的较小的值，代码非常的简单，例如可以这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，问题来了，我为什么要把这么简单的1个功能，做出来1个方法呢？干嘛要调用1个方法，而不是直接在调用Math.min(a,b)的方法，直接写这段逻辑呢？</p>
+          
+            <p class="article-more-link">
+              <a href="/program-for-new-02/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-program-for-new-01" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -263,120 +394,6 @@
 
 
   
-    <article id="post-about" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/about/">关于双King</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/about/" class="article-date">
-  <time datetime="2019-05-17T07:41:38.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p>我原名胡胜冬，双King是我大学的时候，打游戏用到的名字，现在虽然不打游戏了，还保留了这个名字，用作笔名。男，日常开发语言是Java，30岁，从事Java已经有9年时间了，不敢说高手，每天都在学习中，不学习就要落后。</p>
-<p>在宝驾科技、京东待过，目前在国美，我刚开始工作的时候，是2012年，一个最深的感受是网上的文档比较少，资料也很少，那个时候还是stucts和jsp的时代，jdk也用的1.5或者1.6，遗憾的是在刚开始工作的时候，没有能找到一个正确的学习方法，导致工作的前几年，技术并没有出现特别大的进步，一般来说，刚入门的前2年，会接受大量的知识，技术水平也会一天一个样子，甚为惋惜。现在也在恶补中。</p>
-<p>写这个博客，也断断续续好几年，中间有过停顿，近期又拾起来了，希望可以把自己的所学，能够讲清楚，对自己来说是一个提升，如果能让别人也学到一些，尤其是对于新入行的Java开发人员，有一点点的帮助，那就更好了。</p>
-<h4 id="目前精通哪些内容呢？"><a href="#目前精通哪些内容呢？" class="headerlink" title="目前精通哪些内容呢？"></a>目前精通哪些内容呢？</h4>
-          
-            <p class="article-more-link">
-              <a href="/about/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-rfc-815" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/rfc-815/">RFC815-IP分片重组</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/rfc-815/" class="article-date">
-  <time datetime="2019-05-17T07:37:32.000Z" itemprop="datePublished">2019-05-17</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p>最近在看IP分片重组的部分，在网上搜索了一下RFC815的中文翻译文章，没有找到一个合适的，索性自己下载了原版文档来看，正好以前并没有翻译过文档，RFC815文档也不是很长，正好拿来开始，翻译的也有许多自己不太明白，后续再完善吧。</p>
-<p>David D. Clark<br>MIT计算机科学实验室<br>计算机系统通讯组<br>1982年7月</p>
-          
-            <p class="article-more-link">
-              <a href="/rfc-815/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -392,7 +409,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -402,7 +419,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -422,7 +439,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -435,7 +452,15 @@
       <ul>
         
           <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
             <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
           </li>
         
           <li>
@@ -504,14 +529,6 @@
         
           <li>
             <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
-          </li>
-        
-          <li>
-            <a href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-          </li>
-        
-          <li>
-            <a href="/sort-fast/">处理有序数据比无序的数组要快</a>
           </li>
         
       </ul>
@@ -560,7 +577,15 @@
       <ul>
         
           <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
             <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
           </li>
         
           <li>
@@ -631,14 +656,6 @@
             <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
           </li>
         
-          <li>
-            <a href="/fast-cookie/">stackOverFlow性能提升之Cookie</a>
-          </li>
-        
-          <li>
-            <a href="/sort-fast/">处理有序数据比无序的数组要快</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -659,7 +676,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -668,7 +685,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -686,7 +703,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 

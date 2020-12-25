@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="要说Java程序员必须要学习的东西的话，Spring当仁不让，必须是第一个框架，也有另外一个东西，也是新手程序员必须要学习的东西，那就是Google的Guava库，这个库的作者，和Effective Java的作者是同一人，都来自于Google，学好了这个库，你的Java的能力，相信会更上一个台阶。Java的优势是什么？那就是各种成熟的轮子，Guava就是其中之一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA程序员必学的Google Guava库（第一篇）">
+<meta property="og:url" content="http://yoursite.com/google-guava/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="要说Java程序员必须要学习的东西的话，Spring当仁不让，必须是第一个框架，也有另外一个东西，也是新手程序员必须要学习的东西，那就是Google的Guava库，这个库的作者，和Effective Java的作者是同一人，都来自于Google，学好了这个库，你的Java的能力，相信会更上一个台阶。Java的优势是什么？那就是各种成熟的轮子，Guava就是其中之一">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/guava01.png">
+<meta property="article:published_time" content="2020-12-24T02:49:38.000Z">
+<meta property="article:modified_time" content="2020-12-25T08:27:32.313Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="新手入门">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/guava01.png">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-google-guava" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA程序员必学的Google Guava库（第一篇）
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/google-guava/" class="article-date">
+  <time datetime="2020-12-24T02:49:38.000Z" itemprop="datePublished">2020-12-24</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
+    <p>
+      要说Java程序员必须要学习的东西的话，Spring当仁不让，必须是第一个框架，也有另外一个东西，也是新手程序员必须要学习的东西，那就是Google的Guava库，这个库的作者，和Effective Java的作者是同一人，都来自于Google，学好了这个库，你的Java的能力，相信会更上一个台阶。Java的优势是什么？那就是各种成熟的轮子，Guava就是其中之一，如果想代码很少BUG，就开始使用它吧。
+        </p>
+</p>
+
+<blockquote>
+<p>目录<br>1、基本工具<br>2、集合</p>
+</blockquote>
+<h1 id="1、基本工具"><a href="#1、基本工具" class="headerlink" title="1、基本工具"></a>1、基本工具</h1><h2 id="1-1-避免NULL"><a href="#1-1-避免NULL" class="headerlink" title="1.1 避免NULL"></a>1.1 避免NULL</h2><p>NULL的含义是不确定的，应该避免，尤其是在Map和Set中，返回NULL，并不清楚是不存在，还是有值，但是是NULL，最常用的一个技巧就是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 好的代码</span></span><br><span class="line">List arr = <span class="keyword">new</span> ArrayList();</span><br><span class="line"><span class="comment">// 不好的代码</span></span><br><span class="line">List arr = <span class="keyword">null</span>;</span><br><span class="line">Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//处理默认值</span></span><br><span class="line">map.getOrDefault(<span class="number">123</span>,<span class="string">&quot;默认值&quot;</span>);</span><br><span class="line"><span class="comment">//没有123这个KEY的时候，才执行put方法，如果map中已经有值了，就不执行put方法</span></span><br><span class="line"><span class="comment">//并且返回旧值</span></span><br><span class="line">map.putIfAbsent(<span class="number">123</span>,<span class="string">&quot;123&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这样可以避免空指针。Guava的建议是： 使用快速失败操作拒绝null值对开发者更有帮助。</p>
+<a id="more"></a>
+<h2 id="1-2-Guava用Optional表示可能为null的T类型引用"><a href="#1-2-Guava用Optional表示可能为null的T类型引用" class="headerlink" title="1.2 Guava用Optional表示可能为null的T类型引用:"></a>1.2 Guava用<a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/Optional.html">Optional</a>表示可能为null的T类型引用:</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Integer&gt; possible = Optional.of(<span class="number">50</span>);</span><br><span class="line">possible.isPresent(); <span class="comment">// true</span></span><br><span class="line">possible.get(); <span class="comment">// returns 50</span></span><br></pre></td></tr></table></figure>
+<h1 id="2、集合类"><a href="#2、集合类" class="headerlink" title="2、集合类"></a>2、集合类</h1><h2 id="2-1-不可变集合"><a href="#2-1-不可变集合" class="headerlink" title="2.1 不可变集合"></a>2.1 不可变集合</h2><p>这个属于防御性编程内容，不可变集合的意思就是集合创建了之后，就不能改变了，类似于:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SIZE 的值是不可以改变的</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> SIZE = <span class="number">10</span>;</span><br><span class="line"><span class="comment">// final修饰传统的map，起不到效果</span></span><br><span class="line"><span class="keyword">final</span> Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">// 不可以</span></span><br><span class="line">map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">// 可以</span></span><br><span class="line">map.put(<span class="number">123</span>,<span class="string">&quot;123&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>想要设计不可变集合类的主要原因有：</p>
+<ul>
+<li>当对象被不可信的库调用时，不可变形式是安全的。</li>
+<li>线程安全。</li>
+<li>容易测试。</li>
+<li>安全，不容易出BUG，以防某些错误的代码修改了集合的内容。</li>
+</ul>
+<p>创建的方法(还有1个copyOf方法，这里不打算引入了)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> ImmutableSet&lt;Integer&gt; set = ImmutableSet.&lt;Integer&gt;builder()</span><br><span class="line">                .add(<span class="number">12</span>)</span><br><span class="line">                .add(<span class="number">30</span>)</span><br><span class="line">                .add(<span class="number">12</span>)</span><br><span class="line">                .build();</span><br><span class="line">ImmutableSortedSet&lt;Integer&gt; sortedSet = ImmutableSortedSet.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="comment">//转List，取第K小个元素</span></span><br><span class="line">sortedSet.asList().get(k)</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-新集合类型"><a href="#2-2-新集合类型" class="headerlink" title="2.2 新集合类型"></a>2.2 新集合类型</h2><p>有一些新的类型可以使用，例如java没有Table类型，下面将一一介绍。</p>
+<h3 id="2-2-1-Multiset"><a href="#2-2-1-Multiset" class="headerlink" title="2.2.1 Multiset"></a>2.2.1 Multiset</h3><p>这个东西，可以想象成1个ArrayList，没有顺序，但是它是一个Set，不过可以有重复的Key，还记录了重复的Key的出现的数量。比方说你要统计一篇文章中出现的单词的次数:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; counts = <span class="keyword">new</span> HashMap&lt;String, Integer&gt;();</span><br><span class="line"><span class="keyword">for</span> (String word : words) &#123;</span><br><span class="line">    Integer count = counts.get(word);</span><br><span class="line">    <span class="keyword">if</span> (count == <span class="keyword">null</span>) &#123;</span><br><span class="line">        counts.put(word, <span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        counts.put(word, count + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种写法很笨拙，也容易出错，并且不支持同时收集多种统计信息，如总词数。我们可以做的更好。替代方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//模拟文章内容</span></span><br><span class="line">String [] arr = &#123;<span class="string">&quot;123&quot;</span>,<span class="string">&quot;123&quot;</span>,<span class="string">&quot;1234&quot;</span>,<span class="string">&quot;12345&quot;</span>&#125;;</span><br><span class="line">Multiset&lt;String&gt; multiset = HashMultiset.create();</span><br><span class="line"><span class="keyword">for</span>(String s : arr) &#123;</span><br><span class="line">    multiset.add(s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//统计123出现了几次</span></span><br><span class="line">System.out.println(multiset.count(<span class="string">&quot;123&quot;</span>));</span><br><span class="line"><span class="comment">//统计set中一共有几个元素</span></span><br><span class="line">System.out.println(multiset.size());</span><br></pre></td></tr></table></figure>
+
+<p>Multiset接口的方法：</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th align="left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count(E)</td>
+<td align="left">给定元素在Multiset中的计数</td>
+</tr>
+<tr>
+<td>elementSet()</td>
+<td align="left">Multiset中不重复元素的集合，类型为Set<E></td>
+</tr>
+<tr>
+<td>entrySet()</td>
+<td align="left">和Map的entrySet类似，返回Set&lt;Multiset.Entry<E>&gt;，其中包含的Entry支持getElement()和getCount()方法</td>
+</tr>
+<tr>
+<td>add(E, int)</td>
+<td align="left">增加给定元素在Multiset中的计数</td>
+</tr>
+<tr>
+<td>remove(E, int)</td>
+<td align="left">减少给定元素在Multiset中的计数</td>
+</tr>
+<tr>
+<td>setCount(E, int)</td>
+<td align="left">设置给定元素在Multiset中的计数，不可以为负数</td>
+</tr>
+<tr>
+<td>size()</td>
+<td align="left">返回集合元素的总个数（包括重复的元素）</td>
+</tr>
+</tbody></table>
+<p>该接口的实现类：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Map</strong></th>
+<th><strong>对应的**</strong>Multiset**</th>
+<th><strong>是否支持**</strong>null**<strong>元素</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/HashMultiset.html">HashMultiset</a></td>
+<td>是</td>
+</tr>
+<tr>
+<td>TreeMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/TreeMultiset.html">TreeMultiset</a></td>
+<td>是（如果comparator支持的话）</td>
+</tr>
+<tr>
+<td>LinkedHashMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/LinkedHashMultiset.html">LinkedHashMultiset</a></td>
+<td>是</td>
+</tr>
+<tr>
+<td>ConcurrentHashMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ConcurrentHashMultiset.html">ConcurrentHashMultiset</a></td>
+<td>否</td>
+</tr>
+<tr>
+<td>ImmutableMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ImmutableMultiset.html">ImmutableMultiset</a></td>
+<td>否</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-2-Multimap"><a href="#2-2-2-Multimap" class="headerlink" title="2.2.2 Multimap"></a>2.2.2 Multimap</h3><p>一般都遇到过以下场景，这种可以使用Multimap替代，需要注意Multimap不是Map。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传统方法</span></span><br><span class="line">Map&lt;K, List&lt;V&gt;&gt;</span><br><span class="line">Map&lt;K, Set&lt;V&gt;&gt;</span><br><span class="line"><span class="comment">// 替代方法 这里用ArrayListMultimap来举例</span></span><br><span class="line">ArrayListMultimap&lt;String,String&gt; arrayListMultimap = ArrayListMultimap.create();</span><br><span class="line">arrayListMultimap.put(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;1&quot;</span>);</span><br><span class="line">arrayListMultimap.put(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;12&quot;</span>);</span><br><span class="line">arrayListMultimap.put(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;123&quot;</span>);</span><br><span class="line">arrayListMultimap.put(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;1234&quot;</span>);</span><br><span class="line">System.out.println(arrayListMultimap.get(<span class="string">&quot;abc&quot;</span>));</span><br><span class="line"><span class="comment">// [1, 12, 123, 1234]</span></span><br><span class="line"><span class="comment">//arrayListMultimap.get(&quot;abc&quot;) 返回的是1个List&lt;String&gt;的值</span></span><br></pre></td></tr></table></figure>
+
+<p>Multimap提供了多种形式的实现。在大多数要使用Map&lt;K, Collection<V>&gt;的地方，你都可以使用它们：</p>
+<table>
+<thead>
+<tr>
+<th><strong>实现</strong></th>
+<th><strong>键行为类似</strong></th>
+<th><strong>值行为类似</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ArrayListMultimap.html">ArrayListMultimap</a></td>
+<td>HashMap</td>
+<td>ArrayList</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/HashMultimap.html">HashMultimap</a></td>
+<td>HashMap</td>
+<td>HashSet</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/LinkedListMultimap.html">LinkedListMultimap</a></td>
+<td>LinkedHashMap</td>
+<td>LinkedList</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/LinkedHashMultimap.html">LinkedHashMultimap</a></td>
+<td>LinkedHashMap</td>
+<td>LinkedHashMap</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/TreeMultimap.html">TreeMultimap</a></td>
+<td>TreeMap</td>
+<td>TreeSet</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ImmutableListMultimap.html"><code>ImmutableListMultimap</code></a></td>
+<td>ImmutableMap</td>
+<td>ImmutableList</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ImmutableSetMultimap.html">ImmutableSetMultimap</a></td>
+<td>ImmutableMap</td>
+<td>ImmutableSet</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-3-BiMap"><a href="#2-2-3-BiMap" class="headerlink" title="2.2.3 BiMap"></a>2.2.3 BiMap</h3><p>传统上，实现键值对的双向映射需要维护两个单独的map，并保持它们间的同步。但这种方式很容易出错，而且对于值已经在map中的情况，会变得非常混乱。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; nameToId = Maps.newHashMap();</span><br><span class="line">Map&lt;Integer, String&gt; idToName = Maps.newHashMap();</span><br><span class="line">nameToId.put(<span class="string">&quot;Bob&quot;</span>, <span class="number">42</span>);</span><br><span class="line">idToName.put(<span class="number">42</span>, <span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"><span class="comment">//如果&quot;Bob&quot;和42已经在map中了，会发生什么?</span></span><br><span class="line"><span class="comment">//如果我们忘了同步两个map，会有诡异的bug发生...</span></span><br></pre></td></tr></table></figure>
+
+<p>替代方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BiMap&lt;String, Integer&gt; nameIdBiMap = HashBiMap.create();</span><br><span class="line">nameIdBiMap.put(<span class="string">&quot;a&quot;</span>,<span class="number">1</span>);</span><br><span class="line">nameIdBiMap.put(<span class="string">&quot;b&quot;</span>,<span class="number">2</span>);</span><br><span class="line">nameIdBiMap.put(<span class="string">&quot;c&quot;</span>,<span class="number">3</span>);</span><br><span class="line"><span class="comment">//nameIdBiMap.put(&quot;a&quot;,4);</span></span><br><span class="line">System.out.println(<span class="string">&quot;a的id:&quot;</span> + nameIdBiMap.get(<span class="string">&quot;a&quot;</span>));</span><br><span class="line">System.out.println(<span class="string">&quot;id为1:&quot;</span> + nameIdBiMap.inverse().get(<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+<p>如果不是唯一的，会出现什么情况呢？ 例如2个人重名了。如果我们放开了上面的注释语句，模拟下这种冲突，就会出现ID为1的人被覆盖掉了,这点在使用的时候，需要特别注意。</p>
+<h3 id="BiMap的各种实现"><a href="#BiMap的各种实现" class="headerlink" title="BiMap的各种实现"></a>BiMap的各种实现</h3><table>
+<thead>
+<tr>
+<th>键值实现</th>
+<th>值键实现</th>
+<th>对应的BiMap实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashMap</td>
+<td>HashMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/HashBiMap.html">HashBiMap</a></td>
+</tr>
+<tr>
+<td>ImmutableMap</td>
+<td>ImmutableMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ImmutableBiMap.html">ImmutableBiMap</a></td>
+</tr>
+<tr>
+<td>EnumMap</td>
+<td>EnumMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/collect/EnumBiMap.html">EnumBiMap</a></td>
+</tr>
+<tr>
+<td>EnumMap</td>
+<td>HashMap</td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/collect/EnumHashBiMap.html">EnumHashBiMap</a></td>
+</tr>
+</tbody></table>
+<h3 id="2-3-4-Table"><a href="#2-3-4-Table" class="headerlink" title="2.3.4 Table"></a>2.3.4 Table</h3><p>Table有点类似于2维数组，根据行和列，确认某一个值，没有Table，老方法就是搞个Map&lt;V,Map&lt;K,V&gt;&gt;这样的结构来实现。替代方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table&lt;Integer, Integer, Integer&gt; table = HashBasedTable.create();</span><br><span class="line">table.put(<span class="number">1</span>, <span class="number">1</span> ,<span class="number">3</span>);</span><br><span class="line">table.put(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>);</span><br><span class="line">table.put(<span class="number">2</span>, <span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">table.put(<span class="number">2</span>, <span class="number">2</span>, <span class="number">6</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(table.row(<span class="number">1</span>)); <span class="comment">//&#123;1=3, 2=4&#125;</span></span><br><span class="line">System.out.println(table.column(<span class="number">1</span>)); <span class="comment">//&#123;1=3, 2=5&#125;</span></span><br><span class="line">System.out.println(table.get(<span class="number">1</span>, <span class="number">1</span>)); <span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+<p>是不是感觉很方便？</p>
+<h3 id="2-3-5-RangeSet"><a href="#2-3-5-RangeSet" class="headerlink" title="2.3.5 RangeSet"></a>2.3.5 RangeSet</h3><p>这个东西很有意思，在某些场景，我感觉可能会有用，RangeSet的意思是一些非连续区间，例如：<br>{[1,10], [11,15)}  {[1,10], [11,20)} 在数学上，它是不连续的，也可能是连续的。这个时候，想要描述这段区间的时候，可以使用RangeSet这个类。<br>注：RangeSet不支持GWT，也不支持JDK5和更早版本；因为，RangeSet需要充分利用JDK6中NavigableMap的特性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RangeSet&lt;Integer&gt; rangeSet = TreeRangeSet.create();</span><br><span class="line">rangeSet.add(Range.closed(<span class="number">1</span>, <span class="number">10</span>)); <span class="comment">// &#123;[1,10]&#125;</span></span><br><span class="line">rangeSet.add(Range.closedOpen(<span class="number">11</span>, <span class="number">15</span>));<span class="comment">//不相连区间:&#123;[1,10], [11,15)&#125;</span></span><br><span class="line">rangeSet.add(Range.closedOpen(<span class="number">15</span>, <span class="number">20</span>)); <span class="comment">//相连区间; &#123;[1,10], [11,20)&#125;</span></span><br><span class="line">rangeSet.add(Range.openClosed(<span class="number">0</span>, <span class="number">0</span>)); <span class="comment">//空区间; &#123;[1,10], [11,20)&#125;</span></span><br><span class="line">rangeSet.remove(Range.open(<span class="number">5</span>, <span class="number">10</span>)); <span class="comment">//分割[1, 10]; &#123;[1,5], [10,10], [11,20)&#125;</span></span><br><span class="line">System.out.println(rangeSet.contains(<span class="number">1</span>)); <span class="comment">//true</span></span><br><span class="line">System.out.println(rangeSet.contains(<span class="number">6</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p> 1、RangeSet的实现支持非常广泛的视图：</p>
+<ul>
+<li>complement()：返回RangeSet的补集视图。complement也是RangeSet类型,包含了不相连的、非空的区间。</li>
+<li>subRangeSet(Range<C>)：返回RangeSet与给定Range的交集视图。这扩展了传统排序集合中的headSet、subSet和tailSet操作。</li>
+<li>asRanges()：用Set&lt;Range<C>&gt;表现RangeSet，这样可以遍历其中的Range。</li>
+<li>asSet(DiscreteDomain<C>)（仅ImmutableRangeSet支持）：用ImmutableSortedSet<C>表现RangeSet，以区间中所有元素的形式而不是区间本身的形式查看。（这个操作不支持DiscreteDomain 和RangeSet都没有上边界，或都没有下边界的情况）<br>2、RangeSet的查询方法 为了方便操作，RangeSet直接提供了若干查询方法，其中最突出的有:</li>
+<li>contains(C)：RangeSet最基本的操作，判断RangeSet中是否有任何区间包含给定元素。</li>
+<li>rangeContaining(C)：返回包含给定元素的区间；若没有这样的区间，则返回null。</li>
+<li>encloses(Range<C>)：简单明了，判断RangeSet中是否有任何区间包括给定区间。</li>
+<li>span()：返回包括RangeSet中所有区间的最小区间。<h3 id="2-3-6-其它"><a href="#2-3-6-其它" class="headerlink" title="2.3.6 其它"></a>2.3.6 其它</h3>还有一些其它的类，就不多写了，可以自己去看看API文档</li>
+</ul>
+<ul>
+<li>ClassToInstanceMap</li>
+<li>RangeMap 这个和RangeSet有点像，相当于某个区间对应了某个值，例如：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RangeMap&lt;Integer, String&gt; rangeMap = TreeRangeMap.create();</span><br><span class="line">rangeMap.put(Range.closed(<span class="number">1</span>, <span class="number">10</span>), <span class="string">&quot;foo&quot;</span>); <span class="comment">//&#123;[1,10] =&gt; &quot;foo&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+具体用到了的时候，可以再研究一下。<br>全文完。 <a href="/google-guava02" target="_blank">JAVA程序员必学的Google Guava库（第二篇）</a><br>参考文档：<br>并发编程网  <a target="_blank" rel="noopener" href="http://ifeve.com/google-guava/">http://ifeve.com/google-guava/</a></li>
+</ul>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/jvm-gc-suggest/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          基于JVM垃圾回收的一些编程建议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/program-for-new-08/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA新手入门08～语法糖</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
+            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于双King</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
+            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于双King</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">打赏作者</h3>
+  <div class="widget">
+    <img src="/img/money.jpeg">
+    <br>
+    <br>
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2020 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

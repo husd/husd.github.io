@@ -9,21 +9,13 @@
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这篇文章想记录下Java的GC的一些细节，例如什么时候JVM会垃圾回收？哪些对象将会被回收？还会讨论下哪些对象会进入到老年代。 注意： 你需要先知道 Eden&#x2F;Old&#x2F;Minor gc&#x2F;Full gc&#x2F;S0 S1这些都代表什么  Eden 年轻代中的一部分，年轻代 * 80% S0   年轻代中的一部分，年轻代 * 10% S1   年轻代中的一部分，年轻代 * 10% Old  年老代 Mino">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JVM垃圾回收的一些细节">
-<meta property="og:url" content="http://yoursite.com/gc-time/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:url" content="http://yoursite.com/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/3/index.html">
 <meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
-<meta property="og:description" content="这篇文章想记录下Java的GC的一些细节，例如什么时候JVM会垃圾回收？哪些对象将会被回收？还会讨论下哪些对象会进入到老年代。 注意： 你需要先知道 Eden&#x2F;Old&#x2F;Minor gc&#x2F;Full gc&#x2F;S0 S1这些都代表什么  Eden 年轻代中的一部分，年轻代 * 80% S0   年轻代中的一部分，年轻代 * 10% S1   年轻代中的一部分，年轻代 * 10% Old  年老代 Mino">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/img/gc02.png">
-<meta property="og:image" content="http://yoursite.com/img/gc01.png">
-<meta property="article:published_time" content="2020-12-01T12:49:58.000Z">
-<meta property="article:modified_time" content="2020-12-24T08:24:18.549Z">
 <meta property="article:author" content="双king">
-<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/img/gc02.png">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -79,104 +71,44 @@
 </header>
 
     <div class="outer">
-      <section id="main"><article id="post-gc-time" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      JVM垃圾回收的一些细节
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/program-for-new-01/" class="archive-article-date">
+  <time datetime="2020-12-02T03:50:10.000Z" itemprop="datePublished">Dec 2</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
     </h1>
   
 
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/gc-time/" class="article-date">
-  <time datetime="2020-12-01T12:49:58.000Z" itemprop="datePublished">2020-12-01</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    </header>
   </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p>这篇文章想记录下Java的GC的一些细节，例如什么时候JVM会垃圾回收？<br>哪些对象将会被回收？还会讨论下哪些对象会进入到老年代。</p>
-<p>注意： 你需要先知道 Eden/Old/Minor gc/Full gc/S0 S1这些都代表什么</p>
-<ul>
-<li>Eden 年轻代中的一部分，年轻代 * 80%</li>
-<li>S0   年轻代中的一部分，年轻代 * 10%</li>
-<li>S1   年轻代中的一部分，年轻代 * 10%</li>
-<li>Old  年老代</li>
-<li>Minor gc 针对年轻代的垃圾回收，快，程序不会暂停</li>
-<li>Full gc 针对年老代的垃圾回收，慢，程序会暂停，俗称 Stop The World</li>
-</ul>
-<a id="more"></a>
-
-<p>如果对上述概念没有深刻的理解，来看一张图，加深印象</p>
-<p><img src="/img/gc02.png" alt="gc02"></p>
-<h1 id="GC的几种时机："><a href="#GC的几种时机：" class="headerlink" title="GC的几种时机："></a>GC的几种时机：</h1><ul>
-<li>Eden满了Minor gc</li>
-<li>升到老年代的对象大于老年代剩余空间Full gc，小于时被HandlePromotionFailure参数强制Full gc （看注意事项，JDK1.7之后有变化）promontion failed：</li>
-<li>Eden + S0 满，复制到S1，S1也不足，转而复制到Old Gen，如果Old Gen也不足，就会产生promontion failed，从而产生Full Gc</li>
-<li>大对象在Eden区放不下，就会直接放到old ，old放不下触发Full Gc</li>
-<li>现在反射很多，Permanet Generation中存放的为一些class的信息、常量、静态变量等数据，可能会导致java.lang.OutOfMemoryError: PermGen space</li>
-</ul>
-<h1 id="JVM对象进入老年代的4种情况："><a href="#JVM对象进入老年代的4种情况：" class="headerlink" title="JVM对象进入老年代的4种情况："></a>JVM对象进入老年代的4种情况：</h1><ul>
-<li>假如进行Minor GC时发现，存活的对象在ToSpace区中存不下，那么把存活的对象存入老年代</li>
-<li> 大对象直接进入老年代</li>
-<li>长期存活的对象将进入老年代<br>年轻代每从from复制到to一次，增加1岁，默认15岁之后，会进入老年代，配置参数-XX:MaxTenuringThreshold可以调整<br>进入老年代的最大年龄</li>
-<li> 动态对象年龄判定<br>如果在From空间中，相同年龄所有对象的大小总和大于From和To空间总和的一半，那么年龄大于等于该年龄的对象就会被移动到老年代，而不用等到15岁(默认)：<br><img src="/img/gc01.png" alt="gc01"></li>
-</ul>
-<p>-XX:HandlePromotionFailure=false<br>this is invalid since JDK1.7 and later version</p>
-<p>JDK1.7 之后，变更为：<br>老年代的空间足够容纳下sum(新生代)或avg(历次晋升)，就minor gc  OR full gc</p>
-<p>全文完。</p>
-
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/program-for-new-01/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          JAVA新手入门01～基本内功
-        
-      </div>
-    </a>
-  
-  
-    <a href="/mybatis-param/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">MYBATIS参数</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">上一页</a><a class="page-number" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">1</a><a class="page-number" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
       

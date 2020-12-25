@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这篇文章是第二篇，如果没有看过第一篇的，建议先去看看JAVA程序员必学的Google Guava库（第一篇），不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。         目录3、缓存4、字符串处理  3、缓存如果要实现一个内存类型的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA程序员必学的Google Guava库（第二篇）">
+<meta property="og:url" content="http://yoursite.com/google-guava02/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="这篇文章是第二篇，如果没有看过第一篇的，建议先去看看JAVA程序员必学的Google Guava库（第一篇），不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。         目录3、缓存4、字符串处理  3、缓存如果要实现一个内存类型的">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/guava01.png">
+<meta property="article:published_time" content="2020-12-25T02:49:38.000Z">
+<meta property="article:modified_time" content="2020-12-25T08:26:36.489Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="新手入门">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/guava01.png">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-google-guava02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA程序员必学的Google Guava库（第二篇）
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/google-guava02/" class="article-date">
+  <time datetime="2020-12-25T02:49:38.000Z" itemprop="datePublished">2020-12-25</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
+    <p>
+        这篇文章是第二篇，如果没有看过第一篇的，建议先去看看<a href="/google-guava" target="_blank">JAVA程序员必学的Google Guava库（第一篇）</a>，不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。
+    </p>
+</p>
+
+<blockquote>
+<p>目录<br>3、缓存<br>4、字符串处理</p>
+</blockquote>
+<h1 id="3、缓存"><a href="#3、缓存" class="headerlink" title="3、缓存"></a>3、缓存</h1><p>如果要实现一个内存类型的缓存，大部分人可能会尝试使用Map，这样写也可以，大部分情况都适用，担心多线程问题，可以使用ConcurrentHashMap，但是还有一些问题例如内存无限膨胀、过期等问题，没有解决，这个时候，可以考虑使用Guava的缓存。</p>
+<p>通常来说，<code>Guava Cache</code>适用于：</p>
+<ul>
+<li>你愿意消耗一些内存空间来提升速度。</li>
+<li>KEY会被查询一次以上。</li>
+<li>缓存中存放的数据总量不会超出内存容量。（Guava Cache是单个应用运行时的本地缓存。它不把数据存放到文件或外部服务器。如果这不符合你的需求，请尝试<a target="_blank" rel="noopener" href="http://memcached.org/">Memcached</a>这类工具）<a id="more"></a>
+如果你的场景符合上述的每一条，Guava Cache就适合你。直接来代码吧：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()</span><br><span class="line">        .maximumSize(<span class="number">1000</span>)</span><br><span class="line">        .build(</span><br><span class="line">            <span class="keyword">new</span> CacheLoader&lt;Key, Graph&gt;() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">public</span> Graph <span class="title">load</span><span class="params">(Key key)</span> <span class="keyword">throws</span> AnyException </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> createExpensiveGraph(key);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">...</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> graphs.get(key);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> OtherException(e.getCause());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+这里直接把缓存没命中，回溯DB的方法，放在了build()里面，也可以使用另外一种方法，调用get(key,Callable(){})<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Cache&lt;Key, Graph&gt; cache = CacheBuilder.newBuilder()</span><br><span class="line">        .maximumSize(<span class="number">1000</span>)</span><br><span class="line">        .build(); <span class="comment">// look Ma, no CacheLoader</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// If the key wasn&#x27;t in the &quot;easy to compute&quot; group, we need to</span></span><br><span class="line">    <span class="comment">// do things the hard way.</span></span><br><span class="line">    cache.get(key, <span class="keyword">new</span> Callable&lt;Key, Graph&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Value <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> AnyException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> doThingsTheHardWay(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> OtherException(e.getCause());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+获取缓存-如果没有-则计算”[get-if-absent-compute]这个操作是线程安全的。也可以手工添加缓存，调用put(K,V)方法就可以了。<br>接下来聊一下缓存的失效问题，内存不可能无限大，总是有限制的，Guava提供了以下办法：</li>
+</ul>
+<ul>
+<li>基于容量回收 注意刚才的 .maximumSize(1000) ，表示最大1000个，超过了就回收。</li>
+<li>定时回收<br><code>expireAfterAccess(long, TimeUnit)</code>：缓存项在给定时间内没有被读/写访问，则回收。请注意这种缓存的回收顺序和基于大小回收一样。<br><code>expireAfterWrite(long, TimeUnit)</code>：缓存项在给定时间内没有被写访问（创建或覆盖），则回收。如果认为缓存数据总是在固定时候后变得陈旧不可用，这种回收方式是可取的。</li>
+<li>基于引用回收</li>
+<li>手工回收 调用 <code>Cache.invalidate(key)</code> <code>Cache.invalidateAll()</code> 来清楚个别缓存或者全部缓存<h4 id="清理什么时候发生？"><a href="#清理什么时候发生？" class="headerlink" title="清理什么时候发生？"></a>清理什么时候发生？</h4>写操作的时候顺带清理下，必要的时候清理下，有点类似Redis清理过期KEY的机制，当然，也可以自己手工起个线程去清理。<h4 id="怎么修改缓存值？"><a href="#怎么修改缓存值？" class="headerlink" title="怎么修改缓存值？"></a>怎么修改缓存值？</h4><code>Cache.refersh(key)</code>可以刷新，当然也可以是异步的。如果刷新期间出现异常，那么旧值也会保留。<h4 id="asMap视图"><a href="#asMap视图" class="headerlink" title="asMap视图"></a><code>asMap视图</code></h4>asMap视图提供了缓存的ConcurrentMap形式，但asMap视图与缓存的交互需要注意：</li>
+</ul>
+<ul>
+<li>cache.asMap()包含当前所有加载到缓存的项。因此相应地，cache.asMap().keySet()包含当前所有已加载键;</li>
+<li>asMap().get(key)实质上等同于cache.getIfPresent(key)，而且不会引起缓存项的加载。这和Map的语义约定一致。</li>
+<li>所有读写操作都会重置相关缓存项的访问时间，包括Cache.asMap().get(Object)方法和Cache.asMap().put(K, V)方法，但不包括Cache.asMap().containsKey(Object)方法，也不包括在Cache.asMap()的集合视图上的操作。比如，遍历Cache.asMap().entrySet()不会重置缓存项的读取时间。<h4 id="线程中断"><a href="#线程中断" class="headerlink" title="线程中断"></a>线程中断</h4>A线程取缓存 - 没有命中 - 加载 - 返回 这个过程在单线程的时候没什么问题，如果多个线程同时访问，只有其中1个线程去回溯缓存，假设是A，如果A失败了，那么其他的也就失败了，这应该是个BUG，可以用<code>AsyncLoadingCache</code>来替代<code>LoadingCache</code><h1 id="4、字符串处理"><a href="#4、字符串处理" class="headerlink" title="4、字符串处理"></a>4、字符串处理</h1>你可能会想到apache的StringUtils，大多数情况下会满足要求，这里来看看Guava提供了哪些功能。<h4 id="4-1-Joiner-把字符串连接起来"><a href="#4-1-Joiner-把字符串连接起来" class="headerlink" title="4.1 Joiner 把字符串连接起来"></a>4.1 Joiner 把字符串连接起来</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Joiner joiner = Joiner.on(<span class="string">&quot;; &quot;</span>).skipNulls();</span><br><span class="line"><span class="keyword">return</span> joiner.join(<span class="string">&quot;Harry&quot;</span>, <span class="keyword">null</span>, <span class="string">&quot;Ron&quot;</span>, <span class="string">&quot;Hermione&quot;</span>);</span><br><span class="line"><span class="comment">//Harry; Ron; Hermione 自动处理了NULL值</span></span><br><span class="line">Joiner.on(<span class="string">&quot;,&quot;</span>).join(Arrays.asList(<span class="number">1</span>, <span class="number">5</span>, <span class="number">7</span>)); <span class="comment">// returns &quot;1,5,7&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><em>警告：joiner实例总是不可变的。用来定义joiner目标语义的配置方法总会返回一个新的joiner实例。这使得joiner实例都是线程安全的，你可以将其定义为static final常量。</em></p>
+<h4 id="4-2-Splitter-分割字符串"><a href="#4-2-Splitter-分割字符串" class="headerlink" title="4.2 Splitter 分割字符串"></a>4.2 Splitter 分割字符串</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Iterable&lt;String&gt; iterable = Splitter.on(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">        .trimResults()</span><br><span class="line">        .omitEmptyStrings()</span><br><span class="line">        .split(<span class="string">&quot;,a,,b,&quot;</span>);</span><br><span class="line">Iterator it = iterable.iterator();</span><br><span class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">    System.out.println(it.next());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回a b 自动去掉了空格</span></span><br></pre></td></tr></table></figure>
+<p>考虑清楚要不要用这个特性，大部分情况下，是不需要空格的数据的</p>
+<h4 id="4-3-字符匹配器-CharMatcher"><a href="#4-3-字符匹配器-CharMatcher" class="headerlink" title="4.3 字符匹配器[CharMatcher]"></a>4.3 字符匹配器[CharMatcher]</h4><p>在以前的Guava版本中，StringUtil类疯狂地膨胀，其拥有很多处理字符串的方法：allAscii、collapse、collapseControlChars、collapseWhitespace、indexOfChars、lastIndexNotOf、numSharedChars、removeChars、removeCrLf、replaceChars、retainAllChars、strip、stripAndCollapse、stripNonDigits。 所有这些方法指向两个概念上的问题：</p>
+<ol>
+<li>怎么才算匹配字符？</li>
+<li>如何处理这些匹配字符？<br>为了收拾这个泥潭，我们开发了CharMatcher。<br>直观上，你可以认为一个CharMatcher实例代表着某一类字符，如数字或空白字符。事实上来说，CharMatcher实例就是对字符的布尔判断——CharMatcher确实也实现了<a target="_blank" rel="noopener" href="http://code.google.com/p/guava-libraries/wiki/FunctionalExplained#Predicate">Predicate</a>——但类似”所有空白字符”或”所有小写字母”的需求太普遍了，Guava因此创建了这一API。<br>然而使用CharMatcher的好处更在于它提供了一系列方法，让你对字符作特定类型的操作：修剪[trim]、折叠[collapse]、移除[remove]、保留[retain]等等。CharMatcher实例首先代表概念1：怎么才算匹配字符？然后它还提供了很多操作概念2：如何处理这些匹配字符？这样的设计使得API复杂度的线性增加可以带来灵活性和功能两方面的增长。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String noControl = CharMatcher.JAVA_ISO_CONTROL.removeFrom(string); <span class="comment">//移除control字符</span></span><br><span class="line">String theDigits = CharMatcher.DIGIT.retainFrom(string); <span class="comment">//只保留数字字符</span></span><br><span class="line">String spaced = CharMatcher.WHITESPACE.trimAndCollapseFrom(string, <span class="string">&#x27; &#x27;</span>);</span><br><span class="line"><span class="comment">//去除两端的空格，并把中间的连续空格替换成单个空格</span></span><br><span class="line">String noDigits = CharMatcher.JAVA_DIGIT.replaceFrom(string, <span class="string">&quot;*&quot;</span>); <span class="comment">//用*号替换所有数字</span></span><br><span class="line">String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE).retainFrom(string);</span><br><span class="line"><span class="comment">// 只保留数字和小写字母</span></span><br></pre></td></tr></table></figure>
+获取字符匹配器 CharMatcher中的常量可以满足大多数字符匹配需求：<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#ANY"><code>ANY</code></a></th>
+<th><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#NONE"><code>NONE</code></a></th>
+<th><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#WHITESPACE"><code>WHITESPACE</code></a></th>
+<th><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#BREAKING_WHITESPACE"><code>BREAKING_WHITESPACE</code></a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#INVISIBLE"><code>INVISIBLE</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#DIGIT"><code>DIGIT</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_LETTER"><code>JAVA_LETTER</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_DIGIT"><code>JAVA_DIGIT</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_LETTER_OR_DIGIT"><code>JAVA_LETTER_OR_DIGIT</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_ISO_CONTROL"><code>JAVA_ISO_CONTROL</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_LOWER_CASE"><code>JAVA_LOWER_CASE</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#JAVA_UPPER_CASE"><code>JAVA_UPPER_CASE</code></a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#ASCII"><code>ASCII</code></a></td>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#SINGLE_WIDTH"><code>SINGLE_WIDTH</code></a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<p>其他获取字符匹配器的常见方法包括：</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#anyOf(java.lang.CharSequence)"><code>anyOf(CharSequence)</code></a></td>
+<td>枚举匹配字符。如CharMatcher.anyOf(“aeiou”)匹配小写英语元音</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#is(char)"><code>is(char)</code></a></td>
+<td>给定单一字符匹配。</td>
+</tr>
+<tr>
+<td><code>inRange(char, char)</code></td>
+<td>给定字符范围匹配，如CharMatcher.inRange(‘a’, ‘z’)</td>
+</tr>
+</tbody></table>
+<p>此外，CharMatcher还有<a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#negate()"><code>negate()</code></a>、<a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#and(com.google.common.base.CharMatcher)"><code>and(CharMatcher)</code></a>和<a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#or(com.google.common.base.CharMatcher)"><code>or(CharMatcher)</code></a>方法。<br>使用字符匹配器<br>CharMatcher提供了<a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CharMatcher.html#method_summary">多种多样的方法</a>操作CharSequence中的特定字符。其中最常用的罗列如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>collapseFrom(CharSequence,  char)</code></td>
+<td>把每组连续的匹配字符替换为特定字符。如WHITESPACE.collapseFrom(string, ‘ ‘)把字符串中的连续空白字符替换为单个空格。</td>
+</tr>
+<tr>
+<td><code>matchesAllOf(CharSequence)</code></td>
+<td>测试是否字符序列中的所有字符都匹配。</td>
+</tr>
+<tr>
+<td><code>removeFrom(CharSequence)</code></td>
+<td>从字符序列中移除所有匹配字符。</td>
+</tr>
+<tr>
+<td><code>retainFrom(CharSequence)</code></td>
+<td>在字符序列中保留匹配字符，移除其他字符。</td>
+</tr>
+<tr>
+<td><code>trimFrom(CharSequence)</code></td>
+<td>移除字符序列的前导匹配字符和尾部匹配字符。</td>
+</tr>
+<tr>
+<td><code>replaceFrom(CharSequence,  CharSequence)</code></td>
+<td>用特定字符序列替代匹配字符。</td>
+</tr>
+</tbody></table>
+<p>所有这些方法返回String，除了matchesAllOf返回的是boolean。</p>
+<h4 id="4-4-字符集-Charsets"><a href="#4-4-字符集-Charsets" class="headerlink" title="4.4 字符集[Charsets]"></a>4.4 字符集[Charsets]</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不要这么做</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    bytes = string.getBytes(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">    <span class="comment">// how can this possibly happen?</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError(e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 要这么做</span></span><br><span class="line">bytes = string.getBytes(Charsets.UTF_8);</span><br></pre></td></tr></table></figure>
+<h4 id="4-5-大小写格式-CaseFormat"><a href="#4-5-大小写格式-CaseFormat" class="headerlink" title="4.5 大小写格式[CaseFormat]"></a>4.5 大小写格式[CaseFormat]</h4><p>CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>格式</strong></th>
+<th><strong>范例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_CAMEL"><code>LOWER_CAMEL</code></a></td>
+<td>lowerCamel</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_HYPHEN"><code>LOWER_HYPHEN</code></a></td>
+<td>lower-hyphen</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#LOWER_UNDERSCORE"><code>LOWER_UNDERSCORE</code></a></td>
+<td>lower_underscore</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_CAMEL"><code>UPPER_CAMEL</code></a></td>
+<td>UpperCamel</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/base/CaseFormat.html#UPPER_UNDERSCORE"><code>UPPER_UNDERSCORE</code></a></td>
+<td>UPPER_UNDERSCORE</td>
+</tr>
+<tr>
+<td>CaseFormat的用法很直接：</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, <span class="string">&quot;CONSTANT_NAME&quot;</span>)); <span class="comment">// returns &quot;constantName&quot;</span></span><br></pre></td></tr></table></figure>
+<p>全文完。<br>转发自 并发编程网  <a target="_blank" rel="noopener" href="http://ifeve.com/google-guava/">http://ifeve.com/google-guava/</a> 略有修改<br>备注：Google Guava还提供了更多的功能，有兴趣可以更加深入学习，有一些平时少用的，就没有放在这里了。</p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/jvm-gc-suggest/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于JVM垃圾回收的一些编程建议</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
+            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于双King</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+          </li>
+        
+          <li>
+            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+          </li>
+        
+          <li>
+            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+          </li>
+        
+          <li>
+            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+          </li>
+        
+          <li>
+            <a href="/program-for-new-01/">JAVA新手入门01～基本内功</a>
+          </li>
+        
+          <li>
+            <a href="/gc-time/">JVM垃圾回收的一些细节</a>
+          </li>
+        
+          <li>
+            <a href="/mybatis-param/">MYBATIS参数</a>
+          </li>
+        
+          <li>
+            <a href="/about/">关于双King</a>
+          </li>
+        
+          <li>
+            <a href="/rfc-815/">RFC815-IP分片重组</a>
+          </li>
+        
+          <li>
+            <a href="/oracle-lock-table/">ORACLE处理锁表</a>
+          </li>
+        
+          <li>
+            <a href="/harmful-icon/">rel=shortcut icon是有害的</a>
+          </li>
+        
+          <li>
+            <a href="/web-need-know/">开发一个WEB网站需要知道什么</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">打赏作者</h3>
+  <div class="widget">
+    <img src="/img/money.jpeg">
+    <br>
+    <br>
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.33px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2020 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+
