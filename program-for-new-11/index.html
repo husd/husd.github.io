@@ -9,13 +9,21 @@
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="双king的技术博客 - www.epoooll.com">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="上一篇讲了讲动态代理，这一篇要说一说注解。随着Spring的流行，笔者在开发的过程中，无时不刻在使用注解，那么了解注解，就成了必须要学会的知识，会用，了解原理即可。不过学到哪种程度呢，就需要见仁见智了。说一点题外话，Java的东西太多了，精通所有的东西，看过所有的源码，几乎是不可能的，所以自己就看自己的需求了，学习到那种程度就自己掌握吧。            注解简">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA新手必须要会的02～注解">
+<meta property="og:url" content="http://yoursite.com/program-for-new-11/index.html">
 <meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="上一篇讲了讲动态代理，这一篇要说一说注解。随着Spring的流行，笔者在开发的过程中，无时不刻在使用注解，那么了解注解，就成了必须要学会的知识，会用，了解原理即可。不过学到哪种程度呢，就需要见仁见智了。说一点题外话，Java的东西太多了，精通所有的东西，看过所有的源码，几乎是不可能的，所以自己就看自己的需求了，学习到那种程度就自己掌握吧。            注解简">
 <meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/annotation.jpg">
+<meta property="og:image" content="http://yoursite.com/img/annotation01.jpg">
+<meta property="article:published_time" content="2021-01-21T00:16:24.000Z">
+<meta property="article:modified_time" content="2021-01-22T03:56:21.542Z">
 <meta property="article:author" content="双king">
+<meta property="article:tag" content="新手入门">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/annotation.jpg">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -71,9 +79,7 @@
 </header>
 
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-program-for-new-11" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-program-for-new-11" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -81,8 +87,8 @@
         <div style="text-align:center">
             
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+    <h1 class="article-title" itemprop="name">
+      JAVA新手必须要会的02～注解
     </h1>
   
 
@@ -115,268 +121,52 @@
 </p>
 
 <h1 id="注解简单用法"><a href="#注解简单用法" class="headerlink" title="注解简单用法"></a>注解简单用法</h1><p>直接上代码来说，比较简单，Spring虽然已经不提倡使用这种方法，但是由于方便，还在经常使用。</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-11/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+<a id="more"></a>
 
-    </footer>
-  </div>
-  
-</article>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowire</span></span><br><span class="line"><span class="keyword">private</span> A a;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowire</span></span><br><span class="line"><span class="keyword">private</span> UserDao userDao;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">age</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">18</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-  
-    <article id="post-program-for-new-10" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-10/" class="article-date">
-  <time datetime="2021-01-19T23:14:19.000Z" itemprop="datePublished">2021-01-20</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-    打算写一个Java新手入门必须要会的系列，这个系列是入门之后，必须要学会理解的东西，对于以后的Java开发会特别有帮助，第一个选定的题材就是动态代理，理解了动态代理对于理解Spring AOP和mybatis，有特别大的帮助。
-        </p>
-</p>
-
-<h1 id="动态代理可以做什么？"><a href="#动态代理可以做什么？" class="headerlink" title="动态代理可以做什么？"></a>动态代理可以做什么？</h1><p>可以对代码进行增强，例如给方法增加事务、日志、统计信息等（Spring AOP），mybatis框架也是用到了动态代理。</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-10/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-program-for-new-09" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-09/" class="article-date">
-  <time datetime="2021-01-02T01:53:29.000Z" itemprop="datePublished">2021-01-02</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/mem01.png" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      这一篇，我想分享下自己对于内存的一些基本知识的理解，当然，这篇文章也仅仅适用于新入门的Java开发人员，对于一些有经验的开发人员，可以不看，如果刷到了，请直接关闭页面就可以了。笔者写了很多年的Java代码，和写了很多年C语言的人相比，对于内存的理解，肯定要浅显很多。如果你是C语言开发者，本文对于你来说，简直就是脱了裤子放屁一样，觉的说的这不都是废话吗？哈哈一笑即可。
-        </p>
-</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-09/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-neijuan" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/neijuan/">双King对于内卷化的看法</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/neijuan/" class="article-date">
-  <time datetime="2020-12-29T09:30:46.000Z" itemprop="datePublished">2020-12-29</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/fuliye.jpg" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-      最近学习了内卷这个词汇，大意是各行各业对于从业人员的要求越来越高了，导致大家陷入了军备竞赛中，除了要学日常工作中能用到的，不能用到的也要会。本人是JAVA后端开发，体会也比较深，最早在12年的时候的面试题，大多都是一些相对来说比较简单的题目，例如hashmap原理、字符串、自动拆箱装箱、SQL优化等，临近2021年，再看看现在的面试题，竟然可以深入到即时编译器原理，像JVM结构和垃圾回收，都已经是常规的面试题目了，这种趋势可能会愈演愈烈，不知道再过几年，对于JAVA从业人员的要求要掌握哪些技术了。
-        </p>
-</p>
-
+<p>类、方法、属性上，都可以使用注解，这几种注解的作用，都比较容易理解。</p>
 <blockquote>
-<p>各行各业都在内卷，内卷不是错误，错误的是没有做出有用的产品。</p>
+<p>以前没有注解的时候，使用xml来干这些个事，后来项目越来越大，xml也越来越庞大，不容易维护，所以出现了注解，带来了便利性，但是增加了耦合。</p>
 </blockquote>
-<h4 id="我的观点"><a href="#我的观点" class="headerlink" title="我的观点"></a>我的观点</h4><p>我的观点是内卷说明了行业竞争激烈，大家需要提高自己的技术能力，才能体现出自己对比其它人的优势，总体上来说是不可阻挡的，但是不好的一点是技术能力提升之后，有没有带来实际的工作能力的提升。这是一个比较直接的想法，没有什么高度和思想，仅仅从内卷带来的实际效果来考虑，毕竟招人的时候，才需要去面试，需要去问一些日常开发中很少能够用到的知识，面试造火箭，工作拧螺丝，造不了火箭就拧不好螺丝，这也是毋庸置疑的，那么怎么才能学以致用呢？毕竟辛辛苦苦的学了很多的知识，总是想要用到实际的工作当中去。本人人微言轻，在自己博客发表一下看法，还是可以的，有一天有影响力了，再说其它。</p>
-          
-            <p class="article-more-link">
-              <a href="/neijuan/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a></li></ul>
+<h1 id="注解是啥？"><a href="#注解是啥？" class="headerlink" title="注解是啥？"></a>注解是啥？</h1><p>要了解注释是什么东西，就需要了解这个类：<code>java.lang.annotation.Annotation</code>这个类的注释说了，所有的注解，都是这个类的子类。看下@Override的源代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码</span></span><br><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实际起作用：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Override</span> <span class="keyword">extends</span> <span class="title">Annotation</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-google-guava02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/google-guava02/" class="article-date">
-  <time datetime="2020-12-25T02:49:38.000Z" itemprop="datePublished">2020-12-25</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-        这篇文章是第二篇，如果没有看过第一篇的，建议先去看看<a href="/google-guava" target="_blank">JAVA程序员必学的Google Guava库（第一篇）</a>，不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。
-    </p>
-</p>
-
-<blockquote>
-<p>目录<br>3、缓存<br>4、字符串处理</p>
-</blockquote>
-<h1 id="3、缓存"><a href="#3、缓存" class="headerlink" title="3、缓存"></a>3、缓存</h1><p>如果要实现一个内存类型的缓存，大部分人可能会尝试使用Map，这样写也可以，大部分情况都适用，担心多线程问题，可以使用ConcurrentHashMap，但是还有一些问题例如内存无限膨胀、过期等问题，没有解决，这个时候，可以考虑使用Guava的缓存。</p>
-<p>通常来说，<code>Guava Cache</code>适用于：</p>
+<p><code>@Target</code>和<code>@Retention</code>都是元注解，说到注解，这东西你可以认为就是一种特殊的语法，要去解析这个语法才有意义，元注解不多，一共有下面几种：</p>
 <ul>
-<li>你愿意消耗一些内存空间来提升速度。</li>
-<li>KEY会被查询一次以上。</li>
-<li>缓存中存放的数据总量不会超出内存容量。（Guava Cache是单个应用运行时的本地缓存。它不把数据存放到文件或外部服务器。如果这不符合你的需求，请尝试<a target="_blank" rel="noopener" href="http://memcached.org/">Memcached</a>这类工具）
-          
-            <p class="article-more-link">
-              <a href="/google-guava02/#more">查看全部</a>
-            </p>
-          
+<li>@Target：注解的作用目标</li>
+<li>@Retention：注解的生命周期</li>
+<li>@Documented：注解是否应当被包含在 JavaDoc 文档中</li>
+<li>@Inherited：是否允许子类继承该注解</li>
+</ul>
+<blockquote>
+<p>注解和注释差不多，都是一种语法，提示编译器可以对源代码进行某些处理。</p>
+</blockquote>
+<h1 id="注解原理？"><a href="#注解原理？" class="headerlink" title="注解原理？"></a>注解原理？</h1><p>看到了JDK的自带的注解，那么开始写一个自己的注解吧</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以在方法上加的一个注解。</span></span><br><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> AnnotationDemo &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function">String  <span class="title">val</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">b</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们假设开发一个注解，可以给方法加。首先，设置一个虚拟机启动参数，用于捕获 JDK 动态代理类(注解原理是什么，大家是不是有个了解了？如果不太懂动态代理，可以看看我的前一篇文章<a href="/program-for-new-11/">JAVA新手必须要会的01～动态代理</a>)。</p>
+<blockquote>
+<p>-Dsun.misc.ProxyGenerator.saveGeneratedFiles=true</p>
+</blockquote>
+<p>然后写一个类来测试下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.husd.framework.annotation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> hushengdong</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestAnnotationDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//也可以这么搞 设置查看动态代理类</span></span><br><span class="line">        System.setProperty(<span class="string">&quot;jdk.proxy.ProxyGenerator.saveGeneratedFiles&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">        test(<span class="number">123</span>);</span><br><span class="line">        Class clz = TestAnnotationDemo.class;</span><br><span class="line">        Method method = clz.getMethod(<span class="string">&quot;test&quot;</span>, Integer.class);</span><br><span class="line">        AnnotationDemo annotationDemo = method.getAnnotation(AnnotationDemo.class);</span><br><span class="line">        System.out.println(<span class="string">&quot;注解名字:&quot;</span> + annotationDemo);</span><br><span class="line">        System.out.println(<span class="string">&quot;注解val:&quot;</span> + annotationDemo.val());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@AnnotationDemo(val = &quot;this is a test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(Integer a)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;this is a test method: &quot;</span> + a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行之后，可以在当前目录看到生成的动态代理文件</p>
+<p><img src="../img/annotation01.jpg"></p>
+<blockquote>
+<p>这里我们又一次加深了对于动态代理的理解。</p>
+</blockquote>
+<p>看到这里，是不是对于注解底层是怎么实现的，又有了更深的理解了呢？知识是一环扣一环的，了解了底层的知识，在学习其它上层知识的时候，必然会轻松许多。<a href="/program-for-new-11/">JAVA新手必须要会的01～动态代理</a></p>
+<p>总结一下：</p>
+<ul>
+<li>可以给注解属性赋值 @AnnotationDemo(val = “this is a test”)</li>
+<li>JDK底层通过动态代理实现了注解。</li>
+<li>注解是个接口。</li>
+<li>注解有作用范围，可以是方法、类、属性。</li>
+</ul>
+<p>全文完。</p>
+
         
       </div>
     </div>
@@ -387,16 +177,20 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
+  
+  
+    <a href="/program-for-new-10/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA新手必须要会的01～动态代理</div>
+    </a>
+  
+</nav>
 
   
+</article>
 
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
-  </nav>
 
 </section>
       
