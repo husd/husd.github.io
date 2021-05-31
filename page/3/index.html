@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,7 +40,11 @@
       
         <a class="main-nav-link" href="/">博客首页</a>
       
-        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
       
         <a class="main-nav-link" href="/archives">全部文章</a>
       
@@ -73,7 +77,7 @@
     <div class="outer">
       <section id="main">
   
-    <article id="post-google-guava" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-RocketMQ官方文档09-发送消息" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -82,151 +86,15 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF/">RocketMQ官方文档09-发送消息</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/google-guava/" class="article-date">
-  <time datetime="2020-12-24T02:49:38.000Z" itemprop="datePublished">2020-12-24</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-      要说Java程序员必须要学习的东西的话，Spring当仁不让，必须是第一个框架，也有另外一个东西，也是新手程序员必须要学习的东西，那就是Google的Guava库，这个库的作者，和Effective Java的作者是同一人，都来自于Google，学好了这个库，你的Java的能力，相信会更上一个台阶。Java的优势是什么？那就是各种成熟的轮子，Guava就是其中之一，如果想代码很少BUG，就开始使用它吧。
-        </p>
-</p>
-
-<blockquote>
-<p>目录<br>1、基本工具<br>2、集合</p>
-</blockquote>
-<h1 id="1、基本工具"><a href="#1、基本工具" class="headerlink" title="1、基本工具"></a>1、基本工具</h1><h2 id="1-1-避免NULL"><a href="#1-1-避免NULL" class="headerlink" title="1.1 避免NULL"></a>1.1 避免NULL</h2><p>NULL的含义是不确定的，应该避免，尤其是在Map和Set中，返回NULL，并不清楚是不存在，还是有值，但是是NULL，最常用的一个技巧就是:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 好的代码</span></span><br><span class="line">List arr = <span class="keyword">new</span> ArrayList();</span><br><span class="line"><span class="comment">// 不好的代码</span></span><br><span class="line">List arr = <span class="keyword">null</span>;</span><br><span class="line">Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//处理默认值</span></span><br><span class="line">map.getOrDefault(<span class="number">123</span>,<span class="string">&quot;默认值&quot;</span>);</span><br><span class="line"><span class="comment">//没有123这个KEY的时候，才执行put方法，如果map中已经有值了，就不执行put方法</span></span><br><span class="line"><span class="comment">//并且返回旧值</span></span><br><span class="line">map.putIfAbsent(<span class="number">123</span>,<span class="string">&quot;123&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>这样可以避免空指针。Guava的建议是： 使用快速失败操作拒绝null值对开发者更有帮助。</p>
-          
-            <p class="article-more-link">
-              <a href="/google-guava/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-program-for-new-08" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-08/" class="article-date">
-  <time datetime="2020-12-18T07:30:53.000Z" itemprop="datePublished">2020-12-18</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      Java的语法糖，就是编译器为了方便大家写代码，对于一些代码，做了一些简化的语法，可以让大家在平时写代码的时候，更方便写出容易阅读的代码，但是在编译完之后，编译器会把这些代码，再还原回来。在Java中，有1个大家最经常使用的语法糖，就是整形变量的自动装箱，Integer a = 10;很明显10不是一个对象，Integer是一个对象，不同的东西，不能赋值，为啥还可以这么做呢？ 这个东西就是Java的语法糖。
-        </p>
-</p>
-
-<h4 id="Java中的语法糖有以下几种："><a href="#Java中的语法糖有以下几种：" class="headerlink" title="Java中的语法糖有以下几种："></a>Java中的语法糖有以下几种：</h4><ol>
-<li>泛型（JDK1.5） </li>
-<li>自动装箱和拆箱（JDK1.5） </li>
-<li>变长参数（JDK1.5） </li>
-<li>实现Iterable接口的foreach语法（JDK1.5） </li>
-<li>接口AutoCloseable支持的try-with-resource用法（JDK1.7) </li>
-<li>switch支持枚举和String（JDK1.7) </li>
-</ol>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-08/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-rocketMQ-transaction-msg" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/rocketMQ-transaction-msg/" class="article-date">
-  <time datetime="2020-12-16T03:10:16.000Z" itemprop="datePublished">2020-12-16</time>
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF/" class="article-date">
+  <time datetime="2021-05-29T02:45:39.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
@@ -234,8 +102,8 @@
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -243,20 +111,15 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/rmq-logo.png" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      之前在网上看到了一篇关于RocketMQ的事务消息的文章，感觉讲的并不好，甚至有错误的地方，所以就想自己来写一篇文章，讲一讲我对与RocketMQ的事务消息的理解，不一定会正确，各位在看的时候，可以结合自己的思考，看看是否有一定的参考性，这里会单刀直入的讲解重点，而不会讲一些铺垫的东西，例如什么是RocketMQ，什么是事务消息，什么是事务等等，如果你遇到了一些名词，自己不是很理解，需要自己去其它地方学习下。
-        </p>
-</p>
+          <h2 id="DefaultMQProducer"><a href="#DefaultMQProducer" class="headerlink" title="DefaultMQProducer"></a>DefaultMQProducer</h2><hr>
+<h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultMQProducer</span> <span class="keyword">extends</span> <span class="title">ClientConfig</span> <span class="keyword">implements</span> <span class="title">MQProducer</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h5 id="应用的场景"><a href="#应用的场景" class="headerlink" title="应用的场景"></a>应用的场景</h5><p>电商支付场景中，向DB中写入了订单信息，并且发送了1个MQ消息，通知其它系统处理积分、优惠券等服务，DB中的事物还是比较容易的，只要不是分库的，就好操作，相关的内容网上也很多，就不过多说了，现在假设数据库的事物是T1，发送MQ的事务消息是T2，那么伪代码就是如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">执行T1（写DB）</span><br><span class="line">if 成功</span><br><span class="line">	执行T2（发MQ）</span><br></pre></td></tr></table></figure>
-
-<p>如果你这么写，就会有很大的问题，因为T2有可能会失败，这样T1没有回滚，就出现了问题；也有可能是T2超时了，导致T2实际到底有没有成功，不知道，这个时候也会有问题。这里是1个基本的场景，所以理论上来说，是不能这么写代码的，那么要怎么写呢？ RocketMQ给了一个事务消息的选项。</p>
+<blockquote>
+<p><code>DefaultMQProducer</code>类是应用用来投递消息的入口，开箱即用，可通过无参构造方法快速创建一个生产者。主要负责消息的发送，支持同步/异步/oneway的发送方式，这些发送方式均支持批量发送。可以通过该类提供的getter/setter方法，调整发送者的参数。<code>DefaultMQProducer</code>提供了多个send方法，每个send方法略有不同，在使用前务必详细了解其意图。下面给出一个生产者示例代码，<a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq/blob/master/example/src/main/java/org/apache/rocketmq/example/">点击查看更多示例代码</a>。</p>
+</blockquote>
           
             <p class="article-more-link">
-              <a href="/rocketMQ-transaction-msg/#more">查看全部</a>
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF/#more">查看全部</a>
             </p>
           
         
@@ -264,17 +127,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-program-for-new-07" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-RocketMQ官方文档08-Dledger快速搭建" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -283,24 +151,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-Dledger%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA/">RocketMQ官方文档08-Dledger快速搭建</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-07/" class="article-date">
-  <time datetime="2020-12-10T03:10:16.000Z" itemprop="datePublished">2020-12-10</time>
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-Dledger%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA/" class="article-date">
+  <time datetime="2021-05-29T02:45:26.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -308,18 +176,13 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      对于新入门的程序员或者即将要学习计算机软件开发的人员来说，打好基础是非常关键的，但是我感觉网上的很多资料，对于什么是计算机基础，说的都比较官方和笼统，新人不愿意看；或者说的都是计算机操作系统、数据结构和算法等，这肯定没有错，但是对于新人来说，意义并不大，这篇文章将结合笔者多年的编程经验，给新手说清楚什么是基础？
-        </p>
-</p>
-
-<h5 id="不当杠精，接受现实"><a href="#不当杠精，接受现实" class="headerlink" title="不当杠精，接受现实"></a>不当杠精，接受现实</h5><p>对于新手来说，有些知识是需要先死记硬背的，例如语法，一些成熟算法等，这些东西前期不需要纠结的太多，记住就行了，每个人其实都站在了巨人的肩膀上，无论你现在有什么样的成绩，以后打算取得什么样的成绩，都是在前人不断总结的经验上，再有其它的创新，所以接受一些既定的事实是非常重要的。这并不是让大家不要问为什么，而是强调，不能在牛角尖里出不来，知识在没有形成体系的时候，最好的建议就是加大知识的面，让自己的知识形成体系，先把语法之类的东西死记硬背下来，这是必须要经历的一个过程。前几年是进步最快的时候，需要不会的，先记下来，可能慢慢你就会了，知道了，理解了，懂了为什么了，有一种豁然开朗的感觉了，如果找不到这种感觉，那你需要找个前辈，请教一下。</p>
-<h4 id="1、基础就是计算机知识体系"><a href="#1、基础就是计算机知识体系" class="headerlink" title="1、基础就是计算机知识体系"></a>1、基础就是计算机知识体系</h4><p>什么是知识体系？简单来说就是你所掌握的知识，一种是理论性的研究，一种是建立在理论性的研究上的应用，对于计算机来说，数据结构和算法就是理论性质的研究，操作系统的进程调度就是建立在这种理论上的实际应用，所以要建立一套完整的知识体系，应当重点学习对理论的应用，注意，这里说的是对理论的应用，而不是对理论的研究。这里对于新手的建议就是，不要深入到各种复杂深奥的数据结构和算法中去，掌握计算的几种基本结构和算法就可以了，具体要掌握的几种最重要的理论，有下面几种：</p>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>该文档主要介绍如何快速构建和部署基于 DLedger 的可以自动容灾切换的 RocketMQ 集群。</p>
+<p>详细的新集群部署和旧集群升级指南请参考 <a href="deploy_guide.md">部署指南</a>。</p>
+<h3 id="1-源码构建"><a href="#1-源码构建" class="headerlink" title="1. 源码构建"></a>1. 源码构建</h3><p>构建分为两个部分，需要先构建 DLedger，然后 构建 RocketMQ</p>
+<h4 id="1-1-构建-DLedger"><a href="#1-1-构建-DLedger" class="headerlink" title="1.1 构建 DLedger"></a>1.1 构建 DLedger</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/openmessaging/openmessaging-storage-dledger.git</span><br><span class="line"></span><br><span class="line">cd openmessaging-storage-dledger</span><br><span class="line"></span><br><span class="line">mvn clean install -DskipTests</span><br></pre></td></tr></table></figure>
           
             <p class="article-more-link">
-              <a href="/program-for-new-07/#more">查看全部</a>
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-Dledger%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA/#more">查看全部</a>
             </p>
           
         
@@ -327,17 +190,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-program-for-new-06-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-RocketMQ官方文档07-权限控制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -346,24 +214,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">RocketMQ官方文档07-权限控制</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-06-mysql/" class="article-date">
-  <time datetime="2020-12-05T06:35:44.000Z" itemprop="datePublished">2020-12-05</time>
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" class="article-date">
+  <time datetime="2021-05-29T02:45:11.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -371,35 +239,162 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
-    <p>
-      尽管上一篇的内容，对于初学者来说，已经算是稍微有点难度了，但是对于有一点工作经验的开发人员来说，仍然算不上有难度，所以这一篇将从面试的角度，总结一下需要了解的知识点，这一篇将只列知识点，不给答案，或者给一个大致的方向。如果要面试的人，也可以试着回答以下问题。如果你现在不想深入研究MYSQL，毕竟人的精力都是有限的，也可以把以下内容，放入到你的TODO LIST中去，以后再慢慢研究，我的建议是，<font color="red">每个编程的人，都应该有一个自己编程的笔记本，例如微软的ONE NOTE，印象笔记、苹果的备忘录（我正在用)，然后有一个笔记，是专门存放要做的事情的，在任何时候，任何地点，遇到了不会的东西，立即放入TODO LIST中去。</font>这也是一种编程思想，你想一下，消息队列（MQ）是不是就是这个思路，很多地方都是这个思路，这里就不一一列举了。
-        </p>
-</p>
-#### 1、索引篇
+          <h2 id="1-权限控制特性介绍"><a href="#1-权限控制特性介绍" class="headerlink" title="1.权限控制特性介绍"></a>1.权限控制特性介绍</h2><p>权限控制（ACL）主要为RocketMQ提供Topic资源级别的用户访问控制。用户在使用RocketMQ权限控制时，可以在Client客户端通过 RPCHook注入AccessKey和SecretKey签名；同时，将对应的权限控制属性（包括Topic访问权限、IP白名单和AccessKey和SecretKey签名等）设置在distribution/conf/plain_acl.yml的配置文件中。Broker端对AccessKey所拥有的权限进行校验，校验不过，抛出异常；<br>ACL客户端可以参考：<strong>org.apache.rocketmq.example.simple</strong>包下面的<strong>AclClient</strong>代码。</p>
+<h2 id="2-权限控制的定义与属性值"><a href="#2-权限控制的定义与属性值" class="headerlink" title="2. 权限控制的定义与属性值"></a>2. 权限控制的定义与属性值</h2><h3 id="2-1权限定义"><a href="#2-1权限定义" class="headerlink" title="2.1权限定义"></a>2.1权限定义</h3><p>对RocketMQ的Topic资源访问权限控制定义主要如下表所示，分为以下四种</p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DENY</td>
+<td>拒绝</td>
+</tr>
+<tr>
+<td>ANY</td>
+<td>PUB 或者 SUB 权限</td>
+</tr>
+<tr>
+<td>PUB</td>
+<td>发送权限</td>
+</tr>
+<tr>
+<td>SUB</td>
+<td>订阅权限</td>
+</tr>
+</tbody></table>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
 
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档06-最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">RocketMQ官方文档06-最佳实践</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" class="article-date">
+  <time datetime="2021-05-29T02:44:56.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-生产者"><a href="#1-生产者" class="headerlink" title="1   生产者"></a>1   生产者</h2><h3 id="1-1-发送消息注意事项"><a href="#1-1-发送消息注意事项" class="headerlink" title="1.1 发送消息注意事项"></a>1.1 发送消息注意事项</h3><h4 id="1-Tags的使用"><a href="#1-Tags的使用" class="headerlink" title="1  Tags的使用"></a>1  Tags的使用</h4><p>一个应用尽可能用一个Topic，而消息子类型则可以用tags来标识。tags可以由应用自由设置，只有生产者在发送消息设置了tags，消费方在订阅消息时才可以利用tags通过broker做消息过滤：message.setTags(“TagA”)。  </p>
+<h4 id="2-Keys的使用"><a href="#2-Keys的使用" class="headerlink" title="2 Keys的使用"></a>2 Keys的使用</h4><p>每个消息在业务层面的唯一标识码要设置到keys字段，方便将来定位消息丢失问题。服务器会为每个消息创建索引（哈希索引），应用可以通过topic、key来查询这条消息内容，以及消息被谁消费。由于是哈希索引，请务必保证key尽可能唯一，这样可以避免潜在的哈希冲突。</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档05-特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E7%89%B9%E6%80%A7/">RocketMQ官方文档05-特性</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E7%89%B9%E6%80%A7/" class="article-date">
+  <time datetime="2021-05-29T02:44:44.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-订阅与发布"><a href="#1-订阅与发布" class="headerlink" title="1 订阅与发布"></a>1 订阅与发布</h2><p>消息的发布是指某个生产者向某个topic发送消息；消息的订阅是指某个消费者关注了某个topic中带有某些tag的消息，进而从该topic消费数据。</p>
+<h2 id="2-消息顺序"><a href="#2-消息顺序" class="headerlink" title="2 消息顺序"></a>2 消息顺序</h2><p>消息有序指的是一类消息消费时，能按照发送的顺序来消费。例如：一个订单产生了三条消息分别是订单创建、订单付款、订单完成。消费时要按照这个顺序消费才能有意义，但是同时订单之间是可以并行消费的。RocketMQ可以严格的保证消息有序。</p>
+<p>顺序消息分为全局顺序消息与分区顺序消息，全局顺序是指某个Topic下的所有消息都要保证顺序；部分顺序消息只要保证每一组消息被顺序消费即可。</p>
 <ul>
-<li>mysql哪些索引会命中，哪些不会命中？</li>
-<li>怎么查看mysql索引是否命中？ explain查看执行计划</li>
-<li>联合索引哪些情况索引会命中？ 哪些不会呢？</li>
-<li>mysql底层索引是什么数据结构？ B+树</li>
-<li>聚簇索引和覆盖索引有什么区别？</li>
-<li>mysql索引为什么快？</li>
-<li>mysql索引为什么用B+，而不是B树？</li>
-<li>建了索引一定就会快吗？ 不是</li>
-<li>建了索引，且索引命中了，就一定会快吗？不是</li>
-<li>varchar类型的列有100个长度，适合建索引吗？ 如果不适合，怎么解决？</li>
-<li>哪些列适合建索引？ 区分度大的列适合，像ID</li>
-<li>哪些列不适合建索引？ SEX这种 text 长度大的varchar</li>
-<li>varchar和char有什么区别？</li>
-<li>索引有什么坏处？ 新增和更新、删除慢了点，占用磁盘空间大了点等等</li>
-<li>什么是慢SQL？怎么查看MYSQL的慢SQL？</li>
-<li>做过哪些MYSQL的查询优化？</li>
-</ul>
+<li><p>全局顺序<br>  对于指定的一个 Topic，所有消息按照严格的先入先出（FIFO）的顺序进行发布和消费。<br>  适用场景：性能要求不高，所有的消息严格按照 FIFO 原则进行消息发布和消费的场景</p>
+</li>
+<li><p>分区顺序<br>  对于指定的一个 Topic，所有消息根据 sharding key 进行区块分区。 同一个分区内的消息按照严格的 FIFO 顺序进行发布和消费。 Sharding key 是顺序消息中用来区分不同分区的关键字段，和普通消息的 Key 是完全不同的概念。<br>  适用场景：性能要求高，以 sharding key 作为分区字段，在同一个区块中严格的按照 FIFO 原则进行消息发布和消费的场景。</p>
           
             <p class="article-more-link">
-              <a href="/program-for-new-06-mysql/#more">查看全部</a>
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E7%89%B9%E6%80%A7/#more">查看全部</a>
             </p>
           
         
@@ -407,12 +402,333 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档01-基本概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">RocketMQ官方文档01-基本概念</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time datetime="2021-05-29T02:29:20.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-消息模型（Message-Model）"><a href="#1-消息模型（Message-Model）" class="headerlink" title="1 消息模型（Message Model）"></a>1 消息模型（Message Model）</h2><p>RocketMQ主要由 Producer、Broker、Consumer 三部分组成，其中Producer 负责生产消息，Consumer 负责消费消息，Broker 负责存储消息。Broker 在实际部署过程中对应一台服务器，每个 Broker 可以存储多个Topic的消息，每个Topic的消息也可以分片存储于不同的 Broker。Message Queue 用于存储消息的物理地址，每个Topic中的消息地址存储于多个 Message Queue 中。ConsumerGroup 由多个Consumer 实例构成。</p>
+<h2 id="2-消息生产者（Producer）"><a href="#2-消息生产者（Producer）" class="headerlink" title="2 消息生产者（Producer）"></a>2 消息生产者（Producer）</h2><p> 负责生产消息，一般由业务系统负责生产消息。一个消息生产者会把业务应用系统里产生的消息发送到broker服务器。RocketMQ提供多种发送方式，同步发送、异步发送、顺序发送、单向发送。同步和异步方式均需要Broker返回确认信息，单向发送不需要。</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档03-架构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E6%9E%B6%E6%9E%84/">RocketMQ官方文档03-架构</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E6%9E%B6%E6%9E%84/" class="article-date">
+  <time datetime="2021-05-29T02:29:20.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-技术架构"><a href="#1-技术架构" class="headerlink" title="1 技术架构"></a>1 技术架构</h2><p><img src="image/rocketmq_architecture_1.png"></p>
+<p>RocketMQ架构上主要分为四部分，如上图所示:</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E6%9E%B6%E6%9E%84/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档02-例子" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E4%BE%8B%E5%AD%90/">RocketMQ官方文档02-例子</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E4%BE%8B%E5%AD%90/" class="article-date">
+  <time datetime="2021-05-29T02:29:20.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-基本样例"><a href="#1-基本样例" class="headerlink" title="1 基本样例"></a>1 基本样例</h2><p>在基本样例中我们提供如下的功能场景：</p>
+<ul>
+<li>使用RocketMQ发送三种类型的消息：同步消息、异步消息和单向消息。其中前两种消息是可靠的，因为会有发送是否成功的应答。</li>
+<li>使用RocketMQ来消费接收到的消息。</li>
+</ul>
+<h3 id="1-1-加入依赖："><a href="#1-1-加入依赖：" class="headerlink" title="1.1 加入依赖："></a>1.1 加入依赖：</h3><p><code>maven:</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;rocketmq-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.3.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>gradle</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">&#x27;org.apache.rocketmq:rocketmq-client:4.3.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-消息发送"><a href="#1-2-消息发送" class="headerlink" title="1.2 消息发送"></a>1.2 消息发送</h3><h4 id="1、Producer端发送同步消息"><a href="#1、Producer端发送同步消息" class="headerlink" title="1、Producer端发送同步消息"></a>1、Producer端发送同步消息</h4><p>这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知，短信通知。</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E4%BE%8B%E5%AD%90/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档04-设计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E8%AE%BE%E8%AE%A1/">RocketMQ官方文档04-设计</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E8%AE%BE%E8%AE%A1/" class="article-date">
+  <time datetime="2021-05-29T02:29:20.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h3 id="1-消息存储"><a href="#1-消息存储" class="headerlink" title="1 消息存储"></a>1 消息存储</h3><p><img src="image/rocketmq_design_1.png"></p>
+<p>消息存储是RocketMQ中最为复杂和最为重要的一部分，本节将分别从RocketMQ的消息存储整体架构、PageCache与Mmap内存映射以及RocketMQ中两种不同的刷盘方式三方面来分别展开叙述。</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E8%AE%BE%E8%AE%A1/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-shell-script01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/shell-script01/">简单的shell脚本01</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/shell-script01/" class="article-date">
+  <time datetime="2021-05-24T02:10:47.000Z" itemprop="datePublished">2021-05-24</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>知识在于积累，每天学习一点linux脚本的知识，进步一点点。</p>
+<p>每天早上来公司之后，第一件事就是git pull，所以想写个脚本，遍历下工作目录，把代码都pull下，所以有了如下脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">/bin/sh</span></span><br><span class="line">P=&quot;/Users/hushengdong/hushengdong/gitee-source/&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;start to pull $&#123;P&#125;&quot;</span><br><span class="line">for a in `ls $&#123;P&#125;`; do</span><br><span class="line"><span class="meta">	#</span><span class="bash"> 如果是文件，就需要跳过去</span></span><br><span class="line">	if [ -d $&#123;a&#125; ]; then</span><br><span class="line">		echo &quot;git -C $&#123;P&#125;$&#123;a&#125; pull&quot;</span><br><span class="line">		git -C $&#123;P&#125;$&#123;a&#125; pull</span><br><span class="line">	fi</span><br><span class="line">done</span><br><span class="line">echo &quot;end&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>结束。</p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
 
 
 
@@ -432,7 +748,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -442,7 +758,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -452,7 +768,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -462,7 +778,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -475,83 +791,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -600,83 +916,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -696,7 +1012,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -705,7 +1021,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -714,7 +1030,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -723,7 +1039,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -796,7 +1112,11 @@ if(_local_host != "localhost:4000") {
   
     <a href="/" class="mobile-nav-link">博客首页</a>
   
-    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
   
     <a href="/archives" class="mobile-nav-link">全部文章</a>
   
@@ -810,7 +1130,6 @@ if(_local_host != "localhost:4000") {
 <a title="totop"><img src="/img/scrollup.png"/></a>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
   

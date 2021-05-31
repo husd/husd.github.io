@@ -1,0 +1,943 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.权限控制特性介绍权限控制（ACL）主要为RocketMQ提供Topic资源级别的用户访问控制。用户在使用RocketMQ权限控制时，可以在Client客户端通过 RPCHook注入AccessKey和SecretKey签名；同时，将对应的权限控制属性（包括Topic访问权限、IP白名单和AccessKey和SecretKey签名等）设置在distribution&#x2F;conf&#x2F;plain_acl.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ官方文档07-权限控制">
+<meta property="og:url" content="http://yoursite.com/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="1.权限控制特性介绍权限控制（ACL）主要为RocketMQ提供Topic资源级别的用户访问控制。用户在使用RocketMQ权限控制时，可以在Client客户端通过 RPCHook注入AccessKey和SecretKey签名；同时，将对应的权限控制属性（包括Topic访问权限、IP白名单和AccessKey和SecretKey签名等）设置在distribution&#x2F;conf&#x2F;plain_acl.">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-05-29T02:45:11.000Z">
+<meta property="article:modified_time" content="2021-05-31T02:26:15.974Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-RocketMQ官方文档07-权限控制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      RocketMQ官方文档07-权限控制
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" class="article-date">
+  <time datetime="2021-05-29T02:45:11.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-权限控制特性介绍"><a href="#1-权限控制特性介绍" class="headerlink" title="1.权限控制特性介绍"></a>1.权限控制特性介绍</h2><p>权限控制（ACL）主要为RocketMQ提供Topic资源级别的用户访问控制。用户在使用RocketMQ权限控制时，可以在Client客户端通过 RPCHook注入AccessKey和SecretKey签名；同时，将对应的权限控制属性（包括Topic访问权限、IP白名单和AccessKey和SecretKey签名等）设置在distribution/conf/plain_acl.yml的配置文件中。Broker端对AccessKey所拥有的权限进行校验，校验不过，抛出异常；<br>ACL客户端可以参考：<strong>org.apache.rocketmq.example.simple</strong>包下面的<strong>AclClient</strong>代码。</p>
+<h2 id="2-权限控制的定义与属性值"><a href="#2-权限控制的定义与属性值" class="headerlink" title="2. 权限控制的定义与属性值"></a>2. 权限控制的定义与属性值</h2><h3 id="2-1权限定义"><a href="#2-1权限定义" class="headerlink" title="2.1权限定义"></a>2.1权限定义</h3><p>对RocketMQ的Topic资源访问权限控制定义主要如下表所示，分为以下四种</p>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DENY</td>
+<td>拒绝</td>
+</tr>
+<tr>
+<td>ANY</td>
+<td>PUB 或者 SUB 权限</td>
+</tr>
+<tr>
+<td>PUB</td>
+<td>发送权限</td>
+</tr>
+<tr>
+<td>SUB</td>
+<td>订阅权限</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+<h3 id="2-2-权限定义的关键属性"><a href="#2-2-权限定义的关键属性" class="headerlink" title="2.2 权限定义的关键属性"></a>2.2 权限定义的关键属性</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>globalWhiteRemoteAddresses</td>
+<td>*;192.168.*.*;192.168.0.1</td>
+<td>全局IP白名单</td>
+</tr>
+<tr>
+<td>accessKey</td>
+<td>字符串</td>
+<td>Access Key</td>
+</tr>
+<tr>
+<td>secretKey</td>
+<td>字符串</td>
+<td>Secret Key</td>
+</tr>
+<tr>
+<td>whiteRemoteAddress</td>
+<td>*;192.168.*.*;192.168.0.1</td>
+<td>用户IP白名单</td>
+</tr>
+<tr>
+<td>admin</td>
+<td>true;false</td>
+<td>是否管理员账户</td>
+</tr>
+<tr>
+<td>defaultTopicPerm</td>
+<td>DENY;PUB;SUB;PUB|SUB</td>
+<td>默认的Topic权限</td>
+</tr>
+<tr>
+<td>defaultGroupPerm</td>
+<td>DENY;PUB;SUB;PUB|SUB</td>
+<td>默认的ConsumerGroup权限</td>
+</tr>
+<tr>
+<td>topicPerms</td>
+<td>topic=权限</td>
+<td>各个Topic的权限</td>
+</tr>
+<tr>
+<td>groupPerms</td>
+<td>group=权限</td>
+<td>各个ConsumerGroup的权限</td>
+</tr>
+</tbody></table>
+<p>具体可以参考<strong>distribution/conf/plain_acl.yml</strong>配置文件</p>
+<h2 id="3-支持权限控制的集群部署"><a href="#3-支持权限控制的集群部署" class="headerlink" title="3. 支持权限控制的集群部署"></a>3. 支持权限控制的集群部署</h2><p>在<strong>distribution/conf/plain_acl.yml</strong>配置文件中按照上述说明定义好权限属性后，打开<strong>aclEnable</strong>开关变量即可开启RocketMQ集群的ACL特性。这里贴出Broker端开启ACL特性的properties配置文件内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">brokerClusterName</span>=<span class="string">DefaultCluster</span></span><br><span class="line"><span class="attr">brokerName</span>=<span class="string">broker-a</span></span><br><span class="line"><span class="attr">brokerId</span>=<span class="string">0</span></span><br><span class="line"><span class="attr">deleteWhen</span>=<span class="string">04</span></span><br><span class="line"><span class="attr">fileReservedTime</span>=<span class="string">48</span></span><br><span class="line"><span class="attr">brokerRole</span>=<span class="string">ASYNC_MASTER</span></span><br><span class="line"><span class="attr">flushDiskType</span>=<span class="string">ASYNC_FLUSH</span></span><br><span class="line"><span class="attr">storePathRootDir</span>=<span class="string">/data/rocketmq/rootdir-a-m</span></span><br><span class="line"><span class="attr">storePathCommitLog</span>=<span class="string">/data/rocketmq/commitlog-a-m</span></span><br><span class="line"><span class="attr">autoCreateSubscriptionGroup</span>=<span class="string">true</span></span><br><span class="line"><span class="comment">## if acl is open,the flag will be true</span></span><br><span class="line"><span class="attr">aclEnable</span>=<span class="string">true</span></span><br><span class="line"><span class="attr">listenPort</span>=<span class="string">10911</span></span><br><span class="line"><span class="attr">brokerIP1</span>=<span class="string">XX.XX.XX.XX1</span></span><br><span class="line"><span class="attr">namesrvAddr</span>=<span class="string">XX.XX.XX.XX:9876</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-权限控制主要流程"><a href="#4-权限控制主要流程" class="headerlink" title="4. 权限控制主要流程"></a>4. 权限控制主要流程</h2><p>ACL主要流程分为两部分，主要包括权限解析和权限校验。</p>
+<h3 id="4-1-权限解析"><a href="#4-1-权限解析" class="headerlink" title="4.1 权限解析"></a>4.1 权限解析</h3><p>Broker端对客户端的RequestCommand请求进行解析，拿到需要鉴权的属性字段。<br>主要包括：<br>（1）AccessKey：类似于用户名，代指用户主体，权限数据与之对应；<br>（2）Signature：客户根据 SecretKey 签名得到的串，服务端再用SecretKey进行签名验证；</p>
+<h3 id="4-2-权限校验"><a href="#4-2-权限校验" class="headerlink" title="4.2 权限校验"></a>4.2 权限校验</h3><p>Broker端对权限的校验逻辑主要分为以下几步：<br>（1）检查是否命中全局 IP 白名单；如果是，则认为校验通过；否则走 2；<br>（2）检查是否命中用户 IP 白名单；如果是，则认为校验通过；否则走 3；<br>（3）校验签名，校验不通过，抛出异常；校验通过，则走 4；<br>（4）对用户请求所需的权限 和 用户所拥有的权限进行校验；不通过，抛出异常；<br>用户所需权限的校验需要注意已下内容：<br>（1）特殊的请求例如 UPDATE_AND_CREATE_TOPIC 等，只能由 admin 账户进行操作；<br>（2）对于某个资源，如果有显性配置权限，则采用配置的权限；如果没有显性配置权限，则采用默认的权限；</p>
+<h2 id="5-热加载修改后权限控制定义"><a href="#5-热加载修改后权限控制定义" class="headerlink" title="5. 热加载修改后权限控制定义"></a>5. 热加载修改后权限控制定义</h2><p>RocketMQ的权限控制存储的默认实现是基于yml配置文件。用户可以动态修改权限控制定义的属性，而不需重新启动Broker服务节点。</p>
+<h2 id="6-权限控制的使用限制"><a href="#6-权限控制的使用限制" class="headerlink" title="6. 权限控制的使用限制"></a>6. 权限控制的使用限制</h2><p>(1)如果ACL与高可用部署(Master/Slave架构)同时启用，那么需要在Broker Master节点的distribution/conf/plain_acl.yml配置文件中<br>设置全局白名单信息，即为将Slave节点的ip地址设置至Master节点plain_acl.yml配置文件的全局白名单中。</p>
+<p>(2)如果ACL与高可用部署(多副本Dledger架构)同时启用，由于出现节点宕机时，Dledger Group组内会自动选主，那么就需要将Dledger Group组<br>内所有Broker节点的plain_acl.yml配置文件的白名单设置所有Broker节点的ip地址。</p>
+<h2 id="7-ACL-mqadmin配置管理命令"><a href="#7-ACL-mqadmin配置管理命令" class="headerlink" title="7. ACL mqadmin配置管理命令"></a>7. ACL mqadmin配置管理命令</h2><h3 id="7-1-更新ACL配置文件中“account”的属性值"><a href="#7-1-更新ACL配置文件中“account”的属性值" class="headerlink" title="7.1 更新ACL配置文件中“account”的属性值"></a>7.1 更新ACL配置文件中“account”的属性值</h3><p>该命令的示例如下：</p>
+<p>sh mqadmin updateAclConfig -n 192.168.1.2:9876 -b 192.168.12.134:10911 -a RocketMQ -s 1234567809123<br>-t topicA=DENY,topicD=SUB -g groupD=DENY,groupB=SUB</p>
+<p>说明：如果不存在则会在ACL Config YAML配置文件中创建；若存在，则会更新对应的“accounts”的属性值;<br>如果指定的是集群名称，则会在集群中各个broker节点执行该命令；否则会在单个broker节点执行该命令。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n</td>
+<td>eg:192.168.1.2:9876</td>
+<td>namesrv地址(必填)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>eg:DefaultCluster</td>
+<td>指定集群名称(与broker地址二选一)</td>
+</tr>
+<tr>
+<td>b</td>
+<td>eg:192.168.12.134:10911</td>
+<td>指定broker地址(与集群名称二选一)</td>
+</tr>
+<tr>
+<td>a</td>
+<td>eg:RocketMQ</td>
+<td>Access Key值(必填)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>eg:1234567809123</td>
+<td>Secret Key值(可选)</td>
+</tr>
+<tr>
+<td>m</td>
+<td>eg:true</td>
+<td>是否管理员账户(可选)</td>
+</tr>
+<tr>
+<td>w</td>
+<td>eg:192.168.0.*</td>
+<td>whiteRemoteAddress,用户IP白名单(可选)</td>
+</tr>
+<tr>
+<td>i</td>
+<td>eg:DENY;PUB;SUB;PUB|SUB</td>
+<td>defaultTopicPerm,默认Topic权限(可选)</td>
+</tr>
+<tr>
+<td>u</td>
+<td>eg:DENY;PUB;SUB;PUB|SUB</td>
+<td>defaultGroupPerm,默认ConsumerGroup权限(可选)</td>
+</tr>
+<tr>
+<td>t</td>
+<td>eg:topicA=DENY,topicD=SUB</td>
+<td>topicPerms,各个Topic的权限(可选)</td>
+</tr>
+<tr>
+<td>g</td>
+<td>eg:groupD=DENY,groupB=SUB</td>
+<td>groupPerms,各个ConsumerGroup的权限(可选)</td>
+</tr>
+</tbody></table>
+<h3 id="7-2-删除ACL配置文件里面的对应“account”"><a href="#7-2-删除ACL配置文件里面的对应“account”" class="headerlink" title="7.2 删除ACL配置文件里面的对应“account”"></a>7.2 删除ACL配置文件里面的对应“account”</h3><p>该命令的示例如下：</p>
+<p>sh mqadmin deleteAccessConfig -n 192.168.1.2:9876 -c DefaultCluster -a RocketMQ</p>
+<p>说明：如果指定的是集群名称，则会在集群中各个broker节点执行该命令；否则会在单个broker节点执行该命令。<br>其中，参数”a”为Access Key的值，用以标识唯一账户id，因此该命令的参数中指定账户id即可。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n</td>
+<td>eg:192.168.1.2:9876</td>
+<td>namesrv地址(必填)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>eg:DefaultCluster</td>
+<td>指定集群名称(与broker地址二选一)</td>
+</tr>
+<tr>
+<td>b</td>
+<td>eg:192.168.12.134:10911</td>
+<td>指定broker地址(与集群名称二选一)</td>
+</tr>
+<tr>
+<td>a</td>
+<td>eg:RocketMQ</td>
+<td>Access Key的值(必填)</td>
+</tr>
+</tbody></table>
+<h3 id="7-3-更新ACL配置文件里面中的全局白名单"><a href="#7-3-更新ACL配置文件里面中的全局白名单" class="headerlink" title="7.3 更新ACL配置文件里面中的全局白名单"></a>7.3 更新ACL配置文件里面中的全局白名单</h3><p>该命令的示例如下：</p>
+<p>sh mqadmin updateGlobalWhiteAddr -n 192.168.1.2:9876 -b 192.168.12.134:10911 -g 10.10.154.1,10.10.154.2</p>
+<p>说明：如果指定的是集群名称，则会在集群中各个broker节点执行该命令；否则会在单个broker节点执行该命令。<br>其中，参数”g”为全局IP白名的值，用以更新ACL配置文件中的“globalWhiteRemoteAddresses”字段的属性值。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n</td>
+<td>eg:192.168.1.2:9876</td>
+<td>namesrv地址(必填)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>eg:DefaultCluster</td>
+<td>指定集群名称(与broker地址二选一)</td>
+</tr>
+<tr>
+<td>b</td>
+<td>eg:192.168.12.134:10911</td>
+<td>指定broker地址(与集群名称二选一)</td>
+</tr>
+<tr>
+<td>g</td>
+<td>eg:10.10.154.1,10.10.154.2</td>
+<td>全局IP白名单(必填)</td>
+</tr>
+</tbody></table>
+<h3 id="7-4-查询集群-Broker的ACL配置文件版本信息"><a href="#7-4-查询集群-Broker的ACL配置文件版本信息" class="headerlink" title="7.4 查询集群/Broker的ACL配置文件版本信息"></a>7.4 查询集群/Broker的ACL配置文件版本信息</h3><p>该命令的示例如下：</p>
+<p>sh mqadmin clusterAclConfigVersion -n 192.168.1.2:9876 -c DefaultCluster</p>
+<p>说明：如果指定的是集群名称，则会在集群中各个broker节点执行该命令；否则会在单个broker节点执行该命令。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n</td>
+<td>eg:192.168.1.2:9876</td>
+<td>namesrv地址(必填)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>eg:DefaultCluster</td>
+<td>指定集群名称(与broker地址二选一)</td>
+</tr>
+<tr>
+<td>b</td>
+<td>eg:192.168.12.134:10911</td>
+<td>指定broker地址(与集群名称二选一)</td>
+</tr>
+</tbody></table>
+<h3 id="7-5-查询集群-Broker的ACL配置文件全部内容"><a href="#7-5-查询集群-Broker的ACL配置文件全部内容" class="headerlink" title="7.5 查询集群/Broker的ACL配置文件全部内容"></a>7.5 查询集群/Broker的ACL配置文件全部内容</h3><p>该命令的示例如下：</p>
+<p>sh mqadmin getAccessConfigSubCommand -n 192.168.1.2:9876 -c DefaultCluster</p>
+<p>说明：如果指定的是集群名称，则会在集群中各个broker节点执行该命令；否则会在单个broker节点执行该命令。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n</td>
+<td>eg:192.168.1.2:9876</td>
+<td>namesrv地址(必填)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>eg:DefaultCluster</td>
+<td>指定集群名称(与broker地址二选一)</td>
+</tr>
+<tr>
+<td>b</td>
+<td>eg:192.168.12.134:10911</td>
+<td>指定broker地址(与集群名称二选一)</td>
+</tr>
+</tbody></table>
+<p><strong>特别注意</strong>开启Acl鉴权认证后导致Master/Slave和Dledger模式下Broker同步数据异常的问题，<br>在社区[4.5.1]版本中已经修复，具体的PR链接为：<a target="_blank" rel="noopener" href="https://github.com/apache/rocketmq/pull/1149%EF%BC%9B">https://github.com/apache/rocketmq/pull/1149；</a></p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+</br>
+</br>
+<div>
+<div id="hexobk-comment-show">
+</div>
+<div id="hexobk-comment">
+	<label for="hexobk-comment-text">发表评论</label>
+	<textarea id="hexobk-comment-text" name="comment" cols="45" rows="8" maxlength="50" required="required"></textarea>
+</div>
+<div>
+<input type="button" class="button large" onclick="submitComment()" value="提交" />
+</div>
+</div>
+
+
+
+  
+    
+<nav id="article-nav">
+  
+    <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-Dledger%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RocketMQ官方文档08-Dledger快速搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RocketMQ官方文档06-最佳实践</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+    initPv();
+		initComment();
+	});
+
+	function showTheComment(data) {
+
+		var _list =data.data;
+		for(i = 0;i<_list.length;i++) {
+
+			var _time = _list[i].time
+			var _comment = _list[i].comment
+			var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+			 $("#hexobk-comment-show").append(_temp);
+		}
+
+	}
+
+  function changePv(data) {
+
+		var pv = data.data;
+		$("#hexobk_page_pv").html(pv);
+	}
+
+  function initPv() {
+
+    var hexobk_app = "hexo-doubleKing"
+    var hexobk_url = "RocketMQ官方文档07-权限控制"
+    var hexobkUrl_get = "http://82.156.38.230:8080/click/get/jsonp?click_app=" + hexobk_app
+   $.ajax({
+      type: "GET",
+      url: hexobkUrl_get + "&click_url=" + hexobk_url,
+      data: {},
+      dataType: "jsonp",
+      jsonpCallback: "changePv",
+      success: function(res) {
+        //alert(res);
+      }
+    });
+
+  };
+
+    function initComment() {
+
+	   	var hexobk_app = "hexo-doubleKing"
+	var hexobk_url = "RocketMQ官方文档07-权限控制"
+	   var hexobkUrl_get = "http://82.156.38.230:8080/comment/get/jsonp?click_app=" + hexobk_app
+
+	   $.ajax({
+        type: "GET",
+        url: hexobkUrl_get + "&click_url=" + hexobk_url,
+        data: {},
+        dataType: "jsonp",
+		jsonpCallback: "showTheComment",
+        success: function(res) {
+			//alert(res);
+		}
+      });
+
+    };
+
+    function submitComment() {
+
+	  var hexobk_app = "hexo-doubleKing"
+	  var hexobk_url = "RocketMQ官方文档07-权限控制"
+	  var hexobk_comment = $("#hexobk-comment-text").val()
+	  var hexobkUrl_set = "http://82.156.38.230:8080/comment/set?click_app=" + hexobk_app
+      $.ajax({
+        type: "GET",
+        url: hexobkUrl_set + "&click_url=" + hexobk_url + "&comment_msg=" + hexobk_comment,
+        data: {},
+        dataType: "jsonp",
+        success: function(result) {}
+      });
+	var _time = new Date()
+	var _comment = hexobk_comment
+	var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+	$("#hexobk-comment-show").append(_temp);
+    }
+</script>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">微信公众号</h3>
+  <div class="widget">
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2021 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

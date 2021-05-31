@@ -1,0 +1,684 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 消息模型（Message Model）RocketMQ主要由 Producer、Broker、Consumer 三部分组成，其中Producer 负责生产消息，Consumer 负责消费消息，Broker 负责存储消息。Broker 在实际部署过程中对应一台服务器，每个 Broker 可以存储多个Topic的消息，每个Topic的消息也可以分片存储于不同的 Broker。Message Que">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ官方文档01-基本概念">
+<meta property="og:url" content="http://yoursite.com/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="1 消息模型（Message Model）RocketMQ主要由 Producer、Broker、Consumer 三部分组成，其中Producer 负责生产消息，Consumer 负责消费消息，Broker 负责存储消息。Broker 在实际部署过程中对应一台服务器，每个 Broker 可以存储多个Topic的消息，每个Topic的消息也可以分片存储于不同的 Broker。Message Que">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-05-29T02:29:20.000Z">
+<meta property="article:modified_time" content="2021-05-31T02:26:15.971Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="RocketMQ">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-RocketMQ官方文档01-基本概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      RocketMQ官方文档01-基本概念
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time datetime="2021-05-29T02:29:20.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-消息模型（Message-Model）"><a href="#1-消息模型（Message-Model）" class="headerlink" title="1 消息模型（Message Model）"></a>1 消息模型（Message Model）</h2><p>RocketMQ主要由 Producer、Broker、Consumer 三部分组成，其中Producer 负责生产消息，Consumer 负责消费消息，Broker 负责存储消息。Broker 在实际部署过程中对应一台服务器，每个 Broker 可以存储多个Topic的消息，每个Topic的消息也可以分片存储于不同的 Broker。Message Queue 用于存储消息的物理地址，每个Topic中的消息地址存储于多个 Message Queue 中。ConsumerGroup 由多个Consumer 实例构成。</p>
+<h2 id="2-消息生产者（Producer）"><a href="#2-消息生产者（Producer）" class="headerlink" title="2 消息生产者（Producer）"></a>2 消息生产者（Producer）</h2><p> 负责生产消息，一般由业务系统负责生产消息。一个消息生产者会把业务应用系统里产生的消息发送到broker服务器。RocketMQ提供多种发送方式，同步发送、异步发送、顺序发送、单向发送。同步和异步方式均需要Broker返回确认信息，单向发送不需要。</p>
+<span id="more"></span>
+
+<h2 id="3-消息消费者（Consumer）"><a href="#3-消息消费者（Consumer）" class="headerlink" title="3 消息消费者（Consumer）"></a>3 消息消费者（Consumer）</h2><p> 负责消费消息，一般是后台系统负责异步消费。一个消息消费者会从Broker服务器拉取消息、并将其提供给应用程序。从用户应用的角度而言提供了两种消费形式：拉取式消费、推动式消费。</p>
+<h2 id="4-主题（Topic）"><a href="#4-主题（Topic）" class="headerlink" title="4 主题（Topic）"></a>4 主题（Topic）</h2><p>  表示一类消息的集合，每个主题包含若干条消息，每条消息只能属于一个主题，是RocketMQ进行消息订阅的基本单位。</p>
+<h2 id="5-代理服务器（Broker-Server）"><a href="#5-代理服务器（Broker-Server）" class="headerlink" title="5 代理服务器（Broker Server）"></a>5 代理服务器（Broker Server）</h2><p>消息中转角色，负责存储消息、转发消息。代理服务器在RocketMQ系统中负责接收从生产者发送来的消息并存储、同时为消费者的拉取请求作准备。代理服务器也存储消息相关的元数据，包括消费者组、消费进度偏移和主题和队列消息等。</p>
+<h2 id="6-名字服务（Name-Server）"><a href="#6-名字服务（Name-Server）" class="headerlink" title="6 名字服务（Name Server）"></a>6 名字服务（Name Server）</h2><p> 名称服务充当路由消息的提供者。生产者或消费者能够通过名字服务查找各主题相应的Broker IP列表。多个Namesrv实例组成集群，但相互独立，没有信息交换。</p>
+<h2 id="7-拉取式消费（Pull-Consumer）"><a href="#7-拉取式消费（Pull-Consumer）" class="headerlink" title="7 拉取式消费（Pull Consumer）"></a>7 拉取式消费（Pull Consumer）</h2><p>  Consumer消费的一种类型，应用通常主动调用Consumer的拉消息方法从Broker服务器拉消息、主动权由应用控制。一旦获取了批量消息，应用就会启动消费过程。</p>
+<h2 id="8-推动式消费（Push-Consumer）"><a href="#8-推动式消费（Push-Consumer）" class="headerlink" title="8 推动式消费（Push Consumer）"></a>8 推动式消费（Push Consumer）</h2><p> Consumer消费的一种类型，该模式下Broker收到数据后会主动推送给消费端，该消费模式一般实时性较高。</p>
+<h2 id="9-生产者组（Producer-Group）"><a href="#9-生产者组（Producer-Group）" class="headerlink" title="9 生产者组（Producer Group）"></a>9 生产者组（Producer Group）</h2><p>  同一类Producer的集合，这类Producer发送同一类消息且发送逻辑一致。如果发送的是事务消息且原始生产者在发送之后崩溃，则Broker服务器会联系同一生产者组的其他生产者实例以提交或回溯消费。</p>
+<h2 id="10-消费者组（Consumer-Group）"><a href="#10-消费者组（Consumer-Group）" class="headerlink" title="10 消费者组（Consumer Group）"></a>10 消费者组（Consumer Group）</h2><p>  同一类Consumer的集合，这类Consumer通常消费同一类消息且消费逻辑一致。消费者组使得在消息消费方面，实现负载均衡和容错的目标变得非常容易。要注意的是，消费者组的消费者实例必须订阅完全相同的Topic。RocketMQ 支持两种消息模式：集群消费（Clustering）和广播消费（Broadcasting）。</p>
+<h2 id="11-集群消费（Clustering）"><a href="#11-集群消费（Clustering）" class="headerlink" title="11 集群消费（Clustering）"></a>11 集群消费（Clustering）</h2><p>集群消费模式下,相同Consumer Group的每个Consumer实例平均分摊消息。</p>
+<h2 id="12-广播消费（Broadcasting）"><a href="#12-广播消费（Broadcasting）" class="headerlink" title="12 广播消费（Broadcasting）"></a>12 广播消费（Broadcasting）</h2><p>广播消费模式下，相同Consumer Group的每个Consumer实例都接收全量的消息。</p>
+<h2 id="13-普通顺序消息（Normal-Ordered-Message）"><a href="#13-普通顺序消息（Normal-Ordered-Message）" class="headerlink" title="13 普通顺序消息（Normal Ordered Message）"></a>13 普通顺序消息（Normal Ordered Message）</h2><p>普通顺序消费模式下，消费者通过同一个消费队列收到的消息是有顺序的，不同消息队列收到的消息则可能是无顺序的。</p>
+<h2 id="14-严格顺序消息（Strictly-Ordered-Message）"><a href="#14-严格顺序消息（Strictly-Ordered-Message）" class="headerlink" title="14 严格顺序消息（Strictly Ordered Message）"></a>14 严格顺序消息（Strictly Ordered Message）</h2><p>严格顺序消息模式下，消费者收到的所有消息均是有顺序的。</p>
+<h2 id="15-消息（Message）"><a href="#15-消息（Message）" class="headerlink" title="15 消息（Message）"></a>15 消息（Message）</h2><p>消息系统所传输信息的物理载体，生产和消费数据的最小单位，每条消息必须属于一个主题。RocketMQ中每个消息拥有唯一的Message ID，且可以携带具有业务标识的Key。系统提供了通过Message ID和Key查询消息的功能。</p>
+<h2 id="16-标签（Tag）"><a href="#16-标签（Tag）" class="headerlink" title="16 标签（Tag）"></a>16 标签（Tag）</h2><p> 为消息设置的标志，用于同一主题下区分不同类型的消息。来自同一业务单元的消息，可以根据不同业务目的在同一主题下设置不同标签。标签能够有效地保持代码的清晰度和连贯性，并优化RocketMQ提供的查询系统。消费者可以根据Tag实现对不同子主题的不同消费逻辑，实现更好的扩展性。</p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+</br>
+</br>
+<div>
+<div id="hexobk-comment-show">
+</div>
+<div id="hexobk-comment">
+	<label for="hexobk-comment-text">发表评论</label>
+	<textarea id="hexobk-comment-text" name="comment" cols="45" rows="8" maxlength="50" required="required"></textarea>
+</div>
+<div>
+<input type="button" class="button large" onclick="submitComment()" value="提交" />
+</div>
+</div>
+
+
+
+  
+    
+<nav id="article-nav">
+  
+    <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RocketMQ官方文档05-特性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E6%9E%B6%E6%9E%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RocketMQ官方文档03-架构</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+    initPv();
+		initComment();
+	});
+
+	function showTheComment(data) {
+
+		var _list =data.data;
+		for(i = 0;i<_list.length;i++) {
+
+			var _time = _list[i].time
+			var _comment = _list[i].comment
+			var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+			 $("#hexobk-comment-show").append(_temp);
+		}
+
+	}
+
+  function changePv(data) {
+
+		var pv = data.data;
+		$("#hexobk_page_pv").html(pv);
+	}
+
+  function initPv() {
+
+    var hexobk_app = "hexo-doubleKing"
+    var hexobk_url = "RocketMQ官方文档01-基本概念"
+    var hexobkUrl_get = "http://82.156.38.230:8080/click/get/jsonp?click_app=" + hexobk_app
+   $.ajax({
+      type: "GET",
+      url: hexobkUrl_get + "&click_url=" + hexobk_url,
+      data: {},
+      dataType: "jsonp",
+      jsonpCallback: "changePv",
+      success: function(res) {
+        //alert(res);
+      }
+    });
+
+  };
+
+    function initComment() {
+
+	   	var hexobk_app = "hexo-doubleKing"
+	var hexobk_url = "RocketMQ官方文档01-基本概念"
+	   var hexobkUrl_get = "http://82.156.38.230:8080/comment/get/jsonp?click_app=" + hexobk_app
+
+	   $.ajax({
+        type: "GET",
+        url: hexobkUrl_get + "&click_url=" + hexobk_url,
+        data: {},
+        dataType: "jsonp",
+		jsonpCallback: "showTheComment",
+        success: function(res) {
+			//alert(res);
+		}
+      });
+
+    };
+
+    function submitComment() {
+
+	  var hexobk_app = "hexo-doubleKing"
+	  var hexobk_url = "RocketMQ官方文档01-基本概念"
+	  var hexobk_comment = $("#hexobk-comment-text").val()
+	  var hexobkUrl_set = "http://82.156.38.230:8080/comment/set?click_app=" + hexobk_app
+      $.ajax({
+        type: "GET",
+        url: hexobkUrl_set + "&click_url=" + hexobk_url + "&comment_msg=" + hexobk_comment,
+        data: {},
+        dataType: "jsonp",
+        success: function(result) {}
+      });
+	var _time = new Date()
+	var _comment = hexobk_comment
+	var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+	$("#hexobk-comment-show").append(_temp);
+    }
+</script>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">微信公众号</h3>
+  <div class="widget">
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2021 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

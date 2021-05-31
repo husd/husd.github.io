@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 Redis通信协议规范Redis客户端和服务器端通信使用名为 RESP (REdis Serialization Protocol) 的协议。虽然这个协议是专门为Redis设计的，它也可以用在其它 client-server 通信模式的软件上。 RESP 是下面条件的折中：  实现起来简单。 解析速度快。 有可读性。  RESP 能序列化不同的数据类型，例如整型(integers)、字符串(s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis官方文档04-通信协议">
+<meta property="og:url" content="http://yoursite.com/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="1 Redis通信协议规范Redis客户端和服务器端通信使用名为 RESP (REdis Serialization Protocol) 的协议。虽然这个协议是专门为Redis设计的，它也可以用在其它 client-server 通信模式的软件上。 RESP 是下面条件的折中：  实现起来简单。 解析速度快。 有可读性。  RESP 能序列化不同的数据类型，例如整型(integers)、字符串(s">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/img/image-20210427105518602.png">
+<meta property="article:published_time" content="2021-05-29T03:08:03.000Z">
+<meta property="article:modified_time" content="2021-05-31T02:26:15.965Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/image-20210427105518602.png">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Redis官方文档04-通信协议" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      Redis官方文档04-通信协议
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2021-05-29T03:08:03.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h1 id="1-Redis通信协议规范"><a href="#1-Redis通信协议规范" class="headerlink" title="1 Redis通信协议规范"></a>1 Redis通信协议规范</h1><p>Redis客户端和服务器端通信使用名为 <strong>RESP</strong> (REdis Serialization Protocol) 的协议。虽然这个协议是专门为Redis设计的，它也可以用在其它 client-server 通信模式的软件上。</p>
+<p>RESP 是下面条件的折中：</p>
+<ul>
+<li>实现起来简单。</li>
+<li>解析速度快。</li>
+<li>有可读性。</li>
+</ul>
+<p>RESP 能序列化不同的数据类型，例如整型(integers)、字符串(strings)、数组(arrays)。额外还有特殊的错误类型。请求从客户端以字符串数组的形式发送到redis服务器，这些字符串表示要执行的命令的参数。Redis用特定于命令的数据类型回复。</p>
+<p>RESP 是二进制安全的，并且不需要处理从一个进程发到另外一个进程的批量数据，因为它使用前缀长度来传输批量数据。</p>
+<p> 注意：这里概述的协议仅用于客户机-服务器通信。<font color="red">Redis集群使用不同的二进制协议在节点之间交换消息。</font></p>
+ <span id="more"></span>
+
+<h1 id="2-请求-响应模型"><a href="#2-请求-响应模型" class="headerlink" title="2 请求-响应模型"></a>2 请求-响应模型</h1><p>Redis接受由不同参数组成的命令。一旦收到命令，就会对其进行处理，并将应答发送回客户端。</p>
+<p>这是最简单的模型，但是有两个例外：</p>
+<ul>
+<li>Redis 支持管道pipelining。所以，客户端可以一次发送多个命令，然后再等待应答。</li>
+<li>当一个Redis客户端订阅一个频道，那么协议会改变语义并变成<em>push</em>protocol, 也就是说，客户客户端不再需要发送命令，因为服务器端会一收到新消息，就会自动发送给客户端。</li>
+</ul>
+<p>除了上面两个例外情况，Redis协议是一个简单的请求-响应协议。</p>
+<h1 id="3-RESP-协议解释"><a href="#3-RESP-协议解释" class="headerlink" title="3 RESP 协议解释"></a>3 RESP 协议解释</h1><p>RESP 协议在Redis1.2被引入，直到Redis2.0才成为和Redis服务器通信的标准。这个协议需要在你的Redis客户端实现。</p>
+<p>RESP 是一个支持多种数据类型的序列化协议：简单字符串（Simple Strings）,错误（ Errors）,整型（ Integers）, 大容量字符串（Bulk Strings）和数组（Arrays）。</p>
+<p>RESP在Redis中作为一个请求-响应协议以如下方式使用：</p>
+<ul>
+<li>客户端以大容量字符串RESP数组的方式发送命令给服务器端<font color="red">(前缀是星号的那种 * )</font>。</li>
+<li>服务器端根据命令的具体实现返回某一种RESP数据类型。</li>
+</ul>
+<p>在 RESP 中，数据的类型依赖于首字节：</p>
+<ul>
+<li><strong>单行字符串（Simple Strings）：</strong> 响应的首字节是 “+”</li>
+<li><strong>错误（Errors）： 响应的首字节是</strong> “-“</li>
+<li><strong>整型（Integers）： 响应的首字节是</strong> “:”</li>
+<li><strong>多行字符串（Bulk Strings）： 响应的首字节是</strong>“$“</li>
+<li><strong>数组（Arrays）：</strong> 响应的首字节是 “<code>*</code>“</li>
+</ul>
+<p>另外，RESP可以使用大容量字符串或者数组类型的特殊变量表示空值，下面会具体解释。RESP协议的不同部分总是以 “\r\n” (CRLF) 结束。</p>
+<h2 id="3-1-加号-RESP-单行字符串"><a href="#3-1-加号-RESP-单行字符串" class="headerlink" title="3.1 (+ 加号 )RESP 单行字符串"></a>3.1 (+ 加号 )RESP 单行字符串</h2><p>单行字符串编码方法: 加号后面跟着一个不包含回车或换行字符的字符串 (不允许出现换行)，以CRLF(“\r\n”)结尾。</p>
+<p>单行字符串通常被用来传输非二进制安全字符串并且消耗极小。例如，许多redis命令在成功时回复”OK”，即简单字符串用以下5个字节编码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;+OK\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>为了发送二进制安全的字符串，需要使用RESP的多行字符串（Bulk Strings）替代。</p>
+<p>当Redis返回单行字符串（Simple String）时，客户端lib应该返回去掉首字符加号和结尾CRLF字符的字符串给调用者。</p>
+<h2 id="3-2-减号-RESP-错误"><a href="#3-2-减号-RESP-错误" class="headerlink" title="3.2 (- 减号)RESP 错误"></a>3.2 (- 减号)RESP 错误</h2><p>RESP 有特殊类型来处理错误。errors类型除了首字符是减号 ‘-‘不是加号以外，其它跟简单字符串一样。RESP中简单字符和错误的真正区别是：错误被客户端当作异常处理，组成错误类型的字符串是错误消息自身。</p>
+<p>基本格式如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;-Error message\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>错误应答只在发生异常时发送，例如，要执行命令的参数数据类型不匹配或者命令不存在等。当收到错误返回时，客户端lib应该抛出一个异常。</p>
+<p>错误返回例子:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-ERR unknown command &#x27;foobar&#x27;</span><br><span class="line">-WRONGTYPE Operation against a key holding the wrong kind of value</span><br></pre></td></tr></table></figure>
+
+<p>从”-“后面第一个单词起，直到第一个空格或者换行，表示返回的错误类型。这是Redis的一种约定，并不是RESP协议的要求。</p>
+<p><code>ERR</code> 是一个通用错误, 而 <code>WRONGTYPE</code> 是表示更具体的错误，意味着客户端在错误的数据类型上执行操作。这被叫做错误前缀（<strong>Error Prefix），</strong> 使客户端不用依赖具体错误消息就知道返回的错误类型，错误消息可能会随着时间而变化。</p>
+<p>客户端实现可能会对不同异常返回不同类型的错误，或者可能提供一种通用的方式来捕获错误，通过以字符串的形式直接返回错误名给调用者。</p>
+<p>尽管如此，这种特性不能认为很重要，因为它很少被使用。一小部分客户端的实现可能会返回通用错误条件，例如<code>false。</code></p>
+<h2 id="3-3-冒号-RESP-整数"><a href="#3-3-冒号-RESP-整数" class="headerlink" title="3.3 (: 冒号)RESP 整数"></a>3.3 (: 冒号)RESP 整数</h2><p>整数类型是由以冒号开头，CRLF结尾，中间是字符串形式表示的数字。 例如 “:0\r\n”, 或 “:1000\r\n” 都是整数回复。</p>
+<p>很多Redis命令返回RESP整数，像 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/incr">INCR</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/llen">LLEN</a> 和 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/lastsave">LASTSAVE</a>.</p>
+<p>返回的整数并没有特别的意义， <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/incr">INCR</a> 返回的是一个递增的数字， <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/lastsave">LASTSAVE</a> 返回的是Unix时间戳等。返回的整数有效值需要在有符号64位整数范围内。</p>
+<p>整数返回也被广泛的用来返回 true 或 false。比如 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/exists">EXISTS</a> 或 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/sismember">SISMEMBER</a> 命令返回1表示true，返回0表示false。</p>
+<p>其它命令像 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/sadd">SADD</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/srem">SREM</a> 和 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/setnx">SETNX</a> 如果操作被执行则返回1，否则返回0。</p>
+<p>返回整数回复的命令： <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/setnx">SETNX</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/del">DEL</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/exists">EXISTS</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/incr">INCR</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/incrby">INCRBY</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/decr">DECR</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/decrby">DECRBY</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/dbsize">DBSIZE</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/lastsave">LASTSAVE</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/renamenx">RENAMENX</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/move">MOVE</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/llen">LLEN</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/sadd">SADD</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/srem">SREM</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/sismember">SISMEMBER</a>, <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/scard">SCARD</a>.</p>
+<h2 id="3-4-美元符号-RESP-多行字符串"><a href="#3-4-美元符号-RESP-多行字符串" class="headerlink" title="3.4  ($ 美元符号)RESP 多行字符串"></a>3.4  ($ 美元符号)<a target="_blank" rel="noopener" href="https://www.redis.com.cn/topics/protocol.html#bulk-string-reply">RESP 多行字符串</a></h2><p>多行字符串被用来表示最大512MB长的二进制安全字符串。</p>
+<p>多行字符串编码方式：</p>
+<ul>
+<li>美元符 “$“ 后面跟着组成字符串的字节数(前缀长度)，并以 CRLF 结尾。</li>
+<li>实际的字符串数据。</li>
+<li>结尾是 CRLF。</li>
+</ul>
+<p>所以，字符串 “foobar” 编码如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;$6\r\nfoobar\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>空字符串编码格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;$0\r\n\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>RESP 多行字符串（Bulk Strings） 也可以使用一个特殊的用来表示空值的格式表示不存在的值。在这种格式里长度值为-1，数据部分不存在，所以空（Null）用如下方式表示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;$-1\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>叫做<strong>空的多行字符串Null Bulk String。</strong></p>
+<p>客户端API库不应该返回空串，当服务器端响应一个空的多行字符串时，API库可以返回一个空对象给调用者。例如，Ruby库应该返回 ‘nil’ ，而C库应该返回NULL。 </p>
+<h2 id="3-5-星号-RESP-数组"><a href="#3-5-星号-RESP-数组" class="headerlink" title="3.5 (* 星号)RESP 数组"></a>3.5 (* 星号)RESP 数组</h2><p>客户端使用 RESP 数组发送命令到 Redis 服务端。同样地，某些命令的应答使用RESP数组返回元素的集合给Redis客户端。 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/lrange">LRANGE</a> 命令返回元素列表就是一个例子。</p>
+<p>RESP 数组使用如下格式发送：</p>
+<ul>
+<li>以星号<code>* 为首字符，接着是表示数组中元素个数的十进制数</code>，最后以 CRLF 结尾。</li>
+<li>外加数组中每个 RESP 类型的元素。</li>
+</ul>
+<p>空数组表示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;*0\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>有两个 RESP 多行字符串”foo” 和”bar”元素的 RESP 数组 ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在前缀 <code>*&lt;count&gt;CRLF</code> 的后面，组成数组的其它数据类型一个接在另一个后面。 例如包含三个整数的数组编码方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;*3\r\n:1\r\n:2\r\n:3\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p>数组可以包含混合类型，不一定必须是同一种类型。例如，4个整型和1个多行字符串编码方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*5\r\n</span><br><span class="line">:1\r\n</span><br><span class="line">:2\r\n</span><br><span class="line">:3\r\n</span><br><span class="line">:4\r\n</span><br><span class="line"><span class="meta">$</span><span class="bash">6\r\n</span></span><br><span class="line">foobar\r\n</span><br></pre></td></tr></table></figure>
+
+<p>(为了方便阅读，应答分成多行来展示)</p>
+<p>第一个行表示 <code>*5\r\n</code> 说明后面有5个应答。这些应答组成一个大的应答一起发送。</p>
+<p>空数组的概念也是存在的，另一个表示空值的方式(通常使用多行空字符串，历史遗留导致有这两种格式)。</p>
+<p>例如，当 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/blpop">BLPOP</a> 命令超时，它会返回一个空数组，数组的计数器是-1 :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;*-1\r\n&quot;</span><br></pre></td></tr></table></figure>
+
+<p><font color="red">当 Redis 返回一个空数组的时候，Redis客户端库API应该返回一个空对象而不是返回一个空数组。 这对区分空列表和其它不同情况（像 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/commands/blpop">BLPOP</a> 命令超时情况）是必要的。</font></p>
+<p>数组的数组也是可行的。例如，一个含有两个数组元素的数组编码方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">*2\r\n</span><br><span class="line">*3\r\n</span><br><span class="line">:1\r\n</span><br><span class="line">:2\r\n</span><br><span class="line">:3\r\n</span><br><span class="line">*2\r\n</span><br><span class="line">+Foo\r\n</span><br><span class="line">-Bar\r\n</span><br></pre></td></tr></table></figure>
+
+<p>(为了方便阅读，分成多行来展示).</p>
+<p>上面的 RESP 数据类型包含两个数组，一个数组包含三个整数1, 2, 3 ，另一个是简单字符串和一个错误类型。</p>
+<h3 id="3-6-1-数组中的空元素"><a href="#3-6-1-数组中的空元素" class="headerlink" title="3.6.1 数组中的空元素"></a>3.6.1 数组中的空元素</h3><p>数组中可以有为空的元素。主要使用在Redis应答中，为了表示这个元素丢失并且不是一个空的字符串。当SORT命令使用GET 模式选项，并且特定的key丢失的时会出现这种应答。 含有有空元素的应答数组例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*3\r\n</span><br><span class="line"><span class="meta">$</span><span class="bash">3\r\n</span></span><br><span class="line">foo\r\n</span><br><span class="line"><span class="meta">$</span><span class="bash">-1\r\n</span></span><br><span class="line"><span class="meta">$</span><span class="bash">3\r\n</span></span><br><span class="line">bar\r\n</span><br></pre></td></tr></table></figure>
+
+<p>第二个元素是空，客户端库应该返回像下面这样的数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;foo&quot;,nil,&quot;bar&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>这不是前面提到的异常情况，这只是说明协议的一个例子。</p>
+<h1 id="4-发送命令到Redis服务器"><a href="#4-发送命令到Redis服务器" class="headerlink" title="4 发送命令到Redis服务器"></a>4 发送命令到Redis服务器</h1><p>至此，我们已经很熟悉RESP序列化格式，写一个Redis客户端库的实现会变得很容易。我们可以进一步说明客户端和服务端如何交互工作：</p>
+<ul>
+<li>客户端发送包含只有多行字符串的数组给Redis服务器。</li>
+<li>Redis 服务器给客户端发送任意有效的 RESP 数据类型作为应答。</li>
+</ul>
+<p>下面是一个典型的交互过程例子：</p>
+<p>客户端发送命令 <strong>LLEN mylist</strong> 来获取存储在 <em>mylist</em> 键中列表的长读，然后服务器端返回整数应答(C: 代表客户端, S: 代表服务器端).</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C: *2\r\n</span><br><span class="line">C: $4\r\n</span><br><span class="line">C: LLEN\r\n</span><br><span class="line">C: $6\r\n</span><br><span class="line">C: mylist\r\n</span><br><span class="line"></span><br><span class="line">S: :48293\r\n</span><br></pre></td></tr></table></figure>
+
+<p>为了方便理解我们用换行把协议分成不同部分，实际上客户端发送的是一个整体没有换行：<code>*2\r\n$4\r\nLLEN\r\n$6\r\nmylist\r\n</code> as a whole.</p>
+<h2 id="4-1-管道和多个命令"><a href="#4-1-管道和多个命令" class="headerlink" title="4.1 管道和多个命令"></a>4.1 管道和多个命令</h2><p>客户端可以使用同一个连接发送多个命令。通过管道客户端可以一次写操作发送多个命令，发送下一个命令前不需要等待前一个命令的应答。所有应答可以在最后被读取。</p>
+<p>关于管道详细参考 <a target="_blank" rel="noopener" href="http://www.redis.com.cn/topics/pipelining">page about Pipelining</a>.</p>
+<h2 id="4-2-内联命令"><a href="#4-2-内联命令" class="headerlink" title="4.2 内联命令"></a>4.2 内联命令</h2><p>有时你手边只能操作<code>telnet</code> 并且需要给Redis 服务器端发送命令。虽然Redis协议是容易实现的，但并不适合用在交互会话。<code>redis-cli</code> 也不是随时都能可用。因此，redis还以一种特殊的方式接受为人类设计的命令，称为内联命令格式。</p>
+<p> 以下是使用内联命令进行服务器/客户端聊天的示例（服务器聊天以s开头，客户端聊天以c开头）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C: PING</span><br><span class="line">S: +PONG</span><br></pre></td></tr></table></figure>
+
+<p>以下是返回整数的内联命令的另一个示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C: EXISTS somekey</span><br><span class="line">S: :0</span><br></pre></td></tr></table></figure>
+
+<p>基本上，您只需在telnet会话中编写空格分隔的参数。由于统一请求协议中没有以*开头的命令，因此Redis能够检测到这种情况并解析您的命令。</p>
+<p>我本机启动了一个redis服务器，用来测试下：</p>
+<p><img src="../img/image-20210427105518602.png" alt="image-20210427105518602"></p>
+<h1 id="5-Redis-协议的高性能解析器"><a href="#5-Redis-协议的高性能解析器" class="headerlink" title="5 Redis 协议的高性能解析器"></a>5 Redis 协议的高性能解析器</h1><p>虽然redis协议是非常容易被人阅读和实现的，但是它可以以类似于二进制协议的性能来实现。</p>
+<p>RESP 使用带前缀的长度来传输批量数据，因此不需要像使用json那样扫描有效负载以查找特殊字符，也不需要引用需要发送到服务器的有效负载。</p>
+<p>批量和多批量长度可以使用代码进行处理，代码对每个字符执行单个操作，同时扫描CR字符，如以下C代码：</p>
+<p>RESP 使用带前缀的长度来传输多行数据，因此不需要像使用json那样扫描有效负载以查找特殊字符，也不需要引用需要发送到服务器的有效负载。</p>
+<p>多行和多个多行长度可以使用代码进行处理，代码对每个字符执行单个操作，同时扫描CR字符，如以下C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *p = <span class="string">&quot;$123\r\n&quot;</span>;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    p++;</span><br><span class="line">    <span class="keyword">while</span>(*p != <span class="string">&#x27;\r&#x27;</span>) &#123;</span><br><span class="line">        len = (len*<span class="number">10</span>)+(*p - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        p++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Now p points at &#x27;\r&#x27;, and the len is in bulk_len. */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, len);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在识别出第一个CR之后，可以跳过它和下面的LF，而不需要任何处理。然后，可以使用不以任何方式检查有效负载的单个读取操作读取大容量数据。最后，剩余的CR和LF字符将被丢弃，而不进行任何处理。</p>
+<p>Redis协议有着与二进制协议可比的性能，更重要的是易于在大多数高级语言中实现，从而减少了客户端软件中的错误数量。</p>
+<h1 id="备注知识"><a href="#备注知识" class="headerlink" title="备注知识"></a>备注知识</h1><h2 id="1-1-二进制安全的字符串"><a href="#1-1-二进制安全的字符串" class="headerlink" title="1.1 二进制安全的字符串"></a>1.1 二进制安全的字符串</h2><p>二进制安全就是，字符串不是根据某种特殊的标志来解析的，无论输入是什么，总能保证输出是处理的原始输入而不是根据某种特殊格式来处理。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">&quot;1234\0123&quot;</span>;</span><br><span class="line"><span class="comment">// c语言：</span></span><br><span class="line"><span class="built_in">strlen</span>(str)=<span class="number">4</span></span><br><span class="line"><span class="comment">// redis：</span></span><br><span class="line"><span class="built_in">strlen</span>(str)=<span class="number">7</span> <span class="comment">//忽略了\0</span></span><br></pre></td></tr></table></figure>
+
+<p>RESP协议是加了长度 ： $2 表示有2行的字符串。</p>
+<p>二进制安全还指虽然是字符串，但是可以存储任何数据，包括文件、图片等。</p>
+<p>再看一下，二进制不安全：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">main() &#123;  </span><br><span class="line">    <span class="keyword">char</span> ab[] = <span class="string">&quot;Hello&quot;</span>;  </span><br><span class="line">    <span class="keyword">char</span> ac[] = <span class="string">&quot;Hello\0Hello&quot;</span>;  </span><br><span class="line">    <span class="comment">/*返回0, 由于是非二进制安全，误判为相等 这是由于C语言的机制决定的 */</span></span><br><span class="line">    <span class="built_in">strcmp</span>(ab, ac); </span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-2-CR-LF-CRLF"><a href="#1-2-CR-LF-CRLF" class="headerlink" title="1.2 CR LF CRLF"></a>1.2 CR LF CRLF</h2><h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><ul>
+<li>CR：Carriage Return，对应ASCII中转义字符\r，表示回车</li>
+<li>LF：Linefeed，对应ASCII中转义字符\n，表示换行</li>
+<li>CRLF：Carriage Return &amp; Linefeed，\r\n，表示回车并换行</li>
+</ul>
+<p>Windows操作系统采用两个字符来进行换行，即CRLF；</p>
+<p>Unix/Linux/Mac OS X操作系统采用单个字符LF来进行换行；</p>
+<p>MacIntosh操作系统（即早期的Mac操作系统）采用单个字符CR来进行换行。</p>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+</br>
+</br>
+<div>
+<div id="hexobk-comment-show">
+</div>
+<div id="hexobk-comment">
+	<label for="hexobk-comment-text">发表评论</label>
+	<textarea id="hexobk-comment-text" name="comment" cols="45" rows="8" maxlength="50" required="required"></textarea>
+</div>
+<div>
+<input type="button" class="button large" onclick="submitComment()" value="提交" />
+</div>
+</div>
+
+
+
+  
+    
+<nav id="article-nav">
+  
+    <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Redis官方文档05-内存优化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis官方文档03-信号处理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+    initPv();
+		initComment();
+	});
+
+	function showTheComment(data) {
+
+		var _list =data.data;
+		for(i = 0;i<_list.length;i++) {
+
+			var _time = _list[i].time
+			var _comment = _list[i].comment
+			var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+			 $("#hexobk-comment-show").append(_temp);
+		}
+
+	}
+
+  function changePv(data) {
+
+		var pv = data.data;
+		$("#hexobk_page_pv").html(pv);
+	}
+
+  function initPv() {
+
+    var hexobk_app = "hexo-doubleKing"
+    var hexobk_url = "Redis官方文档04-通信协议"
+    var hexobkUrl_get = "http://82.156.38.230:8080/click/get/jsonp?click_app=" + hexobk_app
+   $.ajax({
+      type: "GET",
+      url: hexobkUrl_get + "&click_url=" + hexobk_url,
+      data: {},
+      dataType: "jsonp",
+      jsonpCallback: "changePv",
+      success: function(res) {
+        //alert(res);
+      }
+    });
+
+  };
+
+    function initComment() {
+
+	   	var hexobk_app = "hexo-doubleKing"
+	var hexobk_url = "Redis官方文档04-通信协议"
+	   var hexobkUrl_get = "http://82.156.38.230:8080/comment/get/jsonp?click_app=" + hexobk_app
+
+	   $.ajax({
+        type: "GET",
+        url: hexobkUrl_get + "&click_url=" + hexobk_url,
+        data: {},
+        dataType: "jsonp",
+		jsonpCallback: "showTheComment",
+        success: function(res) {
+			//alert(res);
+		}
+      });
+
+    };
+
+    function submitComment() {
+
+	  var hexobk_app = "hexo-doubleKing"
+	  var hexobk_url = "Redis官方文档04-通信协议"
+	  var hexobk_comment = $("#hexobk-comment-text").val()
+	  var hexobkUrl_set = "http://82.156.38.230:8080/comment/set?click_app=" + hexobk_app
+      $.ajax({
+        type: "GET",
+        url: hexobkUrl_set + "&click_url=" + hexobk_url + "&comment_msg=" + hexobk_comment,
+        data: {},
+        dataType: "jsonp",
+        success: function(result) {}
+      });
+	var _time = new Date()
+	var _comment = hexobk_comment
+	var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+	$("#hexobk-comment-show").append(_temp);
+    }
+</script>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">微信公众号</h3>
+  <div class="widget">
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2021 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

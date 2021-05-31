@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,7 +40,11 @@
       
         <a class="main-nav-link" href="/">博客首页</a>
       
-        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
       
         <a class="main-nav-link" href="/archives">全部文章</a>
       
@@ -73,7 +77,7 @@
     <div class="outer">
       <section id="main">
   
-    <article id="post-program-for-new-10" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Redis官方文档09-Redis挂了怎么办" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -82,24 +86,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-10/" class="article-date">
-  <time datetime="2021-01-19T23:14:19.000Z" itemprop="datePublished">2021-01-20</time>
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/" class="article-date">
+  <time datetime="2021-05-29T03:11:15.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -107,17 +111,15 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-    打算写一个Java新手入门必须要会的系列，这个系列是入门之后，必须要学会理解的东西，对于以后的Java开发会特别有帮助，第一个选定的题材就是动态代理，理解了动态代理对于理解Spring AOP和mybatis，有特别大的帮助。
-        </p>
-</p>
-
-<h1 id="动态代理可以做什么？"><a href="#动态代理可以做什么？" class="headerlink" title="动态代理可以做什么？"></a>动态代理可以做什么？</h1><p>可以对代码进行增强，例如给方法增加事务、日志、统计信息等（Spring AOP），mybatis框架也是用到了动态代理。</p>
+          <h1 id="集群基本概念"><a href="#集群基本概念" class="headerlink" title="集群基本概念"></a>集群基本概念</h1><p>hash和一致性哈希，思路和mysql的分库分表是一致的。</p>
+<h2 id="分区不同实现方式"><a href="#分区不同实现方式" class="headerlink" title="分区不同实现方式"></a><strong>分区不同实现方式</strong></h2><ul>
+<li><strong>客户端分区</strong>：客户端直接选择正确节点读写指定键。很多Redis客户实现了这种分区方式。</li>
+<li><strong>代理辅助分区</strong>：是指我们的客户端通过Redis协议把请求发送给代理，而不是直接发送给真正的Redis实例服务器。这个代理会确保我们的请求根据配置分区策略发送到正确的Redis实例上，并返回给客户端。Redis和Memcached的代理都是用<a target="_blank" rel="noopener" href="http://antirez.com/news/44">Twemproxy</a> （译者注：这是twitter开源的一个代理框架）来实现代理服务分区的。</li>
+<li><strong>查询路由</strong>：是指你可以把一个请求发送给一个随机的实例，这时实例会把该查询转发给正确的节点。通过客户端重定向(客户端的请求不用直接从一个实例转发到另一个实例，而是被重定向到正确的节点)，Redis集群实现了一种混合查询路由。</li>
+</ul>
           
             <p class="article-more-link">
-              <a href="/program-for-new-10/#more">查看全部</a>
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/#more">查看全部</a>
             </p>
           
         
@@ -125,17 +127,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-program-for-new-09" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Redis官方文档08-集群的基本概念" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -144,24 +151,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-09/" class="article-date">
-  <time datetime="2021-01-02T01:53:29.000Z" itemprop="datePublished">2021-01-02</time>
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time datetime="2021-05-29T03:10:16.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -169,15 +176,15 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/mem01.png" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-      这一篇，我想分享下自己对于内存的一些基本知识的理解，当然，这篇文章也仅仅适用于新入门的Java开发人员，对于一些有经验的开发人员，可以不看，如果刷到了，请直接关闭页面就可以了。笔者写了很多年的Java代码，和写了很多年C语言的人相比，对于内存的理解，肯定要浅显很多。如果你是C语言开发者，本文对于你来说，简直就是脱了裤子放屁一样，觉的说的这不都是废话吗？哈哈一笑即可。
-        </p>
-</p>
+          <h1 id="集群基本概念"><a href="#集群基本概念" class="headerlink" title="集群基本概念"></a>集群基本概念</h1><p>hash和一致性哈希，思路和mysql的分库分表是一致的。</p>
+<h2 id="分区不同实现方式"><a href="#分区不同实现方式" class="headerlink" title="分区不同实现方式"></a><strong>分区不同实现方式</strong></h2><ul>
+<li><strong>客户端分区</strong>：客户端直接选择正确节点读写指定键。很多Redis客户实现了这种分区方式。</li>
+<li><strong>代理辅助分区</strong>：是指我们的客户端通过Redis协议把请求发送给代理，而不是直接发送给真正的Redis实例服务器。这个代理会确保我们的请求根据配置分区策略发送到正确的Redis实例上，并返回给客户端。Redis和Memcached的代理都是用<a target="_blank" rel="noopener" href="http://antirez.com/news/44">Twemproxy</a> （译者注：这是twitter开源的一个代理框架）来实现代理服务分区的。</li>
+<li><strong>查询路由</strong>：是指你可以把一个请求发送给一个随机的实例，这时实例会把该查询转发给正确的节点。通过客户端重定向(客户端的请求不用直接从一个实例转发到另一个实例，而是被重定向到正确的节点)，Redis集群实现了一种混合查询路由。</li>
+</ul>
           
             <p class="article-more-link">
-              <a href="/program-for-new-09/#more">查看全部</a>
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/#more">查看全部</a>
             </p>
           
         
@@ -185,17 +192,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-neijuan" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Redis官方文档07-快速插入大量数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -204,24 +216,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/neijuan/">双King对于内卷化的看法</a>
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/neijuan/" class="article-date">
-  <time datetime="2020-12-29T09:30:46.000Z" itemprop="datePublished">2020-12-29</time>
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/" class="article-date">
+  <time datetime="2021-05-29T03:09:20.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -229,20 +241,79 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/fuliye.jpg" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-      最近学习了内卷这个词汇，大意是各行各业对于从业人员的要求越来越高了，导致大家陷入了军备竞赛中，除了要学日常工作中能用到的，不能用到的也要会。本人是JAVA后端开发，体会也比较深，最早在12年的时候的面试题，大多都是一些相对来说比较简单的题目，例如hashmap原理、字符串、自动拆箱装箱、SQL优化等，临近2021年，再看看现在的面试题，竟然可以深入到即时编译器原理，像JVM结构和垃圾回收，都已经是常规的面试题目了，这种趋势可能会愈演愈烈，不知道再过几年，对于JAVA从业人员的要求要掌握哪些技术了。
-        </p>
-</p>
+          <h1 id="快速插入大量数据"><a href="#快速插入大量数据" class="headerlink" title="快速插入大量数据"></a>快速插入大量数据</h1><h2 id="1-原生的命令"><a href="#1-原生的命令" class="headerlink" title="1 原生的命令"></a>1 原生的命令</h2><p>例如，如果我们需要生成一个10亿的`keyN -&gt; ValueN’的大数据集，我们会创建一个如下的redis命令集的文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SET Key0 Value0</span><br><span class="line">SET Key1 Value1</span><br><span class="line">...</span><br><span class="line">SET KeyN ValueN</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>各行各业都在内卷，内卷不是错误，错误的是没有做出有用的产品。</p>
+<p>一旦创建了这个文件，其余的就是让Redis尽可能快的执行。在以前我们会用如下的<code>netcat</code>命令执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(cat data.txt; sleep 10) | nc localhost 6379 &gt; /dev/null</span><br></pre></td></tr></table></figure>
+          
+            <p class="article-more-link">
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-Redis官方文档06-内存回收策略" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/" class="article-date">
+  <time datetime="2021-05-29T03:08:54.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h4 id="Redis的内存回收策略"><a href="#Redis的内存回收策略" class="headerlink" title="Redis的内存回收策略"></a>Redis的内存回收策略</h4><blockquote>
+<p>1、惰性删除</p>
+<p>2、定时任务删除</p>
+<p>3、内存不够一般就是报错、LRU、随机删除、过期LRU、过期随机删、早过期被删</p>
 </blockquote>
-<h4 id="我的观点"><a href="#我的观点" class="headerlink" title="我的观点"></a>我的观点</h4><p>我的观点是内卷说明了行业竞争激烈，大家需要提高自己的技术能力，才能体现出自己对比其它人的优势，总体上来说是不可阻挡的，但是不好的一点是技术能力提升之后，有没有带来实际的工作能力的提升。这是一个比较直接的想法，没有什么高度和思想，仅仅从内卷带来的实际效果来考虑，毕竟招人的时候，才需要去面试，需要去问一些日常开发中很少能够用到的知识，面试造火箭，工作拧螺丝，造不了火箭就拧不好螺丝，这也是毋庸置疑的，那么怎么才能学以致用呢？毕竟辛辛苦苦的学了很多的知识，总是想要用到实际的工作当中去。本人人微言轻，在自己博客发表一下看法，还是可以的，有一天有影响力了，再说其它。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Redis删除过期的KEY的方式</span></span><br><span class="line"><span class="comment">//默认是慢模式</span></span><br><span class="line"><span class="keyword">int</span> totalTime = <span class="number">0</span>;</span><br><span class="line">boolean expired = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	随机检查<span class="number">20</span>个KEY   </span><br><span class="line">&#125; <span class="keyword">while</span> (超过<span class="number">25</span>%的KEY过期 &amp;&amp; 执行总时间 &lt; <span class="number">25</span>ms)</span><br><span class="line"><span class="keyword">if</span> 执行总时间 &gt; <span class="number">25</span>ms &#123;</span><br><span class="line">    expired = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果慢模式判断超时了，启动快模式</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	随机检查<span class="number">20</span>个KEY   </span><br><span class="line">&#125; <span class="keyword">while</span> (超过<span class="number">25</span>%的KEY过期 &amp;&amp; 执行总时间 &lt; <span class="number">1</span>ms &amp;&amp; <span class="number">2</span>秒内只运行<span class="number">1</span>次)</span><br></pre></td></tr></table></figure>
           
             <p class="article-more-link">
-              <a href="/neijuan/#more">查看全部</a>
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/#more">查看全部</a>
             </p>
           
         
@@ -250,17 +321,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-google-guava02" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Redis官方文档05-内存优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -269,24 +345,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/google-guava02/" class="article-date">
-  <time datetime="2020-12-25T02:49:38.000Z" itemprop="datePublished">2020-12-25</time>
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2021-05-29T03:08:32.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -294,25 +370,89 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-        这篇文章是第二篇，如果没有看过第一篇的，建议先去看看<a href="/google-guava" target="_blank">JAVA程序员必学的Google Guava库（第一篇）</a>，不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。
-    </p>
-</p>
-
-<blockquote>
-<p>目录<br>3、缓存<br>4、字符串处理</p>
+          <blockquote>
+<p>总结：</p>
+<p>1、修改一些参数阈值设置。</p>
+<p>2、32位的redis可以节省指针，而且不影响RDB/AOF文件的恢复</p>
+<p>3、字符串可以当作位使用。</p>
+<p>4、hash会预留100个field，尽情用吧</p>
+<p>5、减小key的长度 能用u表示,不用username</p>
 </blockquote>
-<h1 id="3、缓存"><a href="#3、缓存" class="headerlink" title="3、缓存"></a>3、缓存</h1><p>如果要实现一个内存类型的缓存，大部分人可能会尝试使用Map，这样写也可以，大部分情况都适用，担心多线程问题，可以使用ConcurrentHashMap，但是还有一些问题例如内存无限膨胀、过期等问题，没有解决，这个时候，可以考虑使用Guava的缓存。</p>
-<p>通常来说，<code>Guava Cache</code>适用于：</p>
+<p>这个页面仍然在维护中。当你在使用redis的过程中遇到一些与内存相关的问题时，你需要关注下面的事情。</p>
+<h2 id="小的聚合类型数据的特殊编码处理"><a href="#小的聚合类型数据的特殊编码处理" class="headerlink" title="小的聚合类型数据的特殊编码处理"></a>小的聚合类型数据的特殊编码处理</h2><p>Redis2.2版本及以后，存储集合数据的时候会采用内存压缩技术，以使用更少的内存存储更多的数据。如Hashes,Lists,Sets和Sorted Sets，当这些集合中的所有数都小于一个给定的元素，并且集合中元素数量小于某个值时，存储的数据会被以一种非常节省内存的方式进行编码，使用这种编码理论上至少会节省10倍以上内存（平均节省5倍以上内存）。并且这种编码技术对用户和redis api透明。因为使用这种编码是用CPU换内存，所以我们提供了更改阈值的方法，只需在redis.conf里面进行修改即可.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hash-max-zipmap-entries 64 (2.6以上使用hash-max-ziplist-entries)</span><br><span class="line">hash-max-zipmap-value 512  (2.6以上使用hash-max-ziplist-value)</span><br><span class="line">list-max-ziplist-entries 512</span><br><span class="line">list-max-ziplist-value 64</span><br><span class="line">zset-max-ziplist-entries 128</span><br><span class="line">zset-max-ziplist-value 64</span><br><span class="line">set-max-intset-entries 512</span><br></pre></td></tr></table></figure>
+          
+            <p class="article-more-link">
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-Redis官方文档04-通信协议" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2021-05-29T03:08:03.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h1 id="1-Redis通信协议规范"><a href="#1-Redis通信协议规范" class="headerlink" title="1 Redis通信协议规范"></a>1 Redis通信协议规范</h1><p>Redis客户端和服务器端通信使用名为 <strong>RESP</strong> (REdis Serialization Protocol) 的协议。虽然这个协议是专门为Redis设计的，它也可以用在其它 client-server 通信模式的软件上。</p>
+<p>RESP 是下面条件的折中：</p>
 <ul>
-<li>你愿意消耗一些内存空间来提升速度。</li>
-<li>KEY会被查询一次以上。</li>
-<li>缓存中存放的数据总量不会超出内存容量。（Guava Cache是单个应用运行时的本地缓存。它不把数据存放到文件或外部服务器。如果这不符合你的需求，请尝试<a target="_blank" rel="noopener" href="http://memcached.org/">Memcached</a>这类工具）
+<li>实现起来简单。</li>
+<li>解析速度快。</li>
+<li>有可读性。</li>
+</ul>
+<p>RESP 能序列化不同的数据类型，例如整型(integers)、字符串(strings)、数组(arrays)。额外还有特殊的错误类型。请求从客户端以字符串数组的形式发送到redis服务器，这些字符串表示要执行的命令的参数。Redis用特定于命令的数据类型回复。</p>
+<p>RESP 是二进制安全的，并且不需要处理从一个进程发到另外一个进程的批量数据，因为它使用前缀长度来传输批量数据。</p>
+<p> 注意：这里概述的协议仅用于客户机-服务器通信。<font color="red">Redis集群使用不同的二进制协议在节点之间交换消息。</font></p>
           
             <p class="article-more-link">
-              <a href="/google-guava02/#more">查看全部</a>
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/#more">查看全部</a>
             </p>
           
         
@@ -320,17 +460,22 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-jvm-gc-suggest" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Redis官方文档03-信号处理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -339,24 +484,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/jvm-gc-suggest/" class="article-date">
-  <time datetime="2020-12-24T07:52:29.000Z" itemprop="datePublished">2020-12-24</time>
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="article-date">
+  <time datetime="2021-05-29T03:07:34.000Z" itemprop="datePublished">2021-05-29</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -364,19 +509,23 @@
     <div class="article-width">
       <div class="article-entry" itemprop="articleBody">
         
-          <p style="width:800px;">
-    <img src="/img/g1.jpg" align="right" width="45%" hspace="5" vspace="5">
-    <p>
-      Java程序员比C/C++程序员幸福的一点是，不需要手工管理内存的申请和释放，尽管垃圾回收像一个围城，大家都想到对面去。在实际的编程中，Java程序员要相对幸福一点，可以自由发挥，随意建立对象，本文也不想讨论JVM具体的垃圾，回收机制和算法，而是从实际编程的角度出发，讲一讲怎么配合JVM的垃圾回收，在编程中应该注意哪些事项，总的一个宗旨就是不要管垃圾回收的事情，程序员能做的事情不多。
-        </p>
-</p>
-
-<h4 id="1、妄想控制JVM进行垃圾回收？？？"><a href="#1、妄想控制JVM进行垃圾回收？？？" class="headerlink" title="1、妄想控制JVM进行垃圾回收？？？"></a>1、妄想控制JVM进行垃圾回收？？？</h4><p>手工把大对象设置为null，并不能优化GC，原因在于GC的时机，jvm并不是时时刻刻都在进行垃圾回收，大部分垃圾收集器力求减少GC，能不要Full GC，就不要Full GC，所以相信JVM的作者是足够聪明的，垃圾收集器可以在适当的时候GC。</p>
-<p>极端情况： 如果你有1个特别长的方法，申请了一个超大的对象，可以考虑在用完之后，把对象设置为null，一种更优的办法是，让方法保持短小精悍。</p>
-<p>System.gc() 更像是毒苹果，JVM不能保证会在调用了这个方法之后，进行垃圾回收。</p>
+          <p>本文档提供的信息是有关Redis是如何应对不同POSIX系统下产生的信号异常，比如<code>SIGTERM</code>{.highlighter-rouge},<code>SIGSEGV</code>{.highlighter-rouge}等等。</p>
+<p>本文档中的信息<strong>只适用于Redis2.6或更高版本</strong>。</p>
+<h2 id="SIGTERM信号的处理"><a href="#SIGTERM信号的处理" class="headerlink" title="SIGTERM信号的处理"></a>SIGTERM信号的处理</h2><p>SIGTERM信号会让Redis安全的关闭。Redis收到信号时并不立即退出，而是开启一个定时任务，这个任务就类似执行一次SHUTDOWN命令的。 这个定时关闭任务会在当前执行命令终止后立即施行，因此通常有有0.1秒或更少时间延迟。</p>
+<p>万一Server被一个耗时的LUA脚本阻塞，如果这个脚本可以被SCRIPT KILL命令终止，那么定时执行任务就会在脚本被终止后立即执行，否则直接执行。</p>
+<p>这种情况下的Shutdown过程也会同时包含以下的操作：</p>
+<ul>
+<li>如果存在正在执行RDB文件保存或者AOF重写的子进程，子进程被终止。</li>
+<li>如果AOF功能是开启的，Redis会通过系统调用fsync将AOF缓冲区数据强制输出到硬盘。</li>
+<li>如果Redis配置了使用RDB文件进行持久化，那么此时就会进行同步保存。由于保存时同步的，那也就不需要额外的内存。</li>
+<li>如果Server是守护进程，PID文件会被移除。</li>
+<li>如果Unix域的Socket是可用的，它也会被移除。</li>
+<li>Server退出，退出码为0.</li>
+</ul>
+<p>万一RDB文件保存失败，Shutdown失败，Server则会继续运行以保证没有数据丢失。自从Redis2.6.11之后，Redis不会再次主动Shutdown，除非它接收到了另一个SIGTERM信号或者另外一个SHUTDOWN命令</p>
           
             <p class="article-more-link">
-              <a href="/jvm-gc-suggest/#more">查看全部</a>
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/#more">查看全部</a>
             </p>
           
         
@@ -384,12 +533,266 @@
     </div>
     <footer class="article-footer">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
+
+
+
   
 </article>
+
+
+
+
+
+  
+    <article id="post-Redis官方文档02-寻找大key" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/" class="article-date">
+  <time datetime="2021-05-29T03:06:43.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="多大叫大key？"><a href="#多大叫大key？" class="headerlink" title="多大叫大key？"></a>多大叫大key？</h2><p>key-value value最大可以有512M</p>
+<p>假设一个value是1M，单机每秒1000个请求，就是1G的流量</p>
+<p>个人理解1500B算大？</p>
+<p>string类型控制在10KB以内，hash、list、set、zset元素个数不要超过5000。</p>
+<p>反例：一个包含200万个元素的list。</p>
+<blockquote>
+<p> 非字符串的bigkey，不要使用del删除，使用hscan、sscan、zscan方式渐进式删除，同时要注意防止bigkey过期时间自动删除问题(例如一个200万的zset设置1小时过期，会触发del操作，造成阻塞，而且该操作不会不出现在慢查询中</p>
+</blockquote>
+<p>大KEY：</p>
+<p>单次网络请求延时增加</p>
+<p>对集群不友好，造成了数据倾斜</p>
+<p>删除大key或者自动过期的时候，由于单线程，停顿长</p>
+          
+            <p class="article-more-link">
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-Redis官方文档01-Linux下的优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2021-05-29T03:03:57.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>通常来看，Redis开发和运维人员更加关注的是Redis本身的一些配置优化，例如AOF和RDB的配置优化、数据结构的配置优化等，但是对于操作系统是否需要针对Redis做一些配置优化不甚了解或者不太关心，然而事实证明一个良好的系统操作配置能够为Redis服务良好运行保驾护航。</p>
+<p>众所周知Redis的作者对于Windows操作系统并不感冒，目前大部分公司都会将Web服务器、数据库服务器等部署在Linux操作系统上，Redis也不例外。所以接下来介绍Linux操作系统如何优化Redis，包含如下七个方面。</p>
+<p>一. [内存分配控制]<br>二. [swappiness]<br>三. [Transparent Huge Pages]<br>四. [OOM killer]<br>五. [使用NTP]<br>六. [ulimit]<br>七. [TCP backlog]</p>
+<h2 id="一-内存分配控制"><a href="#一-内存分配控制" class="headerlink" title="一. 内存分配控制"></a>一. 内存分配控制</h2><h3 id="1-vm-overcommit-memory"><a href="#1-vm-overcommit-memory" class="headerlink" title="1. vm.overcommit_memory"></a>1. vm.overcommit_memory</h3><p>Redis在启动时可能会出现这样的日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add &#39;vm.overcommit_memory &#x3D; 1&#39; to &#x2F;etc&#x2F;sysctl.conf and then reboot or run the </span><br><span class="line">command &#39;sysctl vm.overcommit_memory&#x3D;1&#39; for this to take effect.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在分析这个问题之前，首先要弄清楚什么是overcommit？Linux操作系统对大部分申请内存的请求都回复yes，以便能运行更多的程序。因为申请内存后，并不会马上使用内存，这种技术叫做overcommit。如果Redis在启动时有上面的日志，说明vm.overcommit_memory=0，Redis提示把它设置为1。</p>
+<p>vm.overcommit_memory用来设置内存分配策略，它有三个可选值，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th align="left">vm.overcommit_memory</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">表示内核将检查是否有足够的可用内存。如果有足够的可用内存，内存申请通过，否则内存申请失败，并把错误返回给应用进程</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">表示内核允许超量使用内存直到用完为止</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">表示内核决不过量的(“never overcommit”)使用内存，即系统整个内存地址空间不能超过swap+50%的RAM值，50%是overcommit_ratio默认值，此参数同样支持修改</td>
+</tr>
+</tbody></table>
+          
+            <p class="article-more-link">
+              <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-RocketMQ官方文档10-消息轨迹" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/" class="article-date">
+  <time datetime="2021-05-29T02:45:51.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h2 id="1-消息轨迹数据关键属性"><a href="#1-消息轨迹数据关键属性" class="headerlink" title="1. 消息轨迹数据关键属性"></a>1. 消息轨迹数据关键属性</h2><table>
+<thead>
+<tr>
+<th>Producer端</th>
+<th>Consumer端</th>
+<th>Broker端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>生产实例信息</td>
+<td>消费实例信息</td>
+<td>消息的Topic</td>
+</tr>
+<tr>
+<td>发送消息时间</td>
+<td>投递时间,投递轮次</td>
+<td>消息存储位置</td>
+</tr>
+<tr>
+<td>消息是否发送成功</td>
+<td>消息是否消费成功</td>
+<td>消息的Key值</td>
+</tr>
+<tr>
+<td>发送耗时</td>
+<td>消费耗时</td>
+<td>消息的Tag值</td>
+</tr>
+</tbody></table>
+<h2 id="2-支持消息轨迹集群部署"><a href="#2-支持消息轨迹集群部署" class="headerlink" title="2. 支持消息轨迹集群部署"></a>2. 支持消息轨迹集群部署</h2><h3 id="2-1-Broker端配置文件"><a href="#2-1-Broker端配置文件" class="headerlink" title="2.1 Broker端配置文件"></a>2.1 Broker端配置文件</h3><p>这里贴出Broker端开启消息轨迹特性的properties配置文件内容：</p>
+          
+            <p class="article-more-link">
+              <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
 
 
 
@@ -409,7 +812,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -419,7 +822,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -429,7 +832,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -439,7 +842,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -452,83 +855,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -577,83 +980,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -673,7 +1076,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -682,7 +1085,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -691,7 +1094,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -700,7 +1103,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -773,7 +1176,11 @@ if(_local_host != "localhost:4000") {
   
     <a href="/" class="mobile-nav-link">博客首页</a>
   
-    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
   
     <a href="/archives" class="mobile-nav-link">全部文章</a>
   
@@ -787,7 +1194,6 @@ if(_local_host != "localhost:4000") {
 <a title="totop"><img src="/img/scrollup.png"/></a>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
   

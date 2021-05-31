@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  <title>双king - Epoooll.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="EVAL script numkeys key [key …] arg [arg …]起始版本：2.6.0 时间复杂度：取决于脚本本身的执行的时间复杂度。 EVAL简介EVAL 和 EVALSHA 命令是从 Redis 2.6.0 版本开始的，使用内置的 Lua 解释器，可以对 Lua 脚本进行求值。 EVAL的第一个参数是一段 Lua 5.1 脚本程序。 这段Lua脚本不需要（也不应该）定义函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis使用经验总结05-LUA官方文档">
+<meta property="og:url" content="http://yoursite.com/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="双king的技术博客 - www.epoooll.com">
+<meta property="og:description" content="EVAL script numkeys key [key …] arg [arg …]起始版本：2.6.0 时间复杂度：取决于脚本本身的执行的时间复杂度。 EVAL简介EVAL 和 EVALSHA 命令是从 Redis 2.6.0 版本开始的，使用内置的 Lua 解释器，可以对 Lua 脚本进行求值。 EVAL的第一个参数是一段 Lua 5.1 脚本程序。 这段Lua脚本不需要（也不应该）定义函数">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-05-29T03:24:58.000Z">
+<meta property="article:modified_time" content="2021-05-31T02:26:15.963Z">
+<meta property="article:author" content="双king">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <!-- 这里是导航内容 -->
+  <div id="header-inner" class="inner" style="position:fixed top:0px">
+    <nav id="main-nav">
+      <img src="/img/logo1.png" class="logo-husd"/>
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      
+        <a class="main-nav-link" href="/">博客首页</a>
+      
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
+      
+        <a class="main-nav-link" href="/archives">全部文章</a>
+      
+        <a class="main-nav-link" href="/about">关于双King</a>
+      
+        <a class="main-nav-link" href="/web-need-know/">WEB开发</a>
+      
+    </nav>
+    <nav id="sub-nav">
+      
+    </nav>
+  </div>
+
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        
+          <a href="/" id="logo">双king的技术博客 - www.epoooll.com</a>
+        
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Happy Everyday!</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Redis使用经验总结05-LUA官方文档" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      Redis使用经验总结05-LUA官方文档
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/" class="article-date">
+  <time datetime="2021-05-29T03:24:58.000Z" itemprop="datePublished">2021-05-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <h1 id="EVAL-script-numkeys-key-key-…-arg-arg-…"><a href="#EVAL-script-numkeys-key-key-…-arg-arg-…" class="headerlink" title="EVAL script numkeys key [key …] arg [arg …]"></a>EVAL script numkeys key [key …] arg [arg …]</h1><p>起始版本：2.6.0</p>
+<p>时间复杂度：取决于脚本本身的执行的时间复杂度。</p>
+<h1 id="EVAL简介"><a href="#EVAL简介" class="headerlink" title="EVAL简介"></a>EVAL简介</h1><p>EVAL 和 EVALSHA 命令是从 Redis 2.6.0 版本开始的，使用内置的 Lua 解释器，可以对 Lua 脚本进行求值。</p>
+<p>EVAL的第一个参数是一段 Lua 5.1 脚本程序。 这段Lua脚本不需要（也不应该）定义函数。它运行在 Redis 服务器中。</p>
+<p>EVAL的第二个参数是参数的个数，后面的参数（从第三个参数），表示在脚本中所用到的那些 Redis 键(key)，这些键名参数可以在 Lua 中通过全局变量 KEYS 数组，用 1 为基址的形式访问( KEYS[1] ， KEYS[2] ，以此类推)。</p>
+<p>在命令的最后，那些不是键名参数的附加参数 arg [arg …] ，可以在 Lua 中通过全局变量 ARGV 数组访问，访问的形式和 KEYS 变量类似( ARGV[1] 、 ARGV[2] ，诸如此类)。</p>
+<span id="more"></span>
+
+<p>举例说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; eval &quot;return &#123;KEYS[1],KEYS[2],ARGV[1],ARGV[2]&#125;&quot; 2 key1 key2 first second</span><br><span class="line">1) &quot;key1&quot;</span><br><span class="line">2) &quot;key2&quot;</span><br><span class="line">3) &quot;first&quot;</span><br><span class="line">4) &quot;second&quot;</span><br></pre></td></tr></table></figure>
+
+<p>注：返回结果是Redis multi bulk replies的Lua数组，这是一个Redis的返回类型，您的客户端库可能会将他们转换成数组类型。</p>
+<p>这是从一个Lua脚本中使用两个不同的Lua函数来调用Redis的命令的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis.call()</span><br><span class="line">redis.pcall()</span><br></pre></td></tr></table></figure>
+
+<p>redis.call() 与 redis.pcall()很类似, 他们唯一的区别是当redis命令执行结果返回错误时， redis.call()将返回给调用者一个错误，而redis.pcall()会将捕获的错误以Lua表的形式返回</p>
+<p>redis.call() 和 redis.pcall() 两个函数的参数可以是任意的 Redis 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; eval &quot;return redis.call(&#39;set&#39;,&#39;foo&#39;,&#39;bar&#39;)&quot; 0</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，上面这段脚本的确实现了将键 foo 的值设为 bar 的目的，但是，它违反了 EVAL 命令的语义，因为脚本里使用的所有键都应该由 KEYS 数组来传递，就像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; eval &quot;return redis.call(&#39;set&#39;,KEYS[1],&#39;bar&#39;)&quot; 1 foo</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>要求使用正确的形式来传递键(key)是有原因的，因为不仅仅是 EVAL 这个命令，所有的 Redis 命令，在执行之前都会被分析，籍此来确定命令会对哪些键进行操作。</p>
+<p>因此，对于 EVAL 命令来说，必须使用正确的形式来传递键，才能确保分析工作正确地执行。 除此之外，使用正确的形式来传递键还有很多其他好处，它的一个特别重要的用途就是确保 Redis 集群可以将你的请求发送到正确的集群节点。 (对 Redis 集群的工作还在进行当中，但是脚本功能被设计成可以与集群功能保持兼容。)不过，这条规矩并不是强制性的， 从而使得用户有机会滥用(abuse) Redis 单实例配置(single instance configuration)，代价是这样写出的脚本不能被 Redis 集群所兼容。</p>
+<p>Lua 脚本能返回一个值，这个值能按照一组转换规则从Lua转换成redis的返回类型。</p>
+<h2 id="Lua-数据类型和-Redis-数据类型之间转换"><a href="#Lua-数据类型和-Redis-数据类型之间转换" class="headerlink" title="Lua 数据类型和 Redis 数据类型之间转换"></a>Lua 数据类型和 Redis 数据类型之间转换</h2><p>当 Lua 通过 call() 或 pcall() 函数执行 Redis 命令的时候，命令的返回值会被转换成 Lua 数据结构。 同样地，当 Lua 脚本在 Redis 内置的解释器里运行时，Lua 脚本的返回值也会被转换成 Redis 协议(protocol)，然后由 EVAL 将值返回给客户端。</p>
+<p>数据类型之间的转换遵循这样一个设计原则：如果将一个 Redis 值转换成 Lua 值，之后再将转换所得的 Lua 值转换回 Redis 值，那么这个转换所得的 Redis 值应该和最初时的 Redis 值一样。</p>
+<p>换句话说， Lua 类型和 Redis 类型之间存在着一一对应的转换关系。</p>
+<p>Redis 到 Lua 的转换表。</p>
+<ul>
+<li>Redis integer reply -&gt; Lua number / Redis 整数转换成 Lua 数字</li>
+<li>Redis bulk reply -&gt; Lua string / Redis bulk 回复转换成 Lua 字符串</li>
+<li>Redis multi bulk reply -&gt; Lua table (may have other Redis data types nested) / Redis 多条 bulk 回复转换成 Lua 表，表内可能有其他别的 Redis 数据类型</li>
+<li>Redis status reply -&gt; Lua table with a single ok field containing the status / Redis 状态回复转换成 Lua 表，表内的 ok 域包含了状态信息</li>
+<li>Redis error reply -&gt; Lua table with a single err field containing the error / Redis 错误回复转换成 Lua 表，表内的 err 域包含了错误信息</li>
+<li>Redis Nil bulk reply and Nil multi bulk reply -&gt; Lua false boolean type / Redis 的 Nil 回复和 Nil 多条回复转换成 Lua 的布尔值 false</li>
+</ul>
+<p>Lua 到 Redis 的转换表。</p>
+<ul>
+<li>Lua number -&gt; Redis integer reply (the number is converted into an integer) / Lua 数字转换成 Redis 整数</li>
+<li>Lua string -&gt; Redis bulk reply / Lua 字符串转换成 Redis bulk 回复</li>
+<li>Lua table (array) -&gt; Redis multi bulk reply (truncated to the first nil inside the Lua array if any) / Lua 表(数组)转换成 Redis 多条 bulk 回复</li>
+<li>Lua table with a single ok field -&gt; Redis status reply / 一个带单个 ok 域的 Lua 表，转换成 Redis 状态回复</li>
+<li>Lua table with a single err field -&gt; Redis error reply / 一个带单个 err 域的 Lua 表，转换成 Redis 错误回复</li>
+<li>Lua boolean false -&gt; Redis Nil bulk reply. / Lua 的布尔值 false 转换成 Redis 的 Nil bulk 回复</li>
+</ul>
+<p>从 Lua 转换到 Redis 有一条额外的规则，这条规则没有和它对应的从 Redis 转换到 Lua 的规则：</p>
+<ul>
+<li>Lua boolean true -&gt; Redis integer reply with value of 1. / Lua 布尔值 true 转换成 Redis 整数回复中的 1</li>
+</ul>
+<p>还有下面两点需要重点注意：</p>
+<ul>
+<li>lua中整数和浮点数之间没有什么区别。因此，我们始终Lua的数字转换成整数的回复，这样将舍去小数部分。如果你想从Lua返回一个浮点数，你应该将它作为一个字符串（见比如ZSCORE命令）。</li>
+<li>There is no simple way to have nils inside Lua arrays, this is a result of Lua table semantics, so when Redis converts a Lua array into Redis protocol the conversion is stopped if a nil is encountered.</li>
+</ul>
+<p>以下是几个类型转换的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; eval &quot;return 10&quot; 0</span><br><span class="line">(integer) 10</span><br><span class="line"></span><br><span class="line">&gt; eval &quot;return &#123;1,2,&#123;3,&#39;Hello World!&#39;&#125;&#125;&quot; 0</span><br><span class="line">1) (integer) 1</span><br><span class="line">2) (integer) 2</span><br><span class="line">3) 1) (integer) 3</span><br><span class="line">   2) &quot;Hello World!&quot;</span><br><span class="line"></span><br><span class="line">&gt; eval &quot;return redis.call(&#39;get&#39;,&#39;foo&#39;)&quot; 0</span><br><span class="line">&quot;bar&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最后一个例子展示如果是Lua直接命令调用它是如何可以从redis.call()或redis.pcall()接收到准确的返回值。</p>
+<p>下面的例子我们可以看到浮点数和nil将怎么样处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; eval &quot;return &#123;1,2,3.3333,&#39;foo&#39;,nil,&#39;bar&#39;&#125;&quot; 0</span><br><span class="line">1) (integer) 1</span><br><span class="line">2) (integer) 2</span><br><span class="line">3) (integer) 3</span><br><span class="line">4) &quot;foo&quot;</span><br></pre></td></tr></table></figure>
+
+<p>正如你看到的 3.333 被转换成了3，并且 nil后面的字符串bar没有被返回回来。</p>
+<ul>
+<li>返回redis类型的辅助函数</li>
+</ul>
+<p>有两个辅助函数从Lua返回Redis的类型。</p>
+<ul>
+<li>redis.error_reply(error_string) returns an error reply. This function simply returns the single field table with the err field set to the specified string for you.</li>
+<li>redis.status_reply(status_string) returns a status reply. This function simply returns the single field table with the ok field set to the specified string for you.</li>
+</ul>
+<p>There is no difference between using the helper functions or directly returning the table with the specified format, so the following two forms are equivalent:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">return &#123;err&#x3D;&quot;My Error&quot;&#125;</span><br><span class="line">return redis.error_reply(&quot;My Error&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="脚本的原子性"><a href="#脚本的原子性" class="headerlink" title="脚本的原子性"></a>脚本的原子性</h2><p>Redis 使用单个 Lua 解释器去运行所有脚本，并且， Redis 也保证脚本会以原子性(atomic)的方式执行： 当某个脚本正在运行的时候，不会有其他脚本或 Redis 命令被执行。 这和使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/multi.html">MULTI</a> / <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/exec.html">EXEC</a> 包围的事务很类似。 在其他别的客户端看来，脚本的效果(effect)要么是不可见的(not visible)，要么就是已完成的(already completed)。 另一方面，这也意味着，执行一个运行缓慢的脚本并不是一个好主意。写一个跑得很快很顺溜的脚本并不难， 因为脚本的运行开销(overhead)非常少，但是当你不得不使用一些跑得比较慢的脚本时，请小心， 因为当这些蜗牛脚本在慢吞吞地运行的时候，其他客户端会因为服务器正忙而无法执行命令。</p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>前面的命令介绍部分说过， redis.call() 和 redis.pcall() 的唯一区别在于它们对错误处理的不同。</p>
+<p>当 redis.call() 在执行命令的过程中发生错误时，脚本会停止执行，并返回一个脚本错误，错误的输出信息会说明错误造成的原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; del foo</span><br><span class="line">(integer) 1</span><br><span class="line">&gt; lpush foo a</span><br><span class="line">(integer) 1</span><br><span class="line">&gt; eval &quot;return redis.call(&#39;get&#39;,&#39;foo&#39;)&quot; 0</span><br><span class="line">(error) ERR Error running script (call to f_6b1bf486c81ceb7edf3c093f4c48582e38c0e791): ERR Operation against a key holding the wrong kind of value</span><br></pre></td></tr></table></figure>
+
+<p>和 redis.call() 不同， redis.pcall() 出错时并不引发(raise)错误，而是返回一个带 err 域的 Lua 表(table)，用于表示错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; EVAL &quot;return redis.pcall(&#39;get&#39;, &#39;foo&#39;)&quot; 0</span><br><span class="line">(error) ERR Operation against a key holding the wrong kind of value</span><br></pre></td></tr></table></figure>
+
+<h2 id="带宽和-EVALSHA"><a href="#带宽和-EVALSHA" class="headerlink" title="带宽和 EVALSHA"></a>带宽和 EVALSHA</h2><p><code>EVAL</code> 命令要求你在每次执行脚本的时候都发送一次脚本主体(script body)。Redis 有一个内部的缓存机制，因此它不会每次都重新编译脚本，不过在很多场合，付出无谓的带宽来传送脚本主体并不是最佳选择。</p>
+<p>为了减少带宽的消耗， Redis 实现了 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 命令，它的作用和 <code>EVAL</code> 一样，都用于对脚本求值，但它接受的第一个参数不是脚本，而是脚本的 SHA1 校验和(sum)。</p>
+<p>EVALSHA 命令的表现如下：</p>
+<p>如果服务器还记得给定的 SHA1 校验和所指定的脚本，那么执行这个脚本 如果服务器不记得给定的 SHA1 校验和所指定的脚本，那么它返回一个特殊的错误，提醒用户使用 EVAL 代替 EVALSHA 以下是示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; set foo bar</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">&gt; eval &quot;return redis.call(&#39;get&#39;,&#39;foo&#39;)&quot; 0</span><br><span class="line">&quot;bar&quot;</span><br><span class="line"></span><br><span class="line">&gt; evalsha 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 0</span><br><span class="line">&quot;bar&quot;</span><br><span class="line"></span><br><span class="line">&gt; evalsha ffffffffffffffffffffffffffffffffffffffff 0</span><br><span class="line">(error) &#96;NOSCRIPT&#96; No matching script. Please use [EVAL](&#x2F;commands&#x2F;eval).</span><br></pre></td></tr></table></figure>
+
+<p>客户端库的底层实现可以一直乐观地使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 来代替 <code>EVAL</code> ，并期望着要使用的脚本已经保存在服务器上了，只有当 NOSCRIPT 错误发生时，才使用 <code>EVAL</code> 命令重新发送脚本，这样就可以最大限度地节省带宽。</p>
+<p>这也说明了执行 <code>EVAL</code> 命令时，使用正确的格式来传递键名参数和附加参数的重要性：因为如果将参数硬写在脚本中，那么每次当参数改变的时候，都要重新发送脚本，即使脚本的主体并没有改变，相反，通过使用正确的格式来传递键名参数和附加参数，就可以在脚本主体不变的情况下，直接使用 EVALSHA 命令对脚本进行复用，免去了无谓的带宽消耗。</p>
+<h2 id="脚本缓存"><a href="#脚本缓存" class="headerlink" title="脚本缓存"></a>脚本缓存</h2><p>Redis 保证所有被运行过的脚本都会被永久保存在脚本缓存当中，这意味着，当 <code>EVAL</code> 命令在一个 Redis 实例上成功执行某个脚本之后，随后针对这个脚本的所有 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 命令都会成功执行。</p>
+<p>刷新脚本缓存的唯一办法是显式地调用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-flush.html">SCRIPT FLUSH</a> 命令，这个命令会清空运行过的所有脚本的缓存。通常只有在云计算环境中，Redis 实例被改作其他客户或者别的应用程序的实例时，才会执行这个命令。</p>
+<p>缓存可以长时间储存而不产生内存问题的原因是，它们的体积非常小，而且数量也非常少，即使脚本在概念上类似于实现一个新命令，即使在一个大规模的程序里有成百上千的脚本，即使这些脚本会经常修改，即便如此，储存这些脚本的内存仍然是微不足道的。</p>
+<p>事实上，用户会发现 Redis 不移除缓存中的脚本实际上是一个好主意。比如说，对于一个和 Redis 保持持久化链接(persistent connection)的程序来说，它可以确信，执行过一次的脚本会一直保留在内存当中，因此它可以在流水线中使用 EVALSHA 命令而不必担心因为找不到所需的脚本而产生错误(稍候我们会看到在流水线中执行脚本的相关问题)。</p>
+<h2 id="SCRIPT-命令"><a href="#SCRIPT-命令" class="headerlink" title="SCRIPT 命令"></a>SCRIPT 命令</h2><p>Redis 提供了以下几个 SCRIPT 命令，用于对脚本子系统(scripting subsystem)进行控制：</p>
+<p><a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-flush.html">SCRIPT FLUSH</a> ：清除所有脚本缓存 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-exists.html">SCRIPT EXISTS</a> ：根据给定的脚本校验和，检查指定的脚本是否存在于脚本缓存 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-load.html">SCRIPT LOAD</a> ：将一个脚本装入脚本缓存，但并不立即运行它 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-kill.html">SCRIPT KILL</a> ：杀死当前正在运行的脚本</p>
+<h2 id="纯函数脚本"><a href="#纯函数脚本" class="headerlink" title="纯函数脚本"></a>纯函数脚本</h2><p>在编写脚本方面，一个重要的要求就是，脚本应该被写成纯函数(pure function)。</p>
+<p>也就是说，脚本应该具有以下属性：</p>
+<ul>
+<li>对于同样的数据集输入，给定相同的参数，脚本执行的 Redis 写命令总是相同的。脚本执行的操作不能依赖于任何隐藏(非显式)数据，不能依赖于脚本在执行过程中、或脚本在不同执行时期之间可能变更的状态，并且它也不能依赖于任何来自 I/O 设备的外部输入。</li>
+</ul>
+<p>使用系统时间(system time)，调用像 RANDOMKEY 那样的随机命令，或者使用 Lua 的随机数生成器，类似以上的这些操作，都会造成脚本的求值无法每次都得出同样的结果。</p>
+<p>为了确保脚本符合上面所说的属性， Redis 做了以下工作：</p>
+<ul>
+<li>Lua 没有访问系统时间或者其他内部状态的命令</li>
+<li>Redis 会返回一个错误，阻止这样的脚本运行： 这些脚本在执行随机命令之后(比如 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/randomkey.html">RANDOMKEY</a> 、 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/srandmember.html">SRANDMEMBER</a> 或 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/time.html">TIME</a> 等)，还会执行可以修改数据集的 Redis 命令。如果脚本只是执行只读操作，那么就没有这一限制。注意，随机命令并不一定就指那些带 <code>RAND</code> 字眼的命令，任何带有非确定性的命令都会被认为是随机命令，比如 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/time.html">TIME</a> 命令就是这方面的一个很好的例子。</li>
+<li>每当从 Lua 脚本中调用那些返回无序元素的命令时，执行命令所得的数据在返回给 Lua 之前会先执行一个静默(slient)的字典序排序(lexicographical sorting)。举个例子，因为 Redis 的 Set 保存的是无序的元素，所以在 Redis 命令行客户端中直接执行 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/smembers.html">SMEMBERS</a> ，返回的元素是无序的，但是，假如在脚本中执行 redis.call(“smembers”, KEYS[1]) ，那么返回的总是排过序的元素。</li>
+<li>对 Lua 的伪随机数生成函数 math.random 和 math.randomseed 进行修改，使得每次在运行新脚本的时候，总是拥有同样的 seed 值。这意味着，每次运行脚本时，只要不使用 math.randomseed ，那么 math.random 产生的随机数序列总是相同的。</li>
+</ul>
+<p>尽管有那么多的限制，但用户还是可以用一个简单的技巧写出带随机行为的脚本(如果他们需要的话)。</p>
+<p>假设现在我们要编写一个 Redis 脚本，这个脚本从列表中弹出 N 个随机数。一个 Ruby 写的例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">require &#39;rubygems&#39;</span><br><span class="line">require &#39;redis&#39;</span><br><span class="line"></span><br><span class="line">r &#x3D; Redis.new</span><br><span class="line"></span><br><span class="line">RandomPushScript &#x3D; &lt;&lt;EOF</span><br><span class="line">    local i &#x3D; tonumber(ARGV[1])</span><br><span class="line">    local res</span><br><span class="line">    while (i &gt; 0) do</span><br><span class="line">        res &#x3D; redis.call(&#39;lpush&#39;,KEYS[1],math.random())</span><br><span class="line">        i &#x3D; i-1</span><br><span class="line">    end</span><br><span class="line">    return res</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">r.del(:mylist)</span><br><span class="line">puts r.eval(RandomPushScript,[:mylist],[10,rand(232)])</span><br></pre></td></tr></table></figure>
+
+<p>这个程序每次运行都会生成带有以下元素的列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; lrange mylist 0 -1</span><br><span class="line">1) &quot;0.74509509873814&quot;</span><br><span class="line">2) &quot;0.87390407681181&quot;</span><br><span class="line">3) &quot;0.36876626981831&quot;</span><br><span class="line">4) &quot;0.6921941534114&quot;</span><br><span class="line">5) &quot;0.7857992587545&quot;</span><br><span class="line">6) &quot;0.57730350670279&quot;</span><br><span class="line">7) &quot;0.87046522734243&quot;</span><br><span class="line">8) &quot;0.09637165539729&quot;</span><br><span class="line">9) &quot;0.74990198051087&quot;</span><br><span class="line">10) &quot;0.17082803611217&quot;</span><br></pre></td></tr></table></figure>
+
+<p>上面的 Ruby 程序每次都只生成同样的列表，用途并不是太大。那么，该怎样修改这个脚本，使得它仍然是一个纯函数(符合 Redis 的要求)，但是每次调用都可以产生不同的随机元素呢？</p>
+<p>一个简单的办法是，为脚本添加一个额外的参数，让这个参数作为 Lua 的随机数生成器的 seed 值，这样的话，只要给脚本传入不同的 seed ，脚本就会生成不同的列表元素。</p>
+<p>以下是修改后的脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">RandomPushScript &#x3D; &lt;&lt;EOF</span><br><span class="line">    local i &#x3D; tonumber(ARGV[1])</span><br><span class="line">    local res</span><br><span class="line">    math.randomseed(tonumber(ARGV[2]))</span><br><span class="line">    while (i &gt; 0) do</span><br><span class="line">        res &#x3D; redis.call(&#39;lpush&#39;,KEYS[1],math.random())</span><br><span class="line">        i &#x3D; i-1</span><br><span class="line">    end</span><br><span class="line">    return res</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">r.del(:mylist)</span><br><span class="line">puts r.eval(RandomPushScript,1,:mylist,10,rand(232))</span><br></pre></td></tr></table></figure>
+
+<p>尽管对于同样的 seed ，上面的脚本产生的列表元素是一样的(因为它是一个纯函数)，但是只要每次在执行脚本的时候传入不同的 seed ，我们就可以得到带有不同随机元素的列表。</p>
+<p>Seed 会在复制(replication link)和写 AOF 文件时作为一个参数来传播，保证在载入 AOF 文件或附属节点(slave)处理脚本时， seed 仍然可以及时得到更新。</p>
+<p>注意，Redis 实现保证 math.random 和 math.randomseed 的输出和运行 Redis 的系统架构无关，无论是 32 位还是 64 位系统，无论是小端(little endian)还是大端(big endian)系统，这两个函数的输出总是相同的。</p>
+<h2 id="全局变量保护"><a href="#全局变量保护" class="headerlink" title="全局变量保护"></a>全局变量保护</h2><p>为了防止不必要的数据泄漏进 Lua 环境， Redis 脚本不允许创建全局变量。如果一个脚本需要在多次执行之间维持某种状态，它应该使用 Redis key 来进行状态保存。</p>
+<p>企图在脚本中访问一个全局变量(不论这个变量是否存在)将引起脚本停止， <code>EVAL</code> 命令会返回一个错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; eval &#39;a&#x3D;10&#39; 0</span><br><span class="line">(error) ERR Error running script (call to f_933044db579a2f8fd45d8065f04a8d0249383e57): user_script:1: Script attempted to create global variable &#39;a&#39;</span><br></pre></td></tr></table></figure>
+
+<p>Lua 的 debug 工具，或者其他设施，比如打印（alter）用于实现全局保护的 meta table ，都可以用于实现全局变量保护。</p>
+<p>实现全局变量保护并不难，不过有时候还是会不小心而为之。一旦用户在脚本中混入了 Lua 全局状态，那么 AOF 持久化和复制（replication）都会无法保证，所以，请不要使用全局变量。</p>
+<p>避免引入全局变量的一个诀窍是：将脚本中用到的所有变量都使用 local 关键字定义为局部变量。</p>
+<h2 id="使用选择内部脚本"><a href="#使用选择内部脚本" class="headerlink" title="使用选择内部脚本"></a>使用选择内部脚本</h2><p>在正常的客户端连接里面可以调用<code>SELECT</code>选择内部的Lua脚本，但是Redis 2.8.11和Redis 2.8.12在行为上有一个微妙的变化。在2.8.12之前，会将脚本传送到调用脚本的当前数据库。从2.8.12开始Lua脚本只影响脚本本身的执行，但不修改当前客户端调用脚本时选定的数据库。</p>
+<p>从补丁级发布的语义变化是必要的，因为旧的行为与Redis复制层固有的不相容是错误的原因。</p>
+<h2 id="可用库"><a href="#可用库" class="headerlink" title="可用库"></a>可用库</h2><p>Redis Lua解释器可用加载以下Lua库：</p>
+<ul>
+<li><code>base</code> lib.</li>
+<li><code>table</code> lib.</li>
+<li><code>string</code> lib.</li>
+<li><code>math</code> lib.</li>
+<li><code>debug</code> lib.</li>
+<li><code>struct</code> lib.</li>
+<li><code>cjson</code> lib.</li>
+<li><code>cmsgpack</code> lib.</li>
+<li><code>bitop</code> lib.</li>
+<li><code>redis.sha1hex</code> function.</li>
+</ul>
+<p>每一个Redis实例都拥有以上的所有类库，以确保您使用脚本的环境都是一样的。</p>
+<p>struct, CJSON 和 cmsgpack 都是外部库, 所有其他库都是标准。 Lua库。</p>
+<h3 id="struct-库"><a href="#struct-库" class="headerlink" title="struct 库"></a>struct 库</h3><p>struct 是一个Lua装箱/拆箱的库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Valid formats:</span><br><span class="line">&gt; - big endian</span><br><span class="line">&lt; - little endian</span><br><span class="line">![num] - alignment</span><br><span class="line">x - pading</span><br><span class="line">b&#x2F;B - signed&#x2F;unsigned byte</span><br><span class="line">h&#x2F;H - signed&#x2F;unsigned short</span><br><span class="line">l&#x2F;L - signed&#x2F;unsigned long</span><br><span class="line">T   - size_t</span><br><span class="line">i&#x2F;In - signed&#x2F;unsigned integer with size &#96;n&#39; (default is size of int)</span><br><span class="line">cn - sequence of &#96;n&#39; chars (from&#x2F;to a string); when packing, n&#x3D;&#x3D;0 means</span><br><span class="line">     the whole string; when unpacking, n&#x3D;&#x3D;0 means use the previous</span><br><span class="line">     read number as the string length</span><br><span class="line">s - zero-terminated string</span><br><span class="line">f - float</span><br><span class="line">d - double</span><br><span class="line">&#39; &#39; - ignored</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; eval &#39;return struct.pack(&quot;HH&quot;, 1, 2)&#39; 0</span><br><span class="line">&quot;\x01\x00\x02\x00&quot;</span><br><span class="line">127.0.0.1:6379&gt; eval &#39;return &#123;struct.unpack(&quot;HH&quot;, ARGV[1])&#125;&#39; 0 &quot;\x01\x00\x02\x00&quot;</span><br><span class="line">1) (integer) 1</span><br><span class="line">2) (integer) 2</span><br><span class="line">3) (integer) 5</span><br><span class="line">127.0.0.1:6379&gt; eval &#39;return struct.size(&quot;HH&quot;)&#39; 0</span><br><span class="line">(integer) 4</span><br></pre></td></tr></table></figure>
+
+<h3 id="CJSON-库"><a href="#CJSON-库" class="headerlink" title="CJSON 库"></a>CJSON 库</h3><p>CJSON 库为Lua提供极快的JSON处理</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; eval &#39;return cjson.encode(&#123;[&quot;foo&quot;]&#x3D; &quot;bar&quot;&#125;)&#39; 0</span><br><span class="line">&quot;&#123;\&quot;foo\&quot;:\&quot;bar\&quot;&#125;&quot;</span><br><span class="line">redis 127.0.0.1:6379&gt; eval &#39;return cjson.decode(ARGV[1])[&quot;foo&quot;]&#39; 0 &quot;&#123;\&quot;foo\&quot;:\&quot;bar\&quot;&#125;&quot;</span><br><span class="line">&quot;bar&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="cmsgpack-库"><a href="#cmsgpack-库" class="headerlink" title="cmsgpack 库"></a>cmsgpack 库</h3><p>cmsgpack 库为Lua提供了简单、快速的MessagePack操纵</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; eval &#39;return cmsgpack.pack(&#123;&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;&#125;)&#39; 0</span><br><span class="line">&quot;\x93\xa3foo\xa3bar\xa3baz&quot;</span><br><span class="line">127.0.0.1:6379&gt; eval &#39;return cmsgpack.unpack(ARGV[1])&#39; 0 &quot;\x93\xa3foo\xa3bar\xa3baz&quot;</span><br><span class="line">1) &quot;foo&quot;</span><br><span class="line">2) &quot;bar&quot;</span><br><span class="line">3) &quot;baz&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="bitop-库"><a href="#bitop-库" class="headerlink" title="bitop 库"></a>bitop 库</h3><p>bitop库为Lua的位运算模块增加了按位操作数。 它是Redis 2.8.18开始加入的。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; eval &#39;return bit.tobit(1)&#39; 0</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; eval &#39;return bit.bor(1,2,4,8,16,32,64,128)&#39; 0</span><br><span class="line">(integer) 255</span><br><span class="line">127.0.0.1:6379&gt; eval &#39;return bit.tohex(422342)&#39; 0</span><br><span class="line">&quot;000671c6&quot;</span><br></pre></td></tr></table></figure>
+
+<p>它支持几个其他功能： <code>bit.tobit</code>, <code>bit.tohex</code>, <code>bit.bnot</code>, <code>bit.band</code>, <code>bit.bor</code>, <code>bit.bxor</code>, <code>bit.lshift</code>, <code>bit.rshift</code>, <code>bit.arshift</code>, <code>bit.rol</code>, <code>bit.ror</code>, <code>bit.bswap</code>. 所有可用的功能请参考<a target="_blank" rel="noopener" href="http://bitop.luajit.org/api.html">Lua BitOp documentation</a></p>
+<h3 id="redis-sha1hex"><a href="#redis-sha1hex" class="headerlink" title="redis.sha1hex"></a><code>redis.sha1hex</code></h3><p>对字符串执行SHA1算法</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; eval &#39;return redis.sha1hex(ARGV[1])&#39; 0 &quot;foo&quot;</span><br><span class="line">&quot;0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用脚本散发-Redis-日志"><a href="#使用脚本散发-Redis-日志" class="headerlink" title="使用脚本散发 Redis 日志"></a>使用脚本散发 Redis 日志</h2><p>在 Lua 脚本中，可以通过调用 <code>redis.log</code> 函数来写 Redis 日志(log)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.log(loglevel,message)</span><br></pre></td></tr></table></figure>
+
+<p>其中， message 参数是一个字符串，而 loglevel 参数可以是以下任意一个值：</p>
+<ul>
+<li><code>redis.LOG_DEBUG</code></li>
+<li><code>redis.LOG_VERBOSE</code></li>
+<li><code>redis.LOG_NOTICE</code></li>
+<li><code>redis.LOG_WARNING</code></li>
+</ul>
+<p>上面的这些等级(level)和标准 Redis 日志的等级相对应。</p>
+<p>对于脚本散发(emit)的日志，只有那些和当前 Redis 实例所设置的日志等级相同或更高级的日志才会被散发。</p>
+<p>以下是一个日志示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis.log(redis.LOG_WARNING, &quot;Something is wrong with this script.&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>执行上面的函数会产生这样的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[32343] 22 Mar 15:21:39 # Something is wrong with this script.</span><br></pre></td></tr></table></figure>
+
+<h2 id="沙箱-sandbox-和最大执行时间"><a href="#沙箱-sandbox-和最大执行时间" class="headerlink" title="沙箱(sandbox)和最大执行时间"></a>沙箱(sandbox)和最大执行时间</h2><p>脚本应该仅仅用于传递参数和对 Redis 数据进行处理，它不应该尝试去访问外部系统(比如文件系统)，或者执行任何系统调用。</p>
+<p>除此之外，脚本还有一个最大执行时间限制，它的默认值是 5 秒钟，一般正常运作的脚本通常可以在几分之几毫秒之内完成，花不了那么多时间，这个限制主要是为了防止因编程错误而造成的无限循环而设置的。</p>
+<p>最大执行时间的长短由 lua-time-limit 选项来控制(以毫秒为单位)，可以通过编辑 redis.conf 文件或者使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/config-get.html">CONFIG GET</a> 和 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/config-set.html">CONFIG SET</a> 命令来修改它。</p>
+<p>当一个脚本达到最大执行时间的时候，它并不会自动被 Redis 结束，因为 Redis 必须保证脚本执行的原子性，而中途停止脚本的运行意味着可能会留下未处理完的数据在数据集(data set)里面。</p>
+<p>因此，当脚本运行的时间超过最大执行时间后，以下动作会被执行：</p>
+<ul>
+<li>Redis 记录一个脚本正在超时运行</li>
+<li>Redis 开始重新接受其他客户端的命令请求，但是只有 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-kill.html">SCRIPT KILL</a> 和 <code>SHUTDOWN NOSAVE</code> 两个命令会被处理，对于其他命令请求， Redis 服务器只是简单地返回 BUSY 错误。</li>
+<li>可以使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-kill.html">SCRIPT KILL</a> 命令将一个仅执行只读命令的脚本杀死，因为只读命令并不修改数据，因此杀死这个脚本并不破坏数据的完整性</li>
+<li>如果脚本已经执行过写命令，那么唯一允许执行的操作就是 <code>SHUTDOWN NOSAVE</code> ，它通过停止服务器来阻止当前数据集写入磁盘</li>
+</ul>
+<h2 id="流水线-pipeline-上下文-context-中的-EVALSHA"><a href="#流水线-pipeline-上下文-context-中的-EVALSHA" class="headerlink" title="流水线(pipeline)上下文(context)中的 EVALSHA"></a>流水线(pipeline)上下文(context)中的 EVALSHA</h2><p>在流水线请求的上下文中使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 命令时，要特别小心，因为在流水线中，必须保证命令的执行顺序。</p>
+<p>一旦在流水线中因为 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 命令而发生 <code>NOSCRIPT</code> 错误，那么这个流水线就再也没有办法重新执行了，否则的话，命令的执行顺序就会被打乱。</p>
+<p>为了防止出现以上所说的问题，客户端库实现应该实施以下的其中一项措施：</p>
+<ul>
+<li>总是在流水线中使用 <code>EVAL</code> 命令</li>
+<li>检查流水线中要用到的所有命令，找到其中的 <code>EVAL</code> 命令，并使用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-exists.html">SCRIPT EXISTS</a> 命令检查要用到的脚本是不是全都已经保存在缓存里面了。如果所需的全部脚本都可以在缓存里找到，那么就可以放心地将所有 <code>EVAL</code> 命令改成 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/evalsha.html">EVALSHA</a> 命令，否则的话，就要在流水线的顶端(top)将缺少的脚本用 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/script-load.html">SCRIPT LOAD</a> 命令加上去。</li>
+</ul>
+
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+</br>
+</br>
+<div>
+<div id="hexobk-comment-show">
+</div>
+<div id="hexobk-comment">
+	<label for="hexobk-comment-text">发表评论</label>
+	<textarea id="hexobk-comment-text" name="comment" cols="45" rows="8" maxlength="50" required="required"></textarea>
+</div>
+<div>
+<input type="button" class="button large" onclick="submitComment()" value="提交" />
+</div>
+</div>
+
+
+
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis使用经验总结04-分布式锁和SETNX</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+    initPv();
+		initComment();
+	});
+
+	function showTheComment(data) {
+
+		var _list =data.data;
+		for(i = 0;i<_list.length;i++) {
+
+			var _time = _list[i].time
+			var _comment = _list[i].comment
+			var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+			 $("#hexobk-comment-show").append(_temp);
+		}
+
+	}
+
+  function changePv(data) {
+
+		var pv = data.data;
+		$("#hexobk_page_pv").html(pv);
+	}
+
+  function initPv() {
+
+    var hexobk_app = "hexo-doubleKing"
+    var hexobk_url = "Redis使用经验总结05-LUA官方文档"
+    var hexobkUrl_get = "http://82.156.38.230:8080/click/get/jsonp?click_app=" + hexobk_app
+   $.ajax({
+      type: "GET",
+      url: hexobkUrl_get + "&click_url=" + hexobk_url,
+      data: {},
+      dataType: "jsonp",
+      jsonpCallback: "changePv",
+      success: function(res) {
+        //alert(res);
+      }
+    });
+
+  };
+
+    function initComment() {
+
+	   	var hexobk_app = "hexo-doubleKing"
+	var hexobk_url = "Redis使用经验总结05-LUA官方文档"
+	   var hexobkUrl_get = "http://82.156.38.230:8080/comment/get/jsonp?click_app=" + hexobk_app
+
+	   $.ajax({
+        type: "GET",
+        url: hexobkUrl_get + "&click_url=" + hexobk_url,
+        data: {},
+        dataType: "jsonp",
+		jsonpCallback: "showTheComment",
+        success: function(res) {
+			//alert(res);
+		}
+      });
+
+    };
+
+    function submitComment() {
+
+	  var hexobk_app = "hexo-doubleKing"
+	  var hexobk_url = "Redis使用经验总结05-LUA官方文档"
+	  var hexobk_comment = $("#hexobk-comment-text").val()
+	  var hexobkUrl_set = "http://82.156.38.230:8080/comment/set?click_app=" + hexobk_app
+      $.ajax({
+        type: "GET",
+        url: hexobkUrl_set + "&click_url=" + hexobk_url + "&comment_msg=" + hexobk_comment,
+        data: {},
+        dataType: "jsonp",
+        success: function(result) {}
+      });
+	var _time = new Date()
+	var _comment = hexobk_comment
+	var _temp = "<div> <p>" + _time + "</p> <p> 说： " + _comment +" </p></div> </br>"
+	$("#hexobk-comment-show").append(_temp);
+    }
+</script>
+
+
+</section>
+      
+      
+<aside id="sidebar">
+<!--  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+  -->
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近的文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
+          </li>
+        
+          <li>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
+          </li>
+        
+          <li>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="widget-wrap">
+  <h3 class="widget-title">微信公众号</h3>
+  <div class="widget">
+    <h3>关注我的微信公众号</h3>
+    <img src="/img/bug01.jpg">
+  </div>
+</div>
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+    </div>
+  </div>
+
+
+  
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://tech.meituan.com/" target="_blank">美团技术博客</a>
+          </li>
+        
+          <li>
+            <a href="http://gobue.com/" target="_blank">阿土的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/xiaogangfan" target="_blank">晓刚的博客</a>
+          </li>
+        
+          <li>
+            <a href="http://mdblog.daoapp.io/" target="_blank">toukii的Go语言</a>
+          </li>
+        
+          <li>
+            <a href="https://coolshell.cn/" target="_blank">酷壳</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</aside>
+
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div style="text-align:center" id="footer-info" class="inner">
+      &copy; 2021 双king<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/husd/landscape-husd" target="_blank">Landscape-husd</a>
+    </div>
+  </div>
+  <script>
+var _local_host = window.location.host;
+if(_local_host != "localhost:4000") {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?ce36f35a04ab4bf386369192d3b216eb";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+} else {
+  console.log("this is localhost !");
+}
+
+</script>
+
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">博客首页</a>
+  
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
+  
+    <a href="/archives" class="mobile-nav-link">全部文章</a>
+  
+    <a href="/about" class="mobile-nav-link">关于双King</a>
+  
+    <a href="/web-need-know/" class="mobile-nav-link">WEB开发</a>
+  
+</nav>
+  
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+</div>
+</body>
+</html>
+

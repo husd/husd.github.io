@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
   <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   
   <title>双king - Epoooll.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,7 +40,11 @@
       
         <a class="main-nav-link" href="/">博客首页</a>
       
-        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/">JAVA新手入门</a>
+        <a class="main-nav-link" href="/tags/RocketMQ/">RocketMQ</a>
+      
+        <a class="main-nav-link" href="/tags/Redis/">Redis</a>
+      
+        <a class="main-nav-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/">JAVA新手入门</a>
       
         <a class="main-nav-link" href="/archives">全部文章</a>
       
@@ -73,7 +77,7 @@
     <div class="outer">
       <section id="main">
   
-    <article id="post-program-for-new-05-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-private-static" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -82,15 +86,15 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+      <a class="article-title" href="/private-static/">私有静态内部类</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-05-mysql/" class="article-date">
-  <time datetime="2020-12-05T04:40:05.000Z" itemprop="datePublished">2020-12-05</time>
+          <div class="card-solid icon"></div><a href="/private-static/" class="article-date">
+  <time datetime="2021-05-12T02:31:34.000Z" itemprop="datePublished">2021-05-12</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
@@ -98,8 +102,72 @@
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p>最近在看开源的一个组件zookeeper的源代码，在自己做实验，调用zookeeper接口实现分布式锁的时候，看到了一个类，是private static的，由此引发了我的思考，为啥这个类要这么设计？联想到之前看到的一些开源组件或者JDK的源码，也看到了类似的private static的设计，所以就上网搜索了一番。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>1 防止外部类直接调用或者实例化。</p>
+<p>2 减少对象的数量。</p>
+<p>3 延迟加载</p>
+<p>PS： private的含义比较明确，目的也很明确，就是不想让别的类用。关键在于static的含义。</p>
+          
+            <p class="article-more-link">
+              <a href="/private-static/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-base-program" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/base-program/">新手入门要理解的套路</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/base-program/" class="article-date">
+  <time datetime="2021-03-31T10:09:18.000Z" itemprop="datePublished">2021-03-31</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -108,23 +176,434 @@
       <div class="article-entry" itemprop="articleBody">
         
           <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
+    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
     <p>
-      这一篇我们会讲解下mysql的一些稍微有点难度的内容，目前的互联网公司，面试的时候问mysql的时候也还是挺多的，不仅仅开发岗位，有些测试岗位在面试的时候，也需要会mysql，所以本篇比上一篇的基础篇要稍微难点。
+      今天想记录一下编程的一些基本知识和理论，这样在遇到一些复杂问题的时候，可以运用XXXXX原理，把复杂问题，拆解成这些基本原理。
+    </p>
+</p>
+### 1、缓存
+
+<p>缓存的概念，无处不在。</p>
+<p>本质思想就是把数据放在离你最近的地方，当然不能把所有数据都放在身边，肯定是经常使用的东西。这里有一个空间换时间的概念。当然，还有一个时间换空间的时候，例如网络传输的时候，可以把内容进行压缩，往往可以提高传输的效率。</p>
+          
+            <p class="article-more-link">
+              <a href="/base-program/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-mybatis-test-sql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/mybatis-test-sql/" class="article-date">
+  <time datetime="2021-03-10T02:33:09.000Z" itemprop="datePublished">2021-03-10</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king+ </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/mybatis-logo.png" align="right" width="50%" hspace="5" vspace="5">
+    <p>
+        日常中的开发工作，大部分都是增删改查，所以和SQL打交道的时候特别多，我在日常工作中，使用的最多的是mybatis和mysql，用的是spring boot框架，所以在改完代码之后，全量测试下SQL是否正确，就非常重要了。有时候单元测试没来得及写全，所以有一个简单的工具，可以做一下冒烟测试，也是非常有必要的，可以避免低级错误。
+所以就萌生了一个想法，通过反射，获取系统中的所有的SQL，挨个执行一遍，简单测试下SQL是否报错。
+</br>
+</br>
+        PS： 如果想要做精细化的测试，还需要自己单独写单元测试。
+</br>
+    </p>
+</p>
+
+<h2 id="1、说干就干"><a href="#1、说干就干" class="headerlink" title="1、说干就干"></a>1、说干就干</h2><p>思路明确了，先去网上搜索下，有没有别人已经做过了。简单搜了下，确实有人做过，必须要传入dao文件的物理路径，然后解析文件，这明显不是我想要的效果。</p>
+          
+            <p class="article-more-link">
+              <a href="/mybatis-test-sql/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-program-for-new-11" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-11/" class="article-date">
+  <time datetime="2021-01-21T00:16:24.000Z" itemprop="datePublished">2021-01-21</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/annotation.jpg" align="right" width="35%" hspace="5" vspace="5">
+    <p>
+    上一篇讲了讲动态代理，这一篇要说一说注解。随着Spring的流行，笔者在开发的过程中，无时不刻在使用注解，那么了解注解，就成了必须要学会的知识，会用，了解原理即可。不过学到哪种程度呢，就需要见仁见智了。说一点题外话，Java的东西太多了，精通所有的东西，看过所有的源码，几乎是不可能的，所以自己就看自己的需求了，学习到那种程度就自己掌握吧。
         </p>
 </p>
 
-<p>主要会讲解以下内容：</p>
+<h1 id="注解简单用法"><a href="#注解简单用法" class="headerlink" title="注解简单用法"></a>注解简单用法</h1><p>直接上代码来说，比较简单，Spring虽然已经不提倡使用这种方法，但是由于方便，还在经常使用。</p>
+          
+            <p class="article-more-link">
+              <a href="/program-for-new-11/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-program-for-new-10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-10/" class="article-date">
+  <time datetime="2021-01-19T23:14:19.000Z" itemprop="datePublished">2021-01-20</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/base03.jpeg" align="right" width="35%" hspace="5" vspace="5">
+    <p>
+    打算写一个Java新手入门必须要会的系列，这个系列是入门之后，必须要学会理解的东西，对于以后的Java开发会特别有帮助，第一个选定的题材就是动态代理，理解了动态代理对于理解Spring AOP和mybatis，有特别大的帮助。
+        </p>
+</p>
+
+<h1 id="动态代理可以做什么？"><a href="#动态代理可以做什么？" class="headerlink" title="动态代理可以做什么？"></a>动态代理可以做什么？</h1><p>可以对代码进行增强，例如给方法增加事务、日志、统计信息等（Spring AOP），mybatis框架也是用到了动态代理。</p>
+          
+            <p class="article-more-link">
+              <a href="/program-for-new-10/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-program-for-new-09" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/program-for-new-09/" class="article-date">
+  <time datetime="2021-01-02T01:53:29.000Z" itemprop="datePublished">2021-01-02</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/mem01.png" align="right" width="35%" hspace="5" vspace="5">
+    <p>
+      这一篇，我想分享下自己对于内存的一些基本知识的理解，当然，这篇文章也仅仅适用于新入门的Java开发人员，对于一些有经验的开发人员，可以不看，如果刷到了，请直接关闭页面就可以了。笔者写了很多年的Java代码，和写了很多年C语言的人相比，对于内存的理解，肯定要浅显很多。如果你是C语言开发者，本文对于你来说，简直就是脱了裤子放屁一样，觉的说的这不都是废话吗？哈哈一笑即可。
+        </p>
+</p>
+          
+            <p class="article-more-link">
+              <a href="/program-for-new-09/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-neijuan" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/neijuan/">双King对于内卷化的看法</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/neijuan/" class="article-date">
+  <time datetime="2020-12-29T09:30:46.000Z" itemprop="datePublished">2020-12-29</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/fuliye.jpg" align="right" width="45%" hspace="5" vspace="5">
+    <p>
+      最近学习了内卷这个词汇，大意是各行各业对于从业人员的要求越来越高了，导致大家陷入了军备竞赛中，除了要学日常工作中能用到的，不能用到的也要会。本人是JAVA后端开发，体会也比较深，最早在12年的时候的面试题，大多都是一些相对来说比较简单的题目，例如hashmap原理、字符串、自动拆箱装箱、SQL优化等，临近2021年，再看看现在的面试题，竟然可以深入到即时编译器原理，像JVM结构和垃圾回收，都已经是常规的面试题目了，这种趋势可能会愈演愈烈，不知道再过几年，对于JAVA从业人员的要求要掌握哪些技术了。
+        </p>
+</p>
+
+<blockquote>
+<p>各行各业都在内卷，内卷不是错误，错误的是没有做出有用的产品。</p>
+</blockquote>
+<h4 id="我的观点"><a href="#我的观点" class="headerlink" title="我的观点"></a>我的观点</h4><p>我的观点是内卷说明了行业竞争激烈，大家需要提高自己的技术能力，才能体现出自己对比其它人的优势，总体上来说是不可阻挡的，但是不好的一点是技术能力提升之后，有没有带来实际的工作能力的提升。这是一个比较直接的想法，没有什么高度和思想，仅仅从内卷带来的实际效果来考虑，毕竟招人的时候，才需要去面试，需要去问一些日常开发中很少能够用到的知识，面试造火箭，工作拧螺丝，造不了火箭就拧不好螺丝，这也是毋庸置疑的，那么怎么才能学以致用呢？毕竟辛辛苦苦的学了很多的知识，总是想要用到实际的工作当中去。本人人微言轻，在自己博客发表一下看法，还是可以的，有一天有影响力了，再说其它。</p>
+          
+            <p class="article-more-link">
+              <a href="/neijuan/#more">查看全部</a>
+            </p>
+          
+        
+      </div>
+    </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a></li></ul>
+
+    </footer>
+  </div>
+
+
+
+  
+</article>
+
+
+
+
+
+  
+    <article id="post-google-guava02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        <div style="text-align:center">
+            
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+    </h1>
+  
+
+        </div>
+        <br>
+        <div style="text-align:center;margin-left:23%" class="article-meta">
+          <div class="card-solid icon"></div><a href="/google-guava02/" class="article-date">
+  <time datetime="2020-12-25T02:49:38.000Z" itemprop="datePublished">2020-12-25</time>
+</a>
+          <div class="search-solid icon"></div>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+  </div>
+
+
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
+        </div>
+        <div style="border:2px solid #0f897d"></div>
+      </header>
+    
+    <div class="article-width">
+      <div class="article-entry" itemprop="articleBody">
+        
+          <p style="width:800px;">
+    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
+    <p>
+        这篇文章是第二篇，如果没有看过第一篇的，建议先去看看<a href="/google-guava" target="_blank">JAVA程序员必学的Google Guava库（第一篇）</a>，不过直接看第2篇也没关系，不影响。Google Guava的内容着实有点多，先把目录列在这里，慢慢写，就总结一下日常用的多的东西，一些用的少的或者特别细节的内容，就不写了。
+    </p>
+</p>
+
+<blockquote>
+<p>目录<br>3、缓存<br>4、字符串处理</p>
+</blockquote>
+<h1 id="3、缓存"><a href="#3、缓存" class="headerlink" title="3、缓存"></a>3、缓存</h1><p>如果要实现一个内存类型的缓存，大部分人可能会尝试使用Map，这样写也可以，大部分情况都适用，担心多线程问题，可以使用ConcurrentHashMap，但是还有一些问题例如内存无限膨胀、过期等问题，没有解决，这个时候，可以考虑使用Guava的缓存。</p>
+<p>通常来说，<code>Guava Cache</code>适用于：</p>
 <ul>
-<li>多表联合查询</li>
-<li>索引命中规则</li>
-<li>表结构设计三范式</li>
-<li>查询优化技巧</li>
-</ul>
-<h4 id="1、联合查询"><a href="#1、联合查询" class="headerlink" title="1、联合查询"></a>1、联合查询</h4><p>多个表联合查询，是说查询的时候，同时查询2个或者2个以上的表，为什么要这么做呢？是因为数据都是按分类存储的，往往学生信息单独存储在一张表，学生成绩会存储在另外一张表，所以要同时查询出学生的姓名和成绩的时候，就需要联合2个表，同时查询。也可以先看看第3节的表结构设计三范式，加深一下理解。</p>
+<li>你愿意消耗一些内存空间来提升速度。</li>
+<li>KEY会被查询一次以上。</li>
+<li>缓存中存放的数据总量不会超出内存容量。（Guava Cache是单个应用运行时的本地缓存。它不把数据存放到文件或外部服务器。如果这不符合你的需求，请尝试<a target="_blank" rel="noopener" href="http://memcached.org/">Memcached</a>这类工具）
           
             <p class="article-more-link">
-              <a href="/program-for-new-05-mysql/#more">查看全部</a>
+              <a href="/google-guava02/#more">查看全部</a>
             </p>
           
         
@@ -136,13 +615,18 @@
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-program-for-new-04-mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-jvm-gc-suggest" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -151,15 +635,15 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+      <a class="article-title" href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-04-mysql/" class="article-date">
-  <time datetime="2020-12-05T03:22:20.000Z" itemprop="datePublished">2020-12-05</time>
+          <div class="card-solid icon"></div><a href="/jvm-gc-suggest/" class="article-date">
+  <time datetime="2020-12-24T07:52:29.000Z" itemprop="datePublished">2020-12-24</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
@@ -167,8 +651,8 @@
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -177,28 +661,18 @@
       <div class="article-entry" itemprop="articleBody">
         
           <p style="width:800px;">
-    <img src="/img/mysql.jpeg" align="right" width="20%" hspace="5" vspace="5">
+    <img src="/img/g1.jpg" align="right" width="45%" hspace="5" vspace="5">
     <p>
-      这篇文章主要讲解一下基础MYSQL，纯粹为新人准备的，老手可以直接略过。在真实的项目中，数据一般都是要落地到数据库进行存储的，例如你在购物网站购买了一个手机，那么购物网站需要把你购买手机的时间、价格、订单号、支付信息等存储起来，如果有积分，还会记录一下积分信息。明白了数据库的作用，我们再来看看MYSQL这个关系数据库的一些基本操作。
+      Java程序员比C/C++程序员幸福的一点是，不需要手工管理内存的申请和释放，尽管垃圾回收像一个围城，大家都想到对面去。在实际的编程中，Java程序员要相对幸福一点，可以自由发挥，随意建立对象，本文也不想讨论JVM具体的垃圾，回收机制和算法，而是从实际编程的角度出发，讲一讲怎么配合JVM的垃圾回收，在编程中应该注意哪些事项，总的一个宗旨就是不要管垃圾回收的事情，程序员能做的事情不多。
         </p>
 </p>
-#### 这一篇我们将会讲解以下内容：
 
-<ul>
-<li>DDL：创建表、删除表、增加列等修改表的结构。</li>
-<li>DML：新增、删除、修改、查询，俗称的增删改查，也被人戏称为CRUD，如果你刚开始工作，一般都是干CRUD的工作，如果你已经多年经验，绝对不要还只是CRUD。</li>
-<li>INDEX：索引相关</li>
-</ul>
-<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
-<li>数据库        存储数据的一个软件，mysql是其中一种，你可以把数据库想象成1个Excel。</li>
-<li>关系型数据库 数据库的数据都是规定好的格式。</li>
-<li>SQL 规定好格式和语法的语句，可以从数据库中查询指定的数据，例如根据订单号查询订单信息。</li>
-<li>表      数据是存放在表中的，可以想象成1个Excel表的1个sheet。</li>
-<li>列      列是存在于表中的，可以想象成Excel中的sheet的一列，关系型数据库中每一列数据的类型都是相同的，不可以不同。</li>
-</ul>
+<h4 id="1、妄想控制JVM进行垃圾回收？？？"><a href="#1、妄想控制JVM进行垃圾回收？？？" class="headerlink" title="1、妄想控制JVM进行垃圾回收？？？"></a>1、妄想控制JVM进行垃圾回收？？？</h4><p>手工把大对象设置为null，并不能优化GC，原因在于GC的时机，jvm并不是时时刻刻都在进行垃圾回收，大部分垃圾收集器力求减少GC，能不要Full GC，就不要Full GC，所以相信JVM的作者是足够聪明的，垃圾收集器可以在适当的时候GC。</p>
+<p>极端情况： 如果你有1个特别长的方法，申请了一个超大的对象，可以考虑在用完之后，把对象设置为null，一种更优的办法是，让方法保持短小精悍。</p>
+<p>System.gc() 更像是毒苹果，JVM不能保证会在调用了这个方法之后，进行垃圾回收。</p>
           
             <p class="article-more-link">
-              <a href="/program-for-new-04-mysql/#more">查看全部</a>
+              <a href="/jvm-gc-suggest/#more">查看全部</a>
             </p>
           
         
@@ -210,13 +684,18 @@
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
 
+
+
   
-    <article id="post-cas-mesi" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-google-guava" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -225,24 +704,24 @@
             
   
     <h1 itemprop="name">
-      <a class="article-title" href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+      <a class="article-title" href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
     </h1>
   
 
         </div>
         <br>
         <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/cas-mesi/" class="article-date">
-  <time datetime="2020-12-03T06:24:33.000Z" itemprop="datePublished">2020-12-03</time>
+          <div class="card-solid icon"></div><a href="/google-guava/" class="article-date">
+  <time datetime="2020-12-24T02:49:38.000Z" itemprop="datePublished">2020-12-24</time>
 </a>
           <div class="search-solid icon"></div>
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a>
+    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
   </div>
 
 
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
+          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king </a></div>
+          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="hexobk_page_pv">2</span>次</a></div>
         </div>
         <div style="border:2px solid #0f897d"></div>
       </header>
@@ -251,83 +730,21 @@
       <div class="article-entry" itemprop="articleBody">
         
           <p style="width:800px;">
-    <img src="/img/cpu-cache.png" align="right" width="20%" hspace="5" vspace="5">
+    <img src="/img/guava01.png" align="right" width="45%" hspace="5" vspace="5">
     <p>
-      CAS是compare and swap的简称，将指定内存地址的内容与所给的某个值相比，如果相等，则将其内容替换为所给的另一个值，这是1个原子操作，不可被中断，在Java中，AQS用到了CAS，所以一系列的锁、AtomicInteger、synchronized等，都用到了CAS，CPU通过总线和内存进行数据传输，既然CAS要修改内存上的值，需要锁总线吗？这将会涉及到MESI缓存一致性协议。
+      要说Java程序员必须要学习的东西的话，Spring当仁不让，必须是第一个框架，也有另外一个东西，也是新手程序员必须要学习的东西，那就是Google的Guava库，这个库的作者，和Effective Java的作者是同一人，都来自于Google，学好了这个库，你的Java的能力，相信会更上一个台阶。Java的优势是什么？那就是各种成熟的轮子，Guava就是其中之一，如果想代码很少BUG，就开始使用它吧。
         </p>
 </p>
 
-<h2 id="MESI协议"><a href="#MESI协议" class="headerlink" title="MESI协议"></a>MESI协议</h2><p>现代CPU都有L1，L2和L3的3级缓存，L3一般是多个核心共享，L1和L2是核心单独访问的，既然有缓存，就会产生缓存不一致的情况，MESI协议就是用来保证缓存一致性的协议。</p>
+<blockquote>
+<p>目录<br>1、基本工具<br>2、集合</p>
+</blockquote>
+<h1 id="1、基本工具"><a href="#1、基本工具" class="headerlink" title="1、基本工具"></a>1、基本工具</h1><h2 id="1-1-避免NULL"><a href="#1-1-避免NULL" class="headerlink" title="1.1 避免NULL"></a>1.1 避免NULL</h2><p>NULL的含义是不确定的，应该避免，尤其是在Map和Set中，返回NULL，并不清楚是不存在，还是有值，但是是NULL，最常用的一个技巧就是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 好的代码</span></span><br><span class="line">List arr = <span class="keyword">new</span> ArrayList();</span><br><span class="line"><span class="comment">// 不好的代码</span></span><br><span class="line">List arr = <span class="keyword">null</span>;</span><br><span class="line">Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="comment">//处理默认值</span></span><br><span class="line">map.getOrDefault(<span class="number">123</span>,<span class="string">&quot;默认值&quot;</span>);</span><br><span class="line"><span class="comment">//没有123这个KEY的时候，才执行put方法，如果map中已经有值了，就不执行put方法</span></span><br><span class="line"><span class="comment">//并且返回旧值</span></span><br><span class="line">map.putIfAbsent(<span class="number">123</span>,<span class="string">&quot;123&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这样可以避免空指针。Guava的建议是： 使用快速失败操作拒绝null值对开发者更有帮助。</p>
           
             <p class="article-more-link">
-              <a href="/cas-mesi/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-program-for-new-03" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-03/" class="article-date">
-  <time datetime="2020-12-02T11:18:16.000Z" itemprop="datePublished">2020-12-02</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p>这篇文章，将会详细的列出来新手入门需要学习的Java基础知识，这些知识，是必须要掌握的，而且不能学的半盆子水平，要深入学习原理，然后才能在以后使用的时候，得心应手。</p>
-<h3 id="String篇"><a href="#String篇" class="headerlink" title="String篇"></a>String篇</h3><p>string会伴随Java开发的一生，几乎每天都会用到，所以要去研究这个类，目前作为新手入门，要理解的是如下内容：</p>
-<ul>
-<li>string底层是什么 它不是基本类型，对吧，它是用哪种基本类型实现的</li>
-<li>string的比较问题 str1 == str2 和 str1.equals(str2)的区别</li>
-<li>字符串的拼接问题 str = str1 + str2 + str3 这里会延伸到StringBuffer和StringBuilder</li>
-<li>字符串的子字符串 即substring() 要学会使用</li>
-<li>字符串和各种类型的转换，例如string转int int转string等 long和double float这些都要会</li>
-<li>字符串的hash和equals方法，可能在某些情况下要重写，该怎么重写，这里其实会涉及到List<String>的contains方法的使用</li>
-<li>大写转小写 或反向怎么实现</li>
-<li>判断字符串是否为空 可以用apache的StringUtils</li>
-<li>trim()方法，去除字符串2边的空格</li>
-</ul>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-03/#more">查看全部</a>
+              <a href="/google-guava/#more">查看全部</a>
             </p>
           
         
@@ -339,73 +756,13 @@
 
     </footer>
   </div>
+
+
+
   
 </article>
 
 
-
-  
-    <article id="post-program-for-new-02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        <div style="text-align:center">
-            
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
-    </h1>
-  
-
-        </div>
-        <br>
-        <div style="text-align:center;margin-left:23%" class="article-meta">
-          <div class="card-solid icon"></div><a href="/program-for-new-02/" class="article-date">
-  <time datetime="2020-12-02T07:08:25.000Z" itemprop="datePublished">2020-12-02</time>
-</a>
-          <div class="search-solid icon"></div>
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
-  </div>
-
-
-          <div class="article-category"><div class="profile-solid icon"></div><a class="article-category-link">作者: 双king</a></div>
-          <div class="article-category"><div class="float-solid icon"></div><a class="article-category-link">浏览量:<span id="busuanzi_value_page_pv"></span>次</a></div>
-        </div>
-        <div style="border:2px solid #0f897d"></div>
-      </header>
-    
-    <div class="article-width">
-      <div class="article-entry" itemprop="articleBody">
-        
-          <p style="width:800px;">
-    <img src="/img/effective-java.jpg" align="right" width="35%" hspace="5" vspace="5">
-    <p>
-     这是入门系列的第2篇，这1篇会继续上一篇的主题，来讨论一下日常写代码中，应当注意的地方，以及怎么写出高质量的代码，容易看懂，容易维护，稳定且不容易报错，容易二次开发的代码。还是想再次推荐一下Effective Java这本书，所以用这本书做了封面，并不是只需要看这1本书，作为程序员，会看很多本书，但是这本书，绝对是Java新手的首选，没有之一。
-        </p>
-</p>
-## Math.min(int a, int b)方法的必要性
-
-<p>Math.min(a,b)方法，会返回a和b之中的较小的值。如果对java.lang.Math类中的这个方法不熟悉，也没有关系，这里并不想讨论方法的重载，也不想讨论怎么比较2个double类型或者2个float类型在获取最小值时候的不同（如果你是编程新手，建议你去学习下怎么比较2个double值），返回2个整型值中的较小的值，代码非常的简单，例如可以这么写：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">min</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a &gt; b ? b : a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那么，问题来了，我为什么要把这么简单的1个功能，做出来1个方法呢？干嘛要调用1个方法，而不是直接在调用Math.min(a,b)的方法，直接写这段逻辑呢？</p>
-          
-            <p class="article-more-link">
-              <a href="/program-for-new-02/#more">查看全部</a>
-            </p>
-          
-        
-      </div>
-    </div>
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
 
 
 
@@ -425,7 +782,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -435,7 +792,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -445,7 +802,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -455,7 +812,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -468,83 +825,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -593,83 +950,83 @@
       <ul>
         
           <li>
-            <a href="/shell-script01/">简单的shell脚本01</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9305-LUA%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/">Redis使用经验总结05-LUA官方文档</a>
           </li>
         
           <li>
-            <a href="/private-static/">私有静态内部类</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9304-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8CSETNX/">Redis使用经验总结04-分布式锁和SETNX</a>
           </li>
         
           <li>
-            <a href="/base-program/">新手入门要理解的套路</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9303-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7/">Redis使用经验总结03-如何保证缓存和数据库数据的一致性</a>
           </li>
         
           <li>
-            <a href="/mybatis-test-sql/">mybatis冒烟测试工具</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9302-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8/">Redis使用经验总结02-为什么使用跳表</a>
           </li>
         
           <li>
-            <a href="/program-for-new-11/">JAVA新手必须要会的02～注解</a>
+            <a href="/Redis%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%9301-%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95/">Redis使用经验总结01-缓存更新的3种方法</a>
           </li>
         
           <li>
-            <a href="/program-for-new-10/">JAVA新手必须要会的01～动态代理</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A314-%E4%B8%8D%E9%87%8D%E5%90%AF%E6%9B%B4%E6%96%B0/">Redis官方文档14-不重启更新</a>
           </li>
         
           <li>
-            <a href="/program-for-new-09/">JAVA新手入门09～一些内存知识普及</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A313-%E6%8C%81%E4%B9%85%E5%8C%96%E9%97%AE%E9%A2%98/">Redis官方文档13-持久化问题</a>
           </li>
         
           <li>
-            <a href="/neijuan/">双King对于内卷化的看法</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A312-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/">Redis官方文档12-安全问题</a>
           </li>
         
           <li>
-            <a href="/google-guava02/">JAVA程序员必学的Google Guava库（第二篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A311-%E4%B8%BA%E4%BB%80%E4%B9%88Redis%E9%9B%86%E7%BE%A4%E6%9C%8916384%E4%B8%AA%E6%A7%BD/">Redis官方文档11-为什么Redis集群有16384个槽</a>
           </li>
         
           <li>
-            <a href="/jvm-gc-suggest/">基于JVM垃圾回收的一些编程建议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-redis%E7%9A%84QPS%E8%83%BD%E4%B8%8A%E5%A4%9A%E5%B0%91/">Redis官方文档10-redis的QPS能上多少</a>
           </li>
         
           <li>
-            <a href="/google-guava/">JAVA程序员必学的Google Guava库（第一篇）</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A309-Redis%E6%8C%82%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E/">Redis官方文档09-Redis挂了怎么办、</a>
           </li>
         
           <li>
-            <a href="/program-for-new-08/">JAVA新手入门08～语法糖</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A308-%E9%9B%86%E7%BE%A4%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Redis官方文档08-集群的基本概念</a>
           </li>
         
           <li>
-            <a href="/rocketMQ-transaction-msg/">RocketMQ的事务消息</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A307-%E5%BF%AB%E9%80%9F%E6%8F%92%E5%85%A5%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE/">Redis官方文档07-快速插入大量数据</a>
           </li>
         
           <li>
-            <a href="/program-for-new-07/">JAVA新手入门07～泛谈编程基础</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A306-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5/">Redis官方文档06-内存回收策略</a>
           </li>
         
           <li>
-            <a href="/program-for-new-06-mysql/">JAVA新手入门06～MYSQL提高篇2</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A305-%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96/">Redis官方文档05-内存优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-05-mysql/">JAVA新手入门05～MYSQL提高篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A304-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">Redis官方文档04-通信协议</a>
           </li>
         
           <li>
-            <a href="/program-for-new-04-mysql/">JAVA新手入门04～MYSQL基础篇</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A303-%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">Redis官方文档03-信号处理</a>
           </li>
         
           <li>
-            <a href="/cas-mesi/">CAS和MESI缓存一致性协议</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A302-%E5%AF%BB%E6%89%BE%E5%A4%A7key/">Redis官方文档02-寻找大key</a>
           </li>
         
           <li>
-            <a href="/program-for-new-03/">JAVA新手入门03～必须精通的内容</a>
+            <a href="/Redis%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A301-Linux%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96/">Redis官方文档01-Linux下的优化</a>
           </li>
         
           <li>
-            <a href="/program-for-new-02/">JAVA新手入门02～写出容易读的代码</a>
+            <a href="/RocketMQ%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A310-%E6%B6%88%E6%81%AF%E8%BD%A8%E8%BF%B9/">RocketMQ官方文档10-消息轨迹</a>
           </li>
         
       </ul>
@@ -689,7 +1046,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%90%86%E8%AE%BA%E7%A0%94%E7%A9%B6/">理论研究</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%B3%BB%E7%BB%9F%E5%92%8C%E7%AE%97%E6%B3%95/">系统和算法</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -698,7 +1055,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CPU/" rel="tag">CPU</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocketMQ/" rel="tag">RocketMQ</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" rel="tag">关于我</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%85%E5%8D%B7/" rel="tag">内卷</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" rel="tag">开源软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" rel="tag">新手入门</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -707,7 +1064,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CPU/" style="font-size: 16.67px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.67px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 20px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
+      <a href="/tags/CPU/" style="font-size: 14px;">CPU</a> <a href="/tags/HTTP/" style="font-size: 12px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/Redis/" style="font-size: 20px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 16px;">RocketMQ</a> <a href="/tags/TCP-IP/" style="font-size: 10px;">TCP/IP</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 10px;">WEB开发</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/%E5%85%B3%E4%BA%8E%E6%88%91/" style="font-size: 10px;">关于我</a> <a href="/tags/%E5%86%85%E5%8D%B7/" style="font-size: 10px;">内卷</a> <a href="/tags/%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">开源软件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14px;">数据库</a> <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" style="font-size: 18px;">新手入门</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a>
     </div>
   </div>
 
@@ -716,7 +1073,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">31</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">9</span></li></ul>
     </div>
   </div>
 
@@ -789,7 +1146,11 @@ if(_local_host != "localhost:4000") {
   
     <a href="/" class="mobile-nav-link">博客首页</a>
   
-    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/page/2/" class="mobile-nav-link">JAVA新手入门</a>
+    <a href="/tags/RocketMQ/" class="mobile-nav-link">RocketMQ</a>
+  
+    <a href="/tags/Redis/" class="mobile-nav-link">Redis</a>
+  
+    <a href="/tags/%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8/" class="mobile-nav-link">JAVA新手入门</a>
   
     <a href="/archives" class="mobile-nav-link">全部文章</a>
   
@@ -803,7 +1164,6 @@ if(_local_host != "localhost:4000") {
 <a title="totop"><img src="/img/scrollup.png"/></a>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
   

@@ -1722,3 +1722,33 @@ pre .javascript .function {
   height: 30px;
   border-bottom: solid #d6dce2 0.5px;
 }
+.comment-form-comment {
+  color: #424242;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 1em 0em;
+  line-height: 1.7em;
+}
+.centered {
+  margin: 50px auto;
+  text-align: center;
+}
+.button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+.blue[disabled],
+.blue[disabled]:hover,
+.blue[disabled]:active {
+  border-color: #269ce9;
+  background: #269ce9;
+  color: #93d5ff;
+}
+.button.large {
+  padding: 12px 30px;
+  text-transform: uppercase;
+}
